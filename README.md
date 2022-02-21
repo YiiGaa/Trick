@@ -1,9 +1,9 @@
-
+![](https://github.com/YiiGaa/Trick/blob/master/Prop/Common/Img/logo.png)
 
 Trick是关注项目过程、轻量易用、模块化、模块拿来即用的前端网页架构。
 
 - 最新稳定版本: v1.0
-- 使用文档详见官网，[点击跳转使用手册]()
+- 使用文档详见官网，[点击跳转使用手册](https://stoprefactoring.com/#content@content#framework/trick/)
 
 ## 编写网页就像玩拼图一样
 
@@ -15,7 +15,7 @@ Trick架构的模块是可以单独调试的，可不断积累复用模块，直
 
 Trick架构是具备成长性的，A项目积累下来的模块代码，可以直接使用在B项目中，实现项目复利。
 
-提供官方模块库，模块放入指定目录即可使用，[点击跳转]()。
+提供官方模块库，模块放入指定目录即可使用，[点击跳转](https://stoprefactoring.com/#content@content#module/front/)。
 
 ## 架构基础技术
 
@@ -28,7 +28,7 @@ Trick架构是具备成长性的，A项目积累下来的模块代码，可以�
 - 基础框架：vue.js（2.5.16）、jQuery（1.12.4）、Bootstrap（5.1.1）
 
 
-其中，基础框架是可以替换的，请[查看替换方法]()，或者[联系官方]()打造个性化工程
+其中，基础框架是可以替换的，请[查看替换方法](https://stoprefactoring.com/content@content#framework/trick/other-dependence)，或者[联系官方](https://stoprefactoring.com/content@content#consult/suport/suport-overview)打造个性化工程
 
 ## 知识前提要求
 
@@ -40,4 +40,4 @@ Trick架构只是一种规则，实际上是一个原生的前端网页工程，
 
 从宏观上讲，页面是多个模块的集合，即一个页面是由多个模块拼装而成的。前端代码可以分成两层，页面层和模块层。也就是说，页面可以看作是一个沙盒，在页面的沙盒中拼接模块即可完成页面开发，如图所示。页面只负责布局，具体的控件细节交由模块完成。这样，一个模块即可被多个页面所使用。另外，模块本身也应该可以单独调试。
 
-![](/data/framework/trick/1.1模块分层.png)
+![](https://github.com/YiiGaa/Trick/blob/master/Prop/Common/Img/designconcept.png)
