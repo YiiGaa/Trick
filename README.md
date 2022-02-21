@@ -1,4 +1,4 @@
-<img src="https://github.com/YiiGaa/Trick/blob/master/Prop/Common/Img/logo.png" width="200"/>
+<img src="https://github.com/YiiGaa/Trick/blob/master/Prop/Common/Img/logo.png" width="300"/>
 
 Trick是关注项目过程、轻量易用、模块化、模块拿来即用的前端网页架构。
 
