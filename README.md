@@ -1,4 +1,4 @@
-![](https://github.com/YiiGaa/Trick/blob/master/Prop/Common/Img/logo.png)
+<img src="https://github.com/YiiGaa/Trick/blob/master/Prop/Common/Img/logo.png" width="200"/>
 
 Trick是关注项目过程、轻量易用、模块化、模块拿来即用的前端网页架构。
 
@@ -28,7 +28,7 @@ Trick架构是具备成长性的，A项目积累下来的模块代码，可以�
 - 基础框架：vue.js（2.5.16）、jQuery（1.12.4）、Bootstrap（5.1.1）
 
 
-其中，基础框架是可以替换的，请[查看替换方法](https://stoprefactoring.com/content@content#framework/trick/other-dependence)，或者[联系官方](https://stoprefactoring.com/content@content#consult/suport/suport-overview)打造个性化工程
+其中，基础框架是可以替换的，请[查看替换方法](https://stoprefactoring.com/#content@content#framework/trick/other-dependence)，或者[联系官方](https://stoprefactoring.com/#content@content#consult/suport/suport-overview)打造个性化工程
 
 ## 知识前提要求
 
