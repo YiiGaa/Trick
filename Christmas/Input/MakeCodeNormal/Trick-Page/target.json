@@ -1,0 +1,23 @@
+[
+    {
+        "fileName": "dispose.js",
+        "path":"/Page/@@",
+        "document": {
+            "templ":"JS"
+        }
+    },{
+        "fileName": "Layout.html",
+        "path":"/Page/@@",
+        "document": {
+            "templ":"HTML",
+            "Control": "@@"
+        }
+    },{
+        "fileName": "Layout.css",
+        "path":"/Page/@@",
+        "document": {
+            "templ":"CSS",
+            "Control": "@@"
+        }
+    }
+]

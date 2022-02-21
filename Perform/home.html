@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+
+    <!-- Basic dependence css -->
+    <link href="./css/bootstrap.css" rel="stylesheet">
+
+    <!--Theme Css start-->
+      <link href="./theme/font.css" rel="stylesheet">
+      <link href="./theme/theme.css" rel="stylesheet">
+    <!--Theme Css end-->
+
+    <!--self Css start-->
+      <link href="./css/home.css" rel="stylesheet">
+    <!--self Css end-->
+    
+    <!--lib Css start-->
+      <link href="./lib/icon/bootstrap-icons.css" rel="stylesheet">
+
+    <!--lib Css end-->
+
+    <!--self Lib css start (please put your lib in ./pagelib) -->
+    <!--self Lib css end-->
+
+    
+
+
+  </head>
+  <body onload="PageInitialize()">
+
+    <!--######Layout######-->
+    <div class="Page_body Theme_BodyColor">
+            <div id="id_WelcomeDrawing_body" class="container-fluid WelcomeDrawing_Body">
+        <div class="WelcomeDrawing_Background"></div>
+        <div class="col-sm-12 WelcomeDrawing_DrawingBody">
+          <div class="position-absolute top-50 start-50 WelcomeDrawing_leftpoint WelcomeDrawing_point"></div>
+          <div class="position-absolute top-50 start-50 WelcomeDrawing_rightpoint WelcomeDrawing_point"></div>
+          <div class="position-absolute top-50 start-50 WelcomeDrawing_text Font_BigTitle_Size">{{Vue_WelcomeDrawing_Text}}</div>
+          <div class="position-absolute top-50 start-50 WelcomeDrawing_title Font_BigTitle_Size">
+              <p class="Font_BigBigTitle_Size">{{Vue_WelcomeDrawing_Title}}</p> 
+              <p class="Font_BigTitle_Size">{{Vue_WelcomeDrawing_Info}}</p>
+          </div>
+        </div>
+    </div>
+
+        <div class="Page_bottom Page_Padding0">
+              <div id="id_ReplayButton_body" class="container-fluid ReplayButton_Body" :style="{'display': Vue_ReplayButton_isHide==true ? 'none':'block'}" v-cloak>
+      <!-- <div class="row ReplayButton_Body">
+        <div class="col-sm-12 ReplayButton_Body"> -->
+          <div class="position-absolute bottom-0 end-0 ReplayButton_Button" @click="Vue_ReplayButton_Function()"><i class="bi bi-arrow-clockwise"></i></div>
+        <!-- </div>
+      </div> -->
+    </div>
+
+        </div>
+    </div>
+    <!--######Layout######-->
+
+  </body>
+    <!-- jQuery (necessary for JavaScript plugins) -->
+    <!--Basic dependence js (Not recommend modification) -->
+      <script src="./js/jquery.min.js"></script>
+      <script src="./js/vue.js"></script>
+      <script src="./js/bootstrap.js"></script>
+    <!--Basic dependence js-->
+
+        <script src="./lib/WelcomeDrawing/lib/anime.min.js"></script>
+
+
+
+    <!--self Lib js start (please put your lib in ./pagelib) -->
+    <script src="./lib/home/pagelib/md5.js"></script>
+    <!--self Lib js end-->
+
+    <!--Debugging Tools import (It can't be changed) -->
+      
+      <script src="./lib/common/common.js"></script>
+
+      
+      <script src="./config/Service.js"></script>
+      
+    <!--Debugging Tools import-->
+
+    <script src="./config/Config.js"></script>
+    <script src="./js/home.js"></script>
+  
+</html>

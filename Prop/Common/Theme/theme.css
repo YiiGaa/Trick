@@ -1,0 +1,134 @@
+[v-cloak]{
+  display: none !important;
+}
+
+/* 
+|  px  |     rem        |
+-------------------------
+|  12  | 12/10 = 1.2    |
+|  14  | 14/10 = 1.4    |
+|  16  | 16/10 = 1.6    |
+|  18  | 18/10 = 1.8    |
+|  20  | 20/10 = 2.0    |
+|  24  | 24/10 = 2.4    |
+|  30  | 30/10 = 3.0    |
+|  36  | 36/10 = 3.6    |
+|  42  | 42/10 = 4.2    |
+|  48  | 48/10 = 4.8    |
+-------------------------
+*/
+
+:root{
+  --Theme_BodyColor: #000;
+  --Theme_ModuleColor: #fff;
+  --Theme_ControlColor: #fff;
+  --Theme_SparepartsColor: #fff;
+  --Theme_SparepartsColor: #fff;
+  --Theme_ActiveColor: #337dff;
+  --Theme_ActiveHoverColor: #5392ff;
+  --Theme_NormalColor: #F6F7F9;
+  --Theme_NormalHoverColor: #F6F7F9;
+  --Theme_DisableColor: #555555;
+}
+
+body{
+  padding: 0;
+  margin: 0;
+}
+
+
+/********Theme color********/
+.Theme_BodyColor {
+  background: var(--Theme_BodyColor);
+}
+.Theme_ModuleColor {
+  background-color: var(--Theme_ModuleColor);
+}
+.Theme_ControlColor {
+  background-color: var(--Theme_ControlColor);
+}
+.Theme_SparepartsColor{
+  background: var(--Theme_SparepartsColor);
+}
+.Theme_ActiveColor{
+  background: var(--Theme_ActiveColor);
+}
+
+.Theme_OKButton{
+  padding: 1.0rem 3.4rem 1.0rem 3.4rem;
+  background: var(--Theme_ActiveColor);
+  border-radius: 1.2rem;
+  color: var(--Font_Invert_Color);
+  text-align: center;
+  cursor: pointer;
+}
+.Theme_OKButton:hover{
+  background: var(--Theme_ActiveHoverColor);
+}
+
+.Theme_NormalButton{
+  padding: 1.0rem 3.4rem 1.0rem 3.4rem;
+  background: var(--Theme_NormalColor);
+  border-radius: 1.2rem;
+  text-align: center;
+  color:var(--Font_Normal_Color);
+  cursor: pointer;
+}
+.Theme_NormalButton:hover{
+  background: var(--Theme_NormalHoverColor);
+  color: var(--Font_Normal_Color);
+}
+
+.Theme_DisableButton{
+  padding: 1.0rem 3.4rem 1.0rem 3.4rem;
+  background: var(--Theme_DisableColor);
+  border-radius: 1.2rem;
+  color: var(--Font_Invert_Color);
+  text-align: center;
+  cursor: pointer;
+}
+
+.Theme_Input{
+  background: #fff;
+  border-radius: 1.2rem;
+  border:1px solid #C4C4C4;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+}
+
+/********Theme color********/
+
+
+/********Tools********/
+.Theme_center-vertical{
+  position: relative;
+  top:50%;
+  transform:translateY(-50%);
+}
+.Theme_center-horizontal{
+  position: relative;
+  left:50%;
+  transform:translateX(-50%); 
+}
+.Theme_center-center{
+  position: relative;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%); 
+}
+
+/***字体省略...***/
+.Theme_text-ellipsis{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/***字体不能被选中***/
+.Theme_TextNotSelect{
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+/********Tools********/
+

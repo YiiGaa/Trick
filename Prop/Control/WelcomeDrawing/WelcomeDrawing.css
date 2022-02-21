@@ -1,0 +1,43 @@
+.WelcomeDrawing_Body{
+    height: 100%;
+    overflow: hidden;
+}
+
+.WelcomeDrawing_point{
+    width: 4.0rem;
+    height: 4.0rem;
+    background-color: yellow;
+    border-radius: 50%;
+}
+
+.WelcomeDrawing_text{
+    transform:translateX(-50%);
+    color: #fff;
+    opacity: 0;
+    width: 35.0rem;
+    text-align: center;
+}
+
+.WelcomeDrawing_title{
+    transform:translate(-50%, -50%);
+    color: #fff;
+    width: 35.0rem;
+    text-align: center;
+    display: none;
+    transition: 1s;
+    text-shadow: 0 0 1.0rem #ff006c, 0 0 2.0rem #ff006c, 0 0 3.0rem #ff006c, 0 0 4.0rem #ff417d, 0 0 7.0rem #ff417d, 0 0 8.0rem #ff417d, 0 0 10.0rem #ff417d, 0 0 15.0rem #ff417d;
+}
+.WelcomeDrawing_DrawingBody{
+    height: 100%;
+}
+
+.WelcomeDrawing_Background{
+    background-image: url(../../Common/Img/background.png);
+    opacity: 0;
+    transition: 4s;
+    background-position: center center;
+    height: 100%;
+    width: 100%;
+    position:absolute;
+    left: 0rem;
+}

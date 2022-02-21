@@ -1,0 +1,8 @@
+{
+    "targetDir":"../Prop",
+    "waitInputParam":"@@",
+    "templ":"templ",
+    "documentPath":{
+        "document":"./Template/Trick-Control/document.templ"
+    }
+}

@@ -1,0 +1,99 @@
+/* 
+|  px  |     rem        |
+-------------------------
+|  12  | 12/10 = 1.2    |
+|  14  | 14/10 = 1.4    |
+|  16  | 16/10 = 1.6    |
+|  18  | 18/10 = 1.8    |
+|  20  | 20/10 = 2.0    |
+|  24  | 24/10 = 2.4    |
+|  30  | 30/10 = 3.0    |
+|  36  | 36/10 = 3.6    |
+|  42  | 42/10 = 4.2    |
+|  48  | 48/10 = 4.8    |
+-------------------------
+*/
+
+:root{
+    --Font_BigBigTitle_Size: 4.8rem;
+    --Font_BigTitle_Size: 3.2rem;
+    --Font_BlockTitle_Size: 2.8rem;
+    --Font_Title_Size: 2.0rem;
+    --Font_SubTitle_Size: 1.8rem;
+    --Font_Text_Size: 1.6rem;
+    --Font_Info_Size: 1.4rem;
+
+    --Font_Normal_Color: #404040;
+    --Font_Invert_Color: #ffffff;
+    --Font_Text_Color: #666666;
+    --Font_Tips_Color: #999999;
+    --Font_Link_Color: #347DFF;
+    --Font_Link_ColorHover: #5468C8;
+    /* --Font_Normal_Color: #ffffff;
+    --Font_Invert_Color: #eeeeee;
+    --Font_Text_Color: #666666;
+    --Font_Tips_Color: #999999;
+    --Font_Link_Color: #eeeeee;
+    --Font_Link_ColorHover: #ffffff; */
+}
+
+html{
+    font-family:"-apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif";
+    color: var(--Font_Normal_Color);
+    font-size: 10px;
+}
+
+body{
+    font-size:var(--Font_Text_Size);
+}
+
+.Font_BigBigTitle_Size {
+    font-size: var(--Font_BigBigTitle_Size);
+}
+.Font_BigTitle_Size {
+    font-size: var(--Font_BigTitle_Size);
+}
+.Font_BlockTitle_Size {
+    font-size: var(--Font_BlockTitle_Size);
+}
+.Font_Title_Size {
+    font-size: var(--Font_Title_Size);
+}
+.Font_SubTitle_Size {
+    font-size: var(--Font_SubTitle_Size);
+}
+.Font_Text_Size {
+    font-size: var(--Font_Text_Size);
+}
+.Font_Info_Size {
+    font-size: var(--Font_Info_Size);
+}
+
+.Font_WeightBlod {
+    font-weight: bold;
+}
+
+.Font_Normal_Color {
+    color: var(--Font_Normal_Color);
+}
+.Font_Invert_Color {
+    color: var(--Font_Invert_Color);
+}
+.Font_Text_Color {
+    color: var(--Font_Text_Color);
+}
+.Font_Tips_Color {
+    color: var(--Font_Tips_Color);
+}
+.Font_Link_Color {
+    color: var(--Font_Link_Color);
+}
+.Font_Link_Color:hover {
+    color: var(--Font_Link_ColorHover);
+}
+
+/********Unique project********/
+
+/* .FontUnique_InfoColor{} */
+
+/********Unique project********/
