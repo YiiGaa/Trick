@@ -1,0 +1,5 @@
+{
+    "targetDir":"../Prop/Control",
+    "isJudgeExist":true,
+    "waitInputParam":"@@"
+}
