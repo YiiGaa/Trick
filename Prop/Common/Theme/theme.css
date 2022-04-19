@@ -29,6 +29,7 @@
   --Theme_NormalColor: #F6F7F9;
   --Theme_NormalHoverColor: #F6F7F9;
   --Theme_DisableColor: #555555;
+  --Theme_BoxShadow:0rem 0rem 2.0rem 0.1rem rgb(83 103 199 / 13%);
 }
 
 body{
