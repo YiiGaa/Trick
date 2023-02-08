@@ -19,15 +19,12 @@
 */
 
 :root{
-  --Theme_BodyColor: #000;
+  --Theme_BodyColor: #fff;
   --Theme_ModuleColor: #fff;
-  --Theme_ControlColor: #fff;
-  --Theme_SparepartsColor: #fff;
-  --Theme_SparepartsColor: #fff;
   --Theme_ActiveColor: #337dff;
   --Theme_ActiveHoverColor: #5392ff;
   --Theme_NormalColor: #F6F7F9;
-  --Theme_NormalHoverColor: #F6F7F9;
+  --Theme_NormalHoverColor: #F2F3F5;
   --Theme_DisableColor: #555555;
   --Theme_BoxShadow:0rem 0rem 2.0rem 0.1rem rgb(83 103 199 / 13%);
 }
@@ -37,6 +34,9 @@ body{
   margin: 0;
 }
 
+a,label{
+  transition: 0.3s;
+}
 
 /********Theme color********/
 .Theme_BodyColor {
@@ -45,14 +45,11 @@ body{
 .Theme_ModuleColor {
   background-color: var(--Theme_ModuleColor);
 }
-.Theme_ControlColor {
-  background-color: var(--Theme_ControlColor);
-}
-.Theme_SparepartsColor{
-  background: var(--Theme_SparepartsColor);
-}
 .Theme_ActiveColor{
   background: var(--Theme_ActiveColor);
+}
+.Theme_BoxShadow{
+  box-shadow: var(--Theme_BoxShadow);
 }
 
 .Theme_OKButton{
@@ -62,8 +59,10 @@ body{
   color: var(--Font_Invert_Color);
   text-align: center;
   cursor: pointer;
+  transition: 0.3s;
 }
 .Theme_OKButton:hover{
+  color: var(--Font_Invert_Color);
   background: var(--Theme_ActiveHoverColor);
 }
 
@@ -74,10 +73,11 @@ body{
   text-align: center;
   color:var(--Font_Normal_Color);
   cursor: pointer;
+  transition: 0.3s;
 }
 .Theme_NormalButton:hover{
   background: var(--Theme_NormalHoverColor);
-  color: var(--Font_Normal_Color);
+  color: var(--Font_Text_Color);
 }
 
 .Theme_DisableButton{
@@ -87,6 +87,7 @@ body{
   color: var(--Font_Invert_Color);
   text-align: center;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 .Theme_Input{
