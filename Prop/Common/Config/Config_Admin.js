@@ -1,3 +1,0 @@
-var all_Config = {
-
-}

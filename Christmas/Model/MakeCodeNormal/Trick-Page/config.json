@@ -1,9 +1,0 @@
-{
-    "targetDir":"../Prop",
-    "waitInputParam":"@@",
-    "isJudgeExist":true,
-    "templ":"templ",
-    "documentPath":{
-        "document":"./Template/Trick-Page/document.templ"
-    }
-}

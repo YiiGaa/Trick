@@ -1,8 +1,0 @@
-Trick framework v1.0
-A modular native web page framework
-
-gitHub: https://github.com/YiiGaa/Trick
-official: https://stoprefactoring.com
-Licensed under MIT
-
----Designed by Daniel.Leung
