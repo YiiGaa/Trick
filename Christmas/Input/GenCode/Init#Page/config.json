@@ -1,0 +1,13 @@
+{
+    "inputSign":"?",
+    "rewaitInput":"[page name]",
+    "isJudgeExist":true,
+    "isExistBackup":true,
+    "templatePath":{
+        "pageFile":"./Template/Init-Page/Page.templ",
+        "uiFile":"./Template/Init-Page/UI-File.templ",
+        "actionFile":"./Template/Init-Page/Action.templ",
+        "XmasFile":"./Template/Init-Page/Xmas.templ",
+        "langFile":"./Template/Init-Page/Lang.templ"
+    }
+}

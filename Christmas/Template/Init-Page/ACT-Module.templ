@@ -1,0 +1,80 @@
+######DEFAULT######
+//STEP-IN::Call Module
+moduleParam = @@param@@
+result = await Module.@@name@@(moduleParam, passParam);
+if(ErrorCode.IsError(result, [
+   @@skip@@
+])){
+    continue;
+}
+
+######DEFAULT######
+
+######CALL######
+//STEP-IN::Call ACT function
+result = await @@name@@(passParam);
+if(ErrorCode.IsError(result, [
+    @@skip@@
+])){
+    continue;
+}
+
+######CALL######
+
+######SELECTOR-RETRY######
+//STEP-IN::SELECTOR-RETRY
+selectorRetryData.push([@@retryTime@@, Tools.ObjectClone(passParam)]);
+do{
+    selectorRetryData[selectorRetryData.length-1][0]--;
+    Tools.ObjectCopy(passParam, selectorRetryData[selectorRetryData.length-1][1], true);
+    console.debug(Logger.Header(), "Action SELECTOR-RETRY, remain retryTime:", selectorRetryData[selectorRetryData.length-1][0] , "passParam:", passParam);
+
+    @@module@@
+}while(selectorRetryData[selectorRetryData.length-1][0]>0 && ErrorCode.IsError(result, [
+    @@skip@@
+]));
+selectorRetryData.pop();
+if(ErrorCode.IsError(result, [
+    @@skip@@
+])){
+    continue;
+}
+
+######SELECTOR-RETRY######
+
+######SELECTOR-ERROR######
+//STEP-IN::SELECTOR-ERROR
+do{
+    @@module@@
+}while(false);
+if(ErrorCode.IsError(result, [
+    @@skip@@
+])){
+    console.debug(Logger.Header(), "Action SELECTOR-ERROR, result:", result , "passParam:", passParam);
+    do{
+       @@moduleError@@;
+    }while (false);
+}
+if(ErrorCode.IsError(result, [
+    @@skipError@@
+])){
+    continue;
+}
+
+######SELECTOR-ERROR######
+
+######SELECTOR-SWITCH######
+//STEP-IN::SELECTOR-SWITCH
+var option = Tools.ParamGetStr("@@option@@", "", passParam);
+console.debug(Logger.Header(), "Action SELECTOR-SWITCH, option:", option , "passParam:", passParam);
+switch(option){
+    @@switch@@
+    default:
+        @@module@@
+}
+if(ErrorCode.IsError(result, [
+    @@skip@@
+])){
+    continue;
+}
+######SELECTOR-SWITCH######

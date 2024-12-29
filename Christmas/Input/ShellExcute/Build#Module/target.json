@@ -1,0 +1,19 @@
+[
+    {
+        "Xmas_shell":"python3 Christmas.py Input/MergeCode/LinkModule",
+        "Xmas_cwd":".",
+        "Xmas_judge":true
+    },{
+        "Xmas_shell":"python3 Christmas.py Input/MergeCode/LinkModule#Limit Module ??",
+        "Xmas_cwd":".",
+        "Xmas_judge":true
+    },{
+        "Xmas_shell":"npm install",
+        "Xmas_cwd":"../",
+        "Xmas_judge":true
+    },{
+        "Xmas_shell":"npm run run-module -- --env module=??",
+        "Xmas_cwd":"../",
+        "Xmas_judge":true
+    }
+]

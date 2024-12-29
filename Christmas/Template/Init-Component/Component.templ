@@ -1,0 +1,155 @@
+######DEFAULT######
+import * as Tools from "/Code/Common/Tools/Tools"
+import Logger from "/Code/Common/Logger/Logger.js"
+import {useImmer} from "use-immer"
+import { useTranslation } from "react-i18next"
+import { useTheme } from "/Code/Common/Theme/Theme.js"
+import {useEffect, useRef, useMemo, useContext} from "react"
+import {@@name@@UI, @@name@@UIDefault} from "/Code/Component/@@name@@/@@name@@UI.js"
+import {@@name@@Action, @@name@@ActionDefault} from "/Code/Component/@@name@@/@@name@@Action.js"
+
+export default function @@name@@({config, children}) {
+    //STEP::Make react hook
+    const stateConfig = useMemo(() => Tools.MergeDefault(config, @@name@@UIDefault), [config]);
+    const dataConfig = useMemo(() => Tools.MergeDefault(config, @@name@@ActionDefault), [config]);
+    const [state, setState] = useImmer(stateConfig);
+    const data = useRef(dataConfig);
+    const element = useRef(null);
+    const parentContext = useContext(Tools.CompContext);
+    const templateMark = useRef({});
+    const handler = {"data":data, "state":state, "setState":setState, "element":element, "parentContext":parentContext, "templateMark":templateMark};
+    console.debug(Logger.Header(), "Component-@@name@@ refresh, handler", handler);
+
+    //WHEN::Config change(not init), update state and data
+    const isFirstRender = useRef(true);
+    useEffect(() => {
+        if(isFirstRender.current){isFirstRender.current = false;return;}
+        console.debug(Logger.Header(), "Component-@@name@@ config change, stateConfig:", stateConfig, "dataConfig",dataConfig);
+        Tools.CompConfigSet(stateConfig, setState, dataConfig, data);
+    }, [config]);
+
+    //WHEN::Created and destroy component
+    const channelToken = useRef(null);
+    useEffect(() => {
+        //STEP::Subscribe
+        const _id = Tools.ParamRead("_id", "", config);
+        console.debug(Logger.Header(), "Component-@@name@@ created, subscribe:", _id);
+        channelToken.current = Tools.PubSubListen(_id, @@name@@Action, handler);
+
+        return ()=> {
+            //STEP::Unsubscribe
+            console.debug(Logger.Header(), "Component-@@name@@ destroy");
+            channelToken.current = Tools.PubSubCancel(channelToken.current);
+        }
+    }, []);
+
+    //STEP::Auto change template, translate text/img
+    const {t} = useTranslation();
+    const theme = useTheme();
+    const newState = Tools.CompTemplGet(state,templateMark.current,children,t);
+    console.debug(Logger.Header(), "Component-@@name@@ auto change template, state", newState, "theme", theme);
+
+    //STEP::UI render
+    return @@name@@UI(newState, children, element, handler);
+}
+######DEFAULT######
+
+######UI######
+import React from "react"
+import clsx from "clsx"
+import * as Tools from "/Code/Common/Tools/Tools"
+import Configs from "/Code/Common/Config/Config.js"
+import {@@name@@Action} from "/Code/Component/@@name@@/@@name@@Action.js"
+import "/Code/Common/Theme/Theme.scss"
+import "/Code/Common/Theme/Style.scss"
+import "/Code/Component/@@name@@/@@name@@.scss"
+import "/Code/Component/@@name@@/Custom.scss"
+
+//TIPS::Default setting for "state"
+export const @@name@@UIDefault = Tools.MergeDefault(Configs.componentUI.@@name@@,{
+    "_classBody":""
+});
+
+//TIPS::JSX UI render
+export function @@name@@UI(state, children, element, handler){
+    //TIPS::Call real action function
+    function Call (param={}, isCall=true, isStop=true){
+        return Tools.CompActCall(@@name@@Action, handler, param, isCall, isStop);
+    }
+
+    return (
+        <div ref={element} className={clsx("@@name@@-Body", state._classBody)}>
+            ...
+        </div>
+    );
+}
+######UI######
+
+######ACTION######
+import * as Tools from "/Code/Common/Tools/Tools.js"
+import Logger from "/Code/Common/Logger/Logger.js"
+import Configs from "/Code/Common/Config/Config.js"
+import {@@name@@UIDefault} from "/Code/Component/@@name@@/@@name@@UI";
+
+// function Action(moduleParam, passParam, data, state, setState, element, event, parentContext){
+//     //STEP::Get setting
+//     const _key = Tools.ParamRead("_key", "", moduleParam, passParam);
+//     console.debug(Logger.Header(), "Component-@@name@@ Action, _key",_key);
+// }
+
+//Default setting for "data"
+export const @@name@@ActionDefault = Tools.MergeDefault(Configs.componentAction.@@name@@,{
+    "_id":"",
+    "_data":null,
+});
+
+//TIPS::Action processing entrance
+export function @@name@@Action(param, handler, event=null) {
+    try{
+        let moduleParam = "moduleParam" in param?param["moduleParam"]:param;
+        let passParam = "passParam" in param?param["passParam"]:null;
+        passParam = passParam === null && event !==null? {event:event}:passParam;
+        console.debug(Logger.Header(), "Component-@@name@@ start moduleParam:", moduleParam, "passParam:", passParam, "handler:", handler, "event:", event);
+        const data = handler["data"];
+        const state = handler["state"];
+        const setState = handler["setState"];
+        const element = handler["element"].current;
+        const parentContext = handler["parentContext"];
+        const templateMark = handler["templateMark"];
+        const _action = Tools.ParamRead("_action", "", moduleParam, passParam);
+
+        switch(_action){
+            case "event":
+                Tools.CompActEvent(moduleParam, passParam, data, state, setState, element, event, parentContext, "@@name@@");
+                break;
+            case "get":
+                Tools.CompActGet(moduleParam, passParam, data, state, setState, element, event, parentContext, "@@name@@");
+                break;
+            case "set":
+            default:
+                Tools.CompActSet(moduleParam, passParam, data, state, setState, element, event, parentContext, "@@name@@", @@name@@ActionDefault, @@name@@UIDefault, templateMark);
+        }
+        console.debug(Logger.Header(), "Component-@@name@@ end");
+    }catch (e) {
+        console.error(Logger.Header(), "Component-@@name@@ exception", e);
+        return false;
+    }
+    return true;
+}
+######ACTION######
+
+######CSS######
+//推荐使用class定义样式，且请以'组件名'作为前缀(避免与其他组件class产生冲突)
+//It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
+
+.@@name@@-Body{
+    
+}
+######CSS######
+
+######CSS-CUSTOM######
+//此文件为自定义css样式文件，更新组件时，此文件不会被覆盖更新
+//请在此覆盖组件已有css样式，且一般需要避免与对其他组件造成影响
+//This file is a custom css style file. When updating the component, this file will not be overwritten and updated
+//Please overwrite the existing css style of the component here, and generally need to avoid affecting other components
+######CSS-CUSTOM######

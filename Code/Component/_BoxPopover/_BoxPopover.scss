@@ -1,0 +1,20 @@
+//推荐使用class定义样式，且请以'组件名'作为前缀(避免与其他组件class产生冲突)
+//It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
+
+._BoxPopover{
+    
+}
+
+._BoxPopover-Button{
+    @apply cursor-pointer focus:outline-none;
+}
+
+._BoxPopover-Panel{
+    @apply flex flex-col w-80 [--anchor-gap:--Theme-Gap-SM];
+    @apply transition ease-out data-[closed]:-translate-y-[--Theme-Gap-SM] data-[closed]:opacity-0;
+    background: var(--Theme-Color-Module);
+    border-radius: var(--Theme-Radius);
+    box-shadow: var(--Theme-BoxShadow);
+    transition-duration:var(--Theme-TransDuration);
+    padding: var(--Theme-Gap);
+}

@@ -1,0 +1,23 @@
+{
+    "Xmas_config":{
+        "@code@":"../Code",
+        "@root@":"..",
+        "@template@":"./Template/LinkModule",
+        "@Christmas@":"../Christmas"
+    },
+    "Xmas_clean":[
+        "../package-limit.json"
+    ],
+    "Xmas_task":[
+        {
+            "Xmas_target":"../package-limit.json",
+            "Xmas_source":{
+                "Xmas_path":"@template@/Package.templ", "Xmas_filter":"######LIMIT######",
+                "@@link@@":{"Xmas_path":"@code@/?1?/?2?/Once.Link", "Xmas_filter":"######Dependencies######"},
+                "@@global link@@":{
+                    "Xmas_path":"@root@/Once.Link", "Xmas_filter":"######Dependencies######"
+                }
+            }
+        }
+    ]
+}

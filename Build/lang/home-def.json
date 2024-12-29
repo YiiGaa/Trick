@@ -1,0 +1,26 @@
+{
+  "**Title>>title":"<body>Trick2</body>",
+  "**Title>>desc":"<body>一个模块化前端框架, <a>停止重构</a>出品</body>",
+
+  "**Language>>tips": "Translate English",
+
+  "**Theme>>tips": "切换主题",
+
+  "**Form>>name": "姓名",
+  "**Form>>name desc": "您的名字是什么？",
+  "**Form>>age": "年龄",
+  "**Form>>age desc": "您的年龄是多少？",
+  "**Form>>occupation": "职业",
+  "**Form>>occupation desc": "您的职业是什么？",
+  "**Form/occupation>>software engineer": "软件工程师",
+  "**Form/occupation>>project manager": "项目经理",
+  "**Form/occupation>>test engineer": "测试工程师",
+  "**Form/occupation>>student": "学生",
+  "**Form/occupation>>else": "其他",
+  "**Form>>introduction": "自我介绍",
+  "**Form>>introduction desc": "我们想更多地了解您",
+  "**Form>>introduction tips": "我曾经双手插兜...",
+  "**Form>>commit": "提交",
+
+  "**Dialog>>title": "提交数据"
+}

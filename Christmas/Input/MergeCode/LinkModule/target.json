@@ -1,0 +1,110 @@
+{
+    "Xmas_config":{
+        "@component@":"../Code/Component",
+        "@module@":"../Code/Module",
+        "@code@":"../Code",
+        "@root@":"..",
+        "@template@":"./Template/LinkModule",
+        "@Christmas@":"../Christmas"
+    },
+    "Xmas_clean":[
+        "../package-limit.json",
+        "../package.json"
+    ],
+    "Xmas_task":[
+        {
+            "Xmas_target":"../package-limit.json",
+            "Xmas_source":{
+                "Xmas_path":"@template@/Package.templ", "Xmas_filter":"######LIMIT######",
+                "@@link@@":[
+                    {"Xmas_path":"@component@/<>/Once.Link", "Xmas_filter":"######Dependencies######"},
+                    {"Xmas_path":"@module@/<>/Once.Link", "Xmas_filter":"######Dependencies######"}
+                ],
+                "@@global link@@":{
+                    "Xmas_path":"@root@/Once.Link", "Xmas_filter":"######Dependencies######"
+                }
+            }
+        },{
+            "Xmas_target":"../package.json",
+            "Xmas_source":{
+                "Xmas_path":"@template@/Package.templ", "Xmas_filter":"######DEFAULT######",
+                "@@link@@":[
+                    {"Xmas_path":"@component@/<>/Once.Link", "Xmas_filter":"######Dependencies######"},
+                    {"Xmas_path":"@module@/<>/Once.Link", "Xmas_filter":"######Dependencies######"}
+                ],
+                "@@global link@@":{
+                    "Xmas_path":"@root@/Once.Link", "Xmas_filter":"######Dependencies######"
+                }
+            }
+        },{
+            "Xmas_target":"@component@/Component.js",
+            "Xmas_source":{
+                "Xmas_path":"@template@/Component.templ", "Xmas_filter":"######DEFAULT######",
+                "@@components@@":{
+                    "Xmas_path":"@component@/<>/Once.Link", "Xmas_filter":"-", "Xmas_select":"-",
+                    "":"export { default as <> } from '/Code/Component/<>/<>';"
+                }
+            }
+        },{
+            "Xmas_target":"@code@/Common/ErrorCode/ErrorCode.js",
+            "Xmas_source":{
+                "Xmas_path":"@template@/ErrorCode.templ", "Xmas_filter":"######DEFAULT######",
+                "@@error code@@":{
+                    "Xmas_path":"@module@/<>/Once.Link", "Xmas_filter":"######ErrorCode######"
+                }
+            }
+        },{
+            "Xmas_target":"@code@/Common/Config/Config.js",
+            "Xmas_source":{
+                "Xmas_path":"@template@/Config.templ", "Xmas_filter":"######DEFAULT######",
+                "@@commons@@":{
+                    "Xmas_path":"@root@/Once.Config", "Xmas_filter":"######Config######"
+                },
+                "@@modules@@":{
+                    "Xmas_path":"@module@/<>/Once.Config", "Xmas_filter":"-", "Xmas_select":"-",
+                    "":"<>:{@@module-<>@@},",
+                    "@@module-<>@@":{
+                        "Xmas_path":"@module@/<>/Once.Config", "Xmas_filter":"######Config######"
+                    }
+                },
+                "@@componentsUI@@":{
+                    "Xmas_path":"@component@/<>/Once.Config", "Xmas_filter":"-", "Xmas_select":"-",
+                    "":"<>:{@@module-<>@@},",
+                    "@@module-<>@@":{
+                        "Xmas_path":"@component@/<>/Once.Config", "Xmas_filter":"######Config UI######"
+                    }
+                },
+                "@@componentsAction@@":{
+                    "Xmas_path":"@component@/<>/Once.Config", "Xmas_filter":"-", "Xmas_select":"-",
+                    "":"<>:{@@module-<>@@},",
+                    "@@module-<>@@":{
+                        "Xmas_path":"@component@/<>/Once.Config", "Xmas_filter":"######Config Action######"
+                    }
+                }
+            }
+        },{
+            "Xmas_target":"@module@/Module.js",
+            "Xmas_source":{
+                "Xmas_path":"@template@/Module.templ", "Xmas_filter":"######DEFAULT######",
+                "@@modules@@":{
+                    "Xmas_path":"@module@/<>/Once.Link", "Xmas_filter":"-", "Xmas_select":"-",
+                    "":"export { default as <> } from '/Code/Module/<>/<>';"
+                }
+            }
+        },{
+            "Xmas_target":"@Christmas@/Input/ShellExcute/Page#Genrate/target.json",
+            "Xmas_source":{
+                "Xmas_path":"@template@/Xmas.templ", "Xmas_filter":"######DEFAULT######",
+                "@@piece@@":{
+                    "Xmas_path":"@Christmas@/Input/GenCode/Page#<page>/config.json",
+                    "Xmas_filter":"-", "Xmas_select":"-",
+                    "":"@@<page>@@",
+                    "@@<page>@@":{
+                        "Xmas_path":"@template@/Xmas.templ", "Xmas_filter":"######PAGE######",
+                        "@@page@@":"<page>"
+                    }
+                }
+            }
+        }
+    ]
+}

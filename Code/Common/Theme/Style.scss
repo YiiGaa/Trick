@@ -1,0 +1,101 @@
+//TIPS::For tailwindcss
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+//TIPS::Css variable
+:root{
+    //1rem = 10px
+    --Theme-BaseRem: 10px;
+
+    --Theme-Gap: 1.5rem;
+    --Theme-Gap-XS: 0.375rem;
+    --Theme-Gap-SM: 0.75rem;
+    --Theme-Gap-LG: 3rem;
+
+    --Theme-Radius: 1.2rem;
+    --Theme-Radius-XS: 0.3rem;
+    --Theme-Radius-SM: 0.6rem;
+    --Theme-Radius-LG: 2.4rem;
+
+    --Theme-Font-Family:"-apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif";
+
+    --Theme-Text: 1.6rem;
+    --Theme-Text-XS: 1.2rem;
+    --Theme-Text-SM: 1.4rem;
+    --Theme-Text-LG: 1.8rem;
+    --Theme-Text-XL: 2.0rem;
+    --Theme-Text-2XL: 2.4rem;
+    --Theme-Text-3XL: 3.0rem;
+    --Theme-Text-4XL: 3.6rem;
+    --Theme-Text-5XL: 4.8rem;
+
+    --Theme-Color-Text: #404040;
+    --Theme-Color-Text-SM: #666666;
+    --Theme-Color-Text-XS: #999999;
+
+    --Theme-Color-Body: #fff;
+    --Theme-Color-Module: #fff;
+    --Theme-Color-Widges: #bBf5f3;
+    --Theme-Color-Disable: #f8f9fa;
+    --Theme-Color-Divider: #dee2e6;
+    --Theme-Color-Error: #b02a37;
+    --Theme-Color-Invert: #ffffff;
+    --Theme-Color-Active: #337dff;
+    --Theme-Color-ActiveHover: #5392ff;
+
+    --Theme-BoxShadow:0rem 0rem 1.5rem 0.1rem #e9ebf8;
+
+    --Theme-Scroll:thin;
+    --Theme-Scroll-Width: 0.8rem;
+    --Theme-Scroll-Radius: 0.8rem;
+    --Theme-Scroll-Track-Color: transparent;
+    --Theme-Scroll-TrackHover-Color: transparent;
+    --Theme-Scroll-Thumb-Color: #dbe1e5;
+    --Theme-Scroll-ThumbHover-Color: #cbd1d5;
+
+    --Theme-TransDuration: 0.3s;
+}
+
+//TIPS::Default font
+html{
+    font-family: var(--Theme-Font-Family);
+    font-size: var(--Theme-BaseRem);
+}
+body{
+    font-size:var(--Theme-Text);
+    color: var(--Theme-Color-Text);
+}
+
+//TIPS::Body style
+body{
+    background: var(--Theme-Color-Body);
+}
+
+//TIPS::Scrollbar style
+@supports not selector(::-webkit-scrollbar) {
+    html {
+        scrollbar-width: var(--Theme-Scroll);
+    }
+}
+@supports selector(::-webkit-scrollbar) {
+    ::-webkit-scrollbar {
+        width: var(--Theme-Scroll-Width);
+        height: var(--Theme-Scroll-Width);
+    }
+    ::-webkit-scrollbar-track {
+        background-color: var(--Theme-Scroll-Track-Color);
+        border-radius: var(--Theme-Scroll-Radius);
+    }
+    ::-webkit-scrollbar-track:hover {
+        background-color: var(--Theme-Scroll-TrackHover-Color);
+        border-radius: var(--Theme-Scroll-Radius);
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--Theme-Scroll-Thumb-Color);
+        border-radius: var(--Theme-Scroll-Radius);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: var(--Theme-Scroll-ThumbHover-Color);
+    }
+}

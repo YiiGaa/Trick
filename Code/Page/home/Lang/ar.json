@@ -1,0 +1,26 @@
+{
+  "**Title>>title":"<body>Trick2</body>",
+  "**Title>>desc":"<body><a>Stop Refactoring</a> إطار الواجهة الأمامية المعيارية الذي صممه</body>",
+
+  "**Language>>tips": "转换中文",
+
+  "**Theme>>tips": "تغيير الموضوع",
+
+  "**Form>>name": "اسم",
+  "**Form>>name desc": "ما هو اسمك؟",
+  "**Form>>age": "العمر",
+  "**Form>>age desc": "كم عمرك؟",
+  "**Form>>occupation": "مهنة",
+  "**Form>>occupation desc": "ما هو مهنتك؟",
+  "**Form/occupation>>software engineer": "مطور برمجيات",
+  "**Form/occupation>>project manager": "مدير المشروع",
+  "**Form/occupation>>test engineer": "مهندس اختبار",
+  "**Form/occupation>>student": "طالب",
+  "**Form/occupation>>else": "آخره",
+  "**Form>>introduction": "مقدمة ذاتية",
+  "**Form>>introduction desc": "نريد معرفة المزيد عنك؟",
+  "**Form>>introduction tips": "أنا سوبرمان...",
+  "**Form>>commit": "التزام",
+
+  "**Dialog>>title": "تسجيل البيانات"
+}

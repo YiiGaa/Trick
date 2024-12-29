@@ -1,0 +1,22 @@
+//推荐使用class定义样式，且请以'组件名'作为前缀(避免与其他组件class产生冲突)
+//It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
+
+._CompCheckbox-Body{
+    @apply flex items-center gap-[--Theme-Gap-SM];
+}
+
+._CompCheckbox-Box{
+    @apply size-[--Theme-Text-LG];
+    @apply data-[checked]:bg-[--Theme-Color-Active] data-[checked]:border-[color:--Theme-Color-Active];
+    border: 0.1rem solid var(--Theme-Color-Divider);
+    border-radius: var(--Theme-Radius-SM);
+    background: var(--Theme-Color-Module);
+    transition-duration: var(--Theme-TransDuration);
+}
+
+._CompCheckbox-Icon{
+    @apply size-[--Theme-Text] fill-[--Theme-Color-Invert] stroke-2;
+    @apply opacity-0 ease-in group-data-[checked]:opacity-100;
+}
+
+._CompCheckbox-Label{}

@@ -1,0 +1,71 @@
+[
+    {
+        "Xmas_path":"../Code/Component/??/??.js",
+        "moduleFile": {
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Component/??/??UI.js",
+        "moduleFile": {
+            "Xmas_templ":"UI",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Component/??/??Action.js",
+        "moduleFile": {
+            "Xmas_templ":"ACTION",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Component/??/??.scss",
+        "moduleFile": {
+            "Xmas_templ":"CSS",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Component/??/Custom.scss",
+        "moduleFile": {
+            "Xmas_templ":"CSS-CUSTOM",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Component/??/Sample.html",
+        "sampleFile": {
+            "Xmas_templ":"HTML",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Component/??/Sample.js",
+        "sampleFile": {
+            "Xmas_templ":"JS",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Component/??/Load.json",
+        "loadFile": {
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Component/??/Once.Link",
+        "linkFile": {
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Component/??/Once.Config",
+        "configFile": {
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Component/??/README.md",
+        "readmeFile": {
+            "Xmas_templ":"README",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Component/??/README-en.md",
+        "readmeFile": {
+            "Xmas_templ":"README-en",
+            "name":"??"
+        }
+    }
+]

@@ -1,0 +1,23 @@
+{
+    "version": "1.0=2024.11.15",
+    "publish": "2024.12.28",
+    "file": [
+        "Once.Config",
+        "Sample.js",
+        "Once.Link",
+        "_BoxPopover.js",
+        "_BoxPopoverUI.js",
+        "Custom.scss",
+        "README.md",
+        "Sample.html",
+        "_BoxPopover.scss",
+        "README-en.md",
+        "_BoxPopoverAction.js",
+        "Load.json"
+    ],
+    "skip": [
+        "Custom.scss",
+        "Once.Config"
+    ],
+    "customSkip": []
+}

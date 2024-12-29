@@ -1,0 +1,22 @@
+######DEFAULT######
+async function @@name@@(data={}){
+    //STEP::Init data pool
+    let result = ErrorCode.ERR_OK;
+    let moduleParam = {};
+    const passParam = Tools.ObjectClone(data);
+    const selectorRetryData = [];
+    console.debug(Logger.Header(), "Action @@name@@ start, moduleParam:", moduleParam, "passParam:", passParam);
+
+    try{
+        //STEP::Run task
+        do{
+            @@module@@
+        }while(false);
+    } finally {
+        console.debug(Logger.Header(), "Action @@name@@ end, result:", result , "passParam:", passParam);
+    }
+    return result;
+}
+Tools.PubSubListen("act##@@name@@", @@name@@);
+
+######DEFAULT######

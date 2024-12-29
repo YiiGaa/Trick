@@ -1,0 +1,24 @@
+{
+    "version": "1.0=2024.12.28",
+    "publish": "2024.12.28",
+    "file": [
+        "Once.Config",
+        "Sample.js",
+        "Once.Link",
+        "_CompImg.scss",
+        "_CompImgUI.js",
+        "_CompImg.js",
+        "_CompImgAction.js",
+        "Custom.scss",
+        "README.md",
+        "Sample.html",
+        "README-en.md",
+        "test/img.png",
+        "Load.json"
+    ],
+    "skip": [
+        "Custom.scss",
+        "Once.Config"
+    ],
+    "customSkip": []
+}

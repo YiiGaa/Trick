@@ -1,0 +1,25 @@
+//推荐使用class定义样式，且请以'组件名'作为前缀(避免与其他组件class产生冲突)
+//It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
+
+._CompSwitch-Body{
+    @apply flex items-center gap-[--Theme-Gap-SM];
+}
+
+._CompSwitch-Slot{
+    @apply relative flex h-[--Theme-Text-LG] w-[--Theme-Text-4XL] rounded-full cursor-pointer;
+    @apply outline outline-1 outline-offset-0 outline-[color:--Theme-Color-Divider];
+    @apply transition-colors ease-in-out;
+    @apply  data-[checked]:outline-offset-0 data-[checked]:outline-[color:--Theme-Color-Active] data-[checked]:bg-[--Theme-Color-Active];
+    background: var(--Theme-Color-Module);
+    transition-duration: var(--Theme-TransDuration);
+}
+
+._CompSwitch-Bar{
+    @apply size-[--Theme-Text-LG] rounded-full pointer-events-none inline-block;
+    @apply transition ease-in-out translate-x-0;
+    @apply group-data-[checked]:bg-[--Theme-Color-Invert];
+    @apply rtl:group-data-[checked]:-translate-x-full group-data-[checked]:translate-x-full;
+    background: var(--Theme-Color-Divider);
+    transition-duration: var(--Theme-TransDuration);
+}
+

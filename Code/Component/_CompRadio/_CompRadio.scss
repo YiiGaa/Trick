@@ -1,0 +1,25 @@
+//推荐使用class定义样式，且请以'组件名'作为前缀(避免与其他组件class产生冲突)
+//It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
+
+._CompRadio-Body{
+    @apply w-full;
+    @apply grid gap-y-[--Theme-Gap-XS] grid-cols-1;
+}
+
+._CompRadio-Item{
+    @apply flex items-center gap-[--Theme-Gap-SM];
+}
+
+._CompRadio-Item-Radio{
+    @apply flex size-[--Theme-Text-LG] items-center justify-center rounded-full;
+    @apply data-[checked]:bg-[--Theme-Color-Active] data-[checked]:border-[color:--Theme-Color-Active] data-[checked]:text-[color:--Theme-Color-Active];
+    @apply transition-colors;
+    border: 0.1rem solid var(--Theme-Color-Divider);
+    background: var(--Theme-Color-Module);
+    transition-duration: var(--Theme-TransDuration);
+}
+
+._CompRadio-Item-Radio-Span{
+    @apply invisible size-2 rounded-full group-data-[checked]:visible;
+    background: var(--Theme-Color-Module);
+}

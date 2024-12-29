@@ -1,0 +1,23 @@
+{
+    "version": "1.0=2024.11.15",
+    "publish": "2024.12.28",
+    "file": [
+        "Once.Config",
+        "Sample.js",
+        "Once.Link",
+        "_CompTextareaAction.js",
+        "Custom.scss",
+        "_CompTextarea.scss",
+        "_CompTextareaUI.js",
+        "README.md",
+        "Sample.html",
+        "README-en.md",
+        "_CompTextarea.js",
+        "Load.json"
+    ],
+    "skip": [
+        "Custom.scss",
+        "Once.Config"
+    ],
+    "customSkip": []
+}

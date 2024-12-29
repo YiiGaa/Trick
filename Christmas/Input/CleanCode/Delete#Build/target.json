@@ -1,0 +1,9 @@
+[   
+    {
+        "Xmas_path":"../Build/"
+    },{
+        "Xmas_path":"../node_modules/.bin/"
+    },{
+        "Xmas_path":"../node_modules/.cache/"
+    }
+]

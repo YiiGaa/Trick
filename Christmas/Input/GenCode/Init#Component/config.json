@@ -1,0 +1,14 @@
+{
+    "inputSign":"?",
+    "rewaitInput":"[component name]",
+    "isJudgeExist":true,
+    "isExistBackup":true,
+    "templatePath":{
+        "moduleFile":"./Template/Init-Component/Component.templ",
+        "sampleFile":"./Template/Init-Component/Sample.templ",
+        "loadFile":"./Template/Init-Component/Load.templ",
+        "linkFile":"./Template/Init-Component/Link.templ",
+        "configFile":"./Template/Init-Component/Config.templ",
+        "readmeFile":"./Template/Init-Component/Readme.templ"
+    }
+}

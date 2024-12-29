@@ -1,0 +1,23 @@
+{
+    "version": "1.0=2024.11.15",
+    "publish": "2024.12.28",
+    "file": [
+        "_CompRadio.js",
+        "Once.Config",
+        "Sample.js",
+        "Once.Link",
+        "_CompRadio.scss",
+        "Custom.scss",
+        "_CompRadioUI.js",
+        "README.md",
+        "_CompRadioAction.js",
+        "Sample.html",
+        "README-en.md",
+        "Load.json"
+    ],
+    "skip": [
+        "Custom.scss",
+        "Once.Config"
+    ],
+    "customSkip": []
+}

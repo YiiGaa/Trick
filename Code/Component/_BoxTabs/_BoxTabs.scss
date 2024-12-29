@@ -1,0 +1,23 @@
+//推荐使用class定义样式，且请以'组件名'作为前缀(避免与其他组件class产生冲突)
+//It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
+
+._BoxTabs{
+    background: var(--Theme-Color-Module);
+}
+
+._BoxTabs-Tabs{
+
+}
+
+._BoxTabs-Tabs-Item{
+    @apply outline-none;
+}
+
+._BoxTabs-Panel{
+    @apply flex flex-row overflow-x-hidden;
+}
+
+._BoxTabs-Panel-Item{
+    @apply shrink-0 w-full ease-in-out transition-opacity opacity-0 data-[selected]:opacity-100 data-[selected]:order-first;
+    transition-duration: var(--Theme-TransDuration);
+}

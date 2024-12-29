@@ -1,0 +1,21 @@
+//推荐使用class定义样式，且请以'组件名'作为前缀(避免与其他组件class产生冲突)
+//It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
+
+._CompButton{
+    @apply rounded-[--Theme-Radius-SM];
+    @apply cursor-pointer;
+    padding: var(--Theme-Gap-SM) var(--Theme-Gap);
+    transition-duration: var(--Theme-TransDuration);
+    background: var(--Theme-Color-Active);
+    color: var(--Theme-Color-Invert);
+
+    &:hover{
+        background: var(--Theme-Color-ActiveHover);
+    }
+}
+
+._CompButton[disabled]{
+    @apply cursor-default;
+    background: var(--Theme-Color-Disable);
+    color: var(--Theme-Color-Text-XS);
+}

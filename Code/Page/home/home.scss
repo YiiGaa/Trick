@@ -1,0 +1,60 @@
+//此文件为自定义css样式文件，可自由修改
+//This file is a custom css style file, which can be modified freely
+.Page-Body{
+    @apply flex items-center justify-center h-screen p-[--Theme-Gap];
+    overflow: auto;
+}
+
+.Page-Body::before {
+    content: "";
+    position: absolute;
+    background: url("/Code/Assets/backdrop.png") left top repeat-y,
+    url("/Code/Assets/backdrop.png") right top repeat-y;
+    top: 0rem;
+    right: 0rem;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    animation: Page-Backdrop-Breathe 6s ease-in-out infinite;
+}
+@keyframes Page-Backdrop-Breathe {
+    0%, 100% {opacity: 1;}
+    50% {opacity: 0.5;}
+}
+html[trick-theme=""] {
+    @media only screen and (max-width: 768px) {
+        .Page-Body::before {
+            background: url("/Code/Assets/backdrop.png") left top repeat-y;
+        }
+    }
+}
+html[trick-theme="dark"] {
+    .Page-Body::before {
+        background-image: url("/Code/Assets/backdrop-dark.svg");
+        background-position: center;
+        background-size: 80% 80%;
+        background-repeat: no-repeat;
+        filter: blur(3rem);
+        animation: Page-Backdrop-Breathe-dark 6s ease-in-out infinite;
+    }
+    @keyframes Page-Backdrop-Breathe-dark {
+        0%, 100% {opacity: 0.3; transform: scale(1)}
+        50% {opacity: 0.2; transform: scale(0.97)}
+    }
+}
+
+.Page-Title{
+    color: var(--Theme-Color-Text);
+    font-size: var(--Theme-Text-4XL);
+}
+
+.Page-Desc{
+    font-size: var(--Theme-Text);
+    color:var(--Theme-Color-Text-XS);
+}
+
+.Page-Desc a{
+    @apply text-[--Theme-Color-Active] hover:text-[--Theme-Color-ActiveHover];
+    @apply transition-colors;
+    transition-duration: var(--Theme-TransDuration);
+}

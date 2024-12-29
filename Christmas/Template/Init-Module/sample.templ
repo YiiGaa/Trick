@@ -1,0 +1,60 @@
+######HTML######
+<!DOCTYPE html>
+<html trick-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@@name@@</title>
+  </head>
+  <body>
+   <div id="id_body"></div>
+  </body>
+</html>
+######HTML######
+
+######JS######
+import React from "react"
+import ReactDOM from "react-dom/client"
+import Logger from "/Code/Common/Logger/Logger"
+import * as Tools from "/Code/Common/Tools/Tools"
+import "/Code/Common/Theme/Theme.scss"
+import "/Code/Common/Theme/Style.scss"
+import ErrorCode from "/Code/Common/ErrorCode/ErrorCode"
+import @@name@@ from "/Code/Module/@@name@@/@@name@@.js"
+
+//WHEN::Test for calling module
+function TestCall() {
+    //STEP::Init data pool
+    let result = ErrorCode.ERR_OK;
+    let moduleParam = {};
+    const passParam = {};
+    Logger.SetId();
+    console.debug(Logger.Header(), "Action start, moduleParam:", moduleParam, "passParam:", passParam);
+
+    try{
+        //STEP::Call Module
+        moduleParam = {
+            "_action":"xxx",
+            "_xxx":"xxx"
+        }
+        result = @@name@@(moduleParam, passParam);
+        if(ErrorCode.IsError(result)){
+            return null;
+        }
+
+    } finally {
+        console.debug(Logger.Header(), "Action end, result:", result , "moduleParam:", moduleParam, "passParam:", passParam);
+    }
+}
+
+//STEP::Generate module test page
+ReactDOM.createRoot(document.getElementById("id_body")).render(
+    <button
+        className="py-[--Theme-Gap-SM] px-[--Theme-Gap] bg-[--Theme-Color-Active] text-[--Theme-Color-Invert] rounded-[--Theme-Radius-SM] cursor-pointer"
+        onClick={TestCall}
+    >
+        Test Button
+    </button>
+);
+######JS######

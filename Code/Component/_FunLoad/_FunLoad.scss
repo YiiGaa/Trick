@@ -1,0 +1,22 @@
+//推荐使用class定义样式，且请以'组件名'作为前缀(避免与其他组件class产生冲突)
+//It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
+
+._FunLoad-Body{
+    @apply relative overflow-y-hidden;
+}
+
+._FunLoad-Child{
+    @apply transition-opacity ease-out;
+    transition-duration: var(--Theme-TransDuration);
+}
+
+._FunLoad-Load{
+    @apply absolute inset-0;
+    @apply flex flex-col gap-y-[--Theme-Gap];
+    @apply animate-pulse;
+}
+
+._FunLoad-Load-Item{
+    @apply w-full h-[--Theme-Text] rounded-[--Theme-Radius-XS];
+    background: var(--Theme-Color-Widges);
+}

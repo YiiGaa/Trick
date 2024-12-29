@@ -1,0 +1,55 @@
+[
+    {
+        "Xmas_path":"../Code/Page/??/??.html",
+        "pageFile": {
+            "Xmas_templ":"HTML",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Page/??/??.scss",
+        "pageFile": {
+            "Xmas_templ":"CSS",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Page/??/??UI.js",
+        "uiFile": {
+            "name":"??",
+            "page":"??",
+            "module":"",
+            "child": ""
+        }
+    },{
+        "Xmas_path":"../Code/Page/??/??Action.js",
+        "actionFile": {
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Christmas/Input/GenCode/Page#??/config.json",
+        "XmasFile": {
+            "Xmas_templ":"CONFIG-UI",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Page/??/??UI.json",
+        "XmasFile": {
+            "Xmas_templ":"TARGET-UI",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Christmas/Input/GenCode/Page#??-Action/config.json",
+        "XmasFile": {
+            "Xmas_templ":"CONFIG-ACTION",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Page/??/??Action.json",
+        "XmasFile": {
+            "Xmas_templ":"TARGET-ACTION",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Page/??/Lang/def.json",
+        "langFile": {}
+    }
+]

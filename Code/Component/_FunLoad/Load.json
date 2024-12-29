@@ -1,0 +1,23 @@
+{
+    "version": "1.0=2024.11.15",
+    "publish": "2024.12.28",
+    "file": [
+        "_FunLoad.scss",
+        "Once.Config",
+        "_FunLoadUI.js",
+        "Sample.js",
+        "Once.Link",
+        "_FunLoadAction.js",
+        "Custom.scss",
+        "_FunLoad.js",
+        "README.md",
+        "Sample.html",
+        "README-en.md",
+        "Load.json"
+    ],
+    "skip": [
+        "Custom.scss",
+        "Once.Config"
+    ],
+    "customSkip": []
+}

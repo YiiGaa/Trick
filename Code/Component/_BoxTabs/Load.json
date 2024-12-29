@@ -1,0 +1,23 @@
+{
+    "version": "1.0=2024.11.15",
+    "publish": "2024.12.28",
+    "file": [
+        "Once.Config",
+        "Sample.js",
+        "Once.Link",
+        "_BoxTabs.js",
+        "Custom.scss",
+        "README.md",
+        "_BoxTabsUI.js",
+        "Sample.html",
+        "_BoxTabsAction.js",
+        "README-en.md",
+        "_BoxTabs.scss",
+        "Load.json"
+    ],
+    "skip": [
+        "Custom.scss",
+        "Once.Config"
+    ],
+    "customSkip": []
+}

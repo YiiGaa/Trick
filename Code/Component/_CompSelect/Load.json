@@ -1,0 +1,23 @@
+{
+    "version": "1.0=2024.11.15",
+    "publish": "2024.12.28",
+    "file": [
+        "_CompSelect.scss",
+        "Once.Config",
+        "Sample.js",
+        "Once.Link",
+        "_CompSelect.js",
+        "Custom.scss",
+        "README.md",
+        "_CompSelectAction.js",
+        "Sample.html",
+        "_CompSelectUI.js",
+        "README-en.md",
+        "Load.json"
+    ],
+    "skip": [
+        "Custom.scss",
+        "Once.Config"
+    ],
+    "customSkip": []
+}

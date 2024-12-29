@@ -1,0 +1,22 @@
+//推荐使用class定义样式，且请以'组件名'作为前缀(避免与其他组件class产生冲突)
+//It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
+
+._PackForm-Body{
+  @apply flex flex-col gap-y-[--Theme-Gap];
+}
+
+._PackForm-Field{
+  @apply flex flex-col gap-y-[--Theme-Gap-XS];
+}
+
+._PackForm-Label{
+  @apply text-[--Theme-Color-Text];
+}
+
+._PackForm-Desc{
+  @apply text-[--Theme-Color-Text-SM] text-[length:--Theme-Text-SM];
+}
+
+._PackForm-Error{
+  @apply text-[--Theme-Color-Error] text-[length:--Theme-Text-SM]  text-right rtl:text-left;
+}

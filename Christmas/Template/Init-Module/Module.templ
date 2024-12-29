@@ -1,0 +1,32 @@
+######DEFAULT######
+import * as Tools from "/Code/Common/Tools/Tools.js"
+import Logger from "/Code/Common/Logger/Logger.js"
+import ErrorCode from "/Code/Common/ErrorCode/ErrorCode.js"
+import Configs from "/Code/Common/Config/Config.js"
+
+const Config = Tools.MergeDefault(Configs.module.@@name@@,{});
+
+function DoStart(moduleParam, passParam, result){
+    try {
+        //STEP::Get setting
+        const _isOpen = Tools.ParamRead("_isOpen", true, moduleParam, passParam);
+        console.debug(Logger.Header(), "Module-@@name@@ DoStart _isOpen:", _isOpen);
+
+        //STEP::Action
+        //...
+
+    }catch (e) {
+        console.error(Logger.Header(), "Module-@@name@@ DoStart exception", e);
+        return ErrorCode.ERR_Module_@@name@@_Exception;
+    }
+    return result;
+}
+
+export default function @@name@@(moduleParam, passParam) {
+    console.debug(Logger.Header(), "Module-@@name@@ start, moduleParam:", moduleParam, "passParam:", passParam);
+    let result = ErrorCode.ERR_OK;
+    result = DoStart(moduleParam, passParam, result);
+    console.debug(Logger.Header(), "Module-@@name@@ end, moduleParam:", moduleParam, "passParam:", passParam);
+    return result;
+}
+######DEFAULT######

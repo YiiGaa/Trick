@@ -1,0 +1,71 @@
+{
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "private": "true",
+  "scripts": {
+    "run-component": "webpack serve --config Setting/webpack/webpack.component.js",
+    "run-module": "webpack serve --config Setting/webpack/webpack.module.js",
+    "run-page-build": "webpack serve --config Setting/webpack/webpack.page.js",
+    "run-page-watch": "nodemon --watch Code/Page --ext json --exec 'python3 Christmas/Christmas.py Input/ShellExcute/Page#Genrate'",
+    "run-page": "npm-run-all --parallel run-page-build run-page-watch",
+    "build": "webpack --config Setting/webpack/webpack.build.js",
+    "build-view": "http-server Build -p 5678 -o"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "last 3 years"
+  ],
+  "keywords": [],
+  "devDependencies": {
+    "nodemon": "^3.1.7",
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.25.9",
+    "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
+    "@babel/plugin-transform-runtime": "^7.25.9",
+    "autoprefixer": "^10.4.20",
+    "babel-loader": "^9.2.1",
+    "babel-plugin-lodash": "^3.3.4",
+    "core-js": "^3.39.0",
+    "css-loader": "^7.1.2",
+    "css-minimizer-webpack-plugin": "^7.0.0",
+    "html-loader": "^5.1.0",
+    "html-webpack-plugin": "^5.6.0",
+    "http-server": "^14.1.1",
+    "copy-webpack-plugin": "^12.0.2",
+    "mini-css-extract-plugin": "^2.9.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.41",
+    "postcss-preset-env": "^10.1.0",
+    "postcss-loader": "^8.1.1",
+    "restrict-imports-loader": "^3.2.6",
+    "sass": "^1.77.8",
+    "sass-loader": "^16.0.0",
+    "style-loader": "^4.0.0",
+    "tailwindcss": "^3.4.10",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4",
+    "webpack-merge": "^6.0.1"
+  },
+  "dependencies": {
+    "htmr": "^1.0.2",
+    "expired-storage":"^1.0.2",
+    "expired-storage":"^1.0.2",
+    "clsx": "^2.1.1",
+    "jsonpath": "^1.1.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "use-immer": "^0.10.0",
+    "@headlessui/react": "^2.2.0",
+    "@heroicons/react": "^2.1.5",
+    "lodash-es": "^4.17.21",
+    "pubsub-js": "^1.9.4",
+    "i18next": "^23.15.1",
+    "i18next-browser-languagedetector": "^8.0.0",
+    "i18next-http-backend": "^2.6.1",
+    "react-i18next": "^15.0.2"
+  }
+}

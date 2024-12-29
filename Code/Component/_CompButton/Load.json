@@ -1,0 +1,23 @@
+{
+    "version": "1.0=2024.11.15",
+    "publish": "2024.12.28",
+    "file": [
+        "_CompButton.js",
+        "_CompButtonAction.js",
+        "Once.Config",
+        "Sample.js",
+        "Once.Link",
+        "_CompButtonUI.js",
+        "Custom.scss",
+        "README.md",
+        "Sample.html",
+        "_CompButton.scss",
+        "README-en.md",
+        "Load.json"
+    ],
+    "skip": [
+        "Custom.scss",
+        "Once.Config"
+    ],
+    "customSkip": []
+}

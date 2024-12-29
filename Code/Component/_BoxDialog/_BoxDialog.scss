@@ -1,0 +1,57 @@
+//推荐使用class定义样式，且请以'组件名'作为前缀(避免与其他组件class产生冲突)
+//It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
+
+._BoxDialog-Body{
+    @apply relative z-50;
+}
+
+._BoxDialog-Backdrop{
+    @apply fixed inset-0;
+    @apply opacity-95;
+    @apply ease-out data-[closed]:opacity-0;
+    background:var(--Theme-Color-Body);
+    transition:var(--Theme-TransDuration);
+}
+
+._BoxDialog-Content{
+    @apply fixed inset-0 flex w-screen items-center justify-center;
+    padding:var(--Theme-Gap);
+}
+
+._BoxDialog-Content-Panel{
+    @apply flex max-w-screen-md max-h-full;
+    @apply ease-out data-[closed]:scale-75 data-[closed]:opacity-0;
+    transition-duration:var(--Theme-TransDuration);
+    background: var(--Theme-Color-Module);
+    box-shadow: var(--Theme-BoxShadow);
+    padding:var(--Theme-Gap);
+    border-radius: var(--Theme-Radius);
+}
+
+._BoxDialog-Content-Panel-Child{
+    @apply flex-1 overflow-x-hidden overflow-y-auto;
+}
+
+._BoxDialog-Close{
+    @apply float-right rtl:float-left cursor-pointer;
+    @apply transition-transform hover:rotate-90 cursor-pointer;
+    transition-duration:var(--Theme-TransDuration);
+    width: var(--Theme-Text-LG);
+    height: var(--Theme-Text-LG);
+    color: var(--Theme-Color-Text);
+}
+._BoxDialog-Close:hover{
+    color: var(--Theme-Color-Active);
+}
+
+._BoxDialog-Content-PanelAlarm {
+    animation: _BoxDialog-Content-PanelAlarmFrame var(--Theme-TransDuration) ease-in-out 1;
+}
+@keyframes _BoxDialog-Content-PanelAlarmFrame {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "version": "1.0=2024.11.15",
+    "publish": "2024.12.28",
+    "file": [
+        "_BoxMotionUI.js",
+        "Once.Config",
+        "Sample.js",
+        "Once.Link",
+        "_BoxMotion.scss",
+        "Custom.scss",
+        "README.md",
+        "_BoxMotionAction.js",
+        "Sample.html",
+        "README-en.md",
+        "_BoxMotion.js",
+        "Load.json"
+    ],
+    "skip": [
+        "Custom.scss",
+        "Once.Config"
+    ],
+    "customSkip": []
+}

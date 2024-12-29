@@ -1,0 +1,23 @@
+{
+    "version": "1.0=2024.11.15",
+    "publish": "2024.12.28",
+    "file": [
+        "_PackFormUI.js",
+        "Once.Config",
+        "Sample.js",
+        "Once.Link",
+        "_PackForm.js",
+        "Custom.scss",
+        "README.md",
+        "_PackForm.scss",
+        "Sample.html",
+        "README-en.md",
+        "_PackFormAction.js",
+        "Load.json"
+    ],
+    "skip": [
+        "Custom.scss",
+        "Once.Config"
+    ],
+    "customSkip": []
+}

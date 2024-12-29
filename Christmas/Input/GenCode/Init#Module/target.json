@@ -1,0 +1,47 @@
+[
+    {
+        "Xmas_path":"../Code/Module/??/??.js",
+        "moduleFile": {
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Module/??/Sample.html",
+        "sampleFile": {
+            "Xmas_templ":"HTML",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Module/??/Sample.js",
+        "sampleFile": {
+            "Xmas_templ":"JS",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Module/??/Load.json",
+        "loadFile": {
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Module/??/Once.Link",
+        "linkFile": {
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Module/??/Once.Config",
+        "configFile": {
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Module/??/README.md",
+        "readmeFile": {
+            "Xmas_templ":"README",
+            "name":"??"
+        }
+    },{
+        "Xmas_path":"../Code/Module/??/README-en.md",
+        "readmeFile": {
+            "Xmas_templ":"README-en",
+            "name":"??"
+        }
+    }
+]

@@ -1,0 +1,26 @@
+{
+  "**Title>>title":"<body>Trick2</body>",
+  "**Title>>desc":"<body>A modular native web page framework, designed by <a>Stop Refactoring</a></body>",
+
+  "**Language>>tips": "转换中文",
+
+  "**Theme>>tips": "Change theme",
+
+  "**Form>>name": "Name",
+  "**Form>>name desc": "What's your name?",
+  "**Form>>age": "Age",
+  "**Form>>age desc": "How old are you?",
+  "**Form>>occupation": "Occupation",
+  "**Form>>occupation desc": "What's your occupation?",
+  "**Form/occupation>>software engineer": "Software Engineer",
+  "**Form/occupation>>project manager": "Project Manger",
+  "**Form/occupation>>test engineer": "Test Engineer",
+  "**Form/occupation>>student": "Student",
+  "**Form/occupation>>else": "else",
+  "**Form>>introduction": "Self introduction",
+  "**Form>>introduction desc": "We want to know more about you?",
+  "**Form>>introduction tips": "I'm a superman...",
+  "**Form>>commit": "Commit",
+
+  "**Dialog>>title": "Commit Data"
+}
