@@ -23,10 +23,22 @@ function Inner_UrlPrefix(_url){
 }
 
 function Inner_UrlGet(_url, _param){
+    //STEP::The special processing array is "key=1,key=2"
+    const searchParams = new URLSearchParams(_param);
+    for (const key in _param)
+        if (Array.isArray(_param[key])) {
+            _param[key].forEach(value => {
+                searchParams.append(key, value);
+            });
+        } else {
+            searchParams.append(key, _param[key]);
+        }
+
+    //STEP::Return real url
     if(_url.includes("?"))
-        return (_url.endsWith("&")?_url:(_url+"&")) + new URLSearchParams(_param).toString();
+        return (_url.endsWith("&")?_url:(_url+"&")) + searchParams.toString();
     else
-        return _url +"?" + new URLSearchParams(_param).toString();
+        return _url +"?" + searchParams.toString();
 }
 
 function Inner_TransBody(param, header){

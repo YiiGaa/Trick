@@ -68,7 +68,7 @@ Supplementary description of module parameters:
 
 - When `_method` is `GET`, please record data with a single-layer object and do not embed objects, otherwise the embedded object will be converted to `[object Object]`
 
-- When `_method` is `GET`, when converting the array data of `_param`, the element will be divided with `,`, such as `{key:["a","b"]}`, which will be converted into `key=a,b`; if the element contains `,` will not do special treatment, such as `{key:["a","b,c"]}`, will be converted to `key=a,b,c`
+- When `_method` is `GET`, when converting the array data of `_param`, such as `{key:["a","b"]}`, which will be converted into `key=a&key=b`
 
 ### > _resultKey
 

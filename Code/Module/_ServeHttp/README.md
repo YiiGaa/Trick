@@ -56,7 +56,7 @@
 - `_method`为`GET`时，不允许发送文件，否则报错
 - `_method`为`GET`时，会自动将`_param`拼接到`URL`上，特殊字段会自动转码，例如`key1=value&key2=value2`
 - `_method`为`GET`时，请以单层对象记录数据，不要内嵌对象，不然内嵌对象会转换为`[object Object]`
-- `_method`为`GET`时，在转换`_param`的数组数据时，会以`,`分割元素，如`{key:["a","b"]}`，会转换为`key=a,b`；若元素中含有`,`不会做特殊处理，如`{key:["a","b,c"]}`，会转换为`key=a,b,c`
+- `_method`为`GET`时，在转换`_param`的数组数据时，如`{key:["a","b"]}`，会转换为`key=a&key=b`
 
 ### > _resultKey
 
