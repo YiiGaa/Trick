@@ -1,6 +1,6 @@
 {
     "version": "1.0=2024.11.15",
-    "publish": "2024.12.28",
+    "publish": "2024.12.29",
     "file": [
         "Once.Config",
         "_BoxCollapse.scss",

@@ -1,6 +1,6 @@
 {
-    "version": "1.0=2024.12.28",
-    "publish": "2024.12.28",
+    "version": "1.0=2024.12.29",
+    "publish": "2024.12.29",
     "file": [
         "Once.Config",
         "Sample.js",
