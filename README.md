@@ -262,6 +262,11 @@ The logical function can modify the settings or retrieve data for specified UI c
 
 # 历史版本
 
+## 2.1
+
+- [update]升级Christmas 2.3
+- [bug]修复Windows下，Christmas及插件无法正常使用
+
 ## 2.0
 
 - 升级Christmas 2
@@ -280,6 +285,11 @@ The logical function can modify the settings or retrieve data for specified UI c
 - 模块迁移时，只需要克隆文件夹
 
 # Historical version
+
+## 2.1
+
+- [update] Upgrade to Christmas 2.3
+- [bug] Fixed the issue where Christmas and plugins could not be used normally under Windows
 
 ## 2.0
 
