@@ -1,6 +1,6 @@
 <img src="design/logo.png" width="300" />
 
-- 最新稳定版本: 2.0=2024.12.29
+- 最新稳定版本: 2.1=2025.01.06
 - 使用文档详见官网，[点击跳转使用手册](https://stoprefactoring.com/#content@content#framework/trick/)
 
 # 编写网页-就像搭积木一样
