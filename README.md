@@ -3,6 +3,9 @@
 - 最新稳定版本: 2.1=2025.01.06
 - 使用文档详见官网，[点击跳转使用手册](https://stoprefactoring.com/#content@content#framework/trick/)
 
+- Latest stable version: 2.1=2025.01.06
+- For the user manual, please refer to the official website, [click to jump to the user manual](https://stoprefactoring.com/#content@content#framework/trick/)
+
 # 编写网页-就像搭积木一样
 
 **Trick框架将一个网页分离为了两个部分，UI部分、逻辑部分**。UI部分，用于HTML页面描画；逻辑部分，用于逻辑功能执行。
