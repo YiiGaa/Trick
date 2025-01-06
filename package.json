@@ -67,5 +67,10 @@
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-http-backend": "^2.6.1",
     "react-i18next": "^15.0.2"
+  },
+  "overrides": {
+    "babel-plugin-lodash": {
+      "@babel/types": "~7.21.0"
+    }
   }
 }
