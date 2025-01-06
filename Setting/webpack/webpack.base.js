@@ -57,7 +57,7 @@ module.exports = merge(proxySetting, {
                             ],
                             cacheDirectory: true,
                             cacheCompression: false,
-                            plugins: ["lodash","@babel/plugin-transform-runtime","@babel/plugin-proposal-object-rest-spread"]
+                            plugins: ["lodash","@babel/plugin-transform-runtime","@babel/plugin-transform-object-rest-spread"]
                         }
                     },{
                         //TIPS::For limit lib import
