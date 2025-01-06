@@ -131,7 +131,7 @@ module.exports = merge(baseSetting, {
                     name(module, chunks, cacheGroupKey) {
                         const moduleFileName = module
                             .identifier()
-                            .split('/')
+                            .split(path.sep)
                             .reduceRight((item) => item);
                         return `${cacheGroupKey}/${moduleFileName}`;
                     },
