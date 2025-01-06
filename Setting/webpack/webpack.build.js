@@ -74,7 +74,7 @@ module.exports = merge(baseSetting, {
             patterns: [
                 //TIPS::For copy lang file
                 {
-                    from: path.resolve(__dirname, '../../Code/Page/*/Lang/*.json'),
+                    from: 'Code/Page/*/Lang/*.json',
                     to: (pathData) => {
                         const sourcePath = pathData.absoluteFilename;
                         const parts = sourcePath.split(path.sep);
