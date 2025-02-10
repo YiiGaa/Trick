@@ -143,6 +143,10 @@ You can also run `ShellExcute>>Build#Module` through the `Christmas` plug-in, an
 
 # ◎ Update list
 
+**1.0=2025.02.10**
+
+- [bug] Fix the array length limit, the problem that the `numeric##` prefix does not take effect
+
 **1.0=2024.11.15**
 
 - Module create

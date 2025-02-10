@@ -140,6 +140,9 @@ python3 Christmas/Christmas.py ShellExcute/Build#Module _DataCheck
 
 # ◎ 更新历史
 
+**1.0=2025.02.10**
+- [bug] 修复数组长度限制，`数字##`前缀不生效问题
+
 **1.0=2024.11.15**
 
 - 模块建立

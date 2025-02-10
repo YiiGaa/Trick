@@ -34,7 +34,8 @@ function CheckData(param, setting) {
         if(!(typeof param === 'number' && !isNaN(param) && !Number.isInteger(param)))
             typeCheck = false;
         setting = setting.substring("double##".length);
-    }else if(setting.startsWith("reg##")){
+    }
+    if(setting.startsWith("reg##")){
         isRegx = true;
         setting = setting.substring("reg##".length);
     }
@@ -159,6 +160,17 @@ function TraverseJson(param, setting, reaultParam){
                 key = key.substring("nec##".length);
             }
 
+            //STEP-IN::Get array size limit
+            let limitSize = -1;
+            if (Array.isArray(settingValue)) {
+                const regex = /^(\d+)##/;
+                const match = key.match(regex)
+                if (match) {
+                    limitSize = parseInt(match[1]);
+                    key = key.replace(regex, '');
+                }
+            }
+
             //STEP-IN::Check whether param[key] exists
             let isExists = false;
             let paramData = "null";
@@ -185,6 +197,13 @@ function TraverseJson(param, setting, reaultParam){
             if(tempResult !== ErrorCode.ERR_OK){
                 console.debug(Logger.Header(), "Module-_DataFilling Illegal object, key:", key, "error", tempResult);
                 return tempResult;
+            }
+
+            //STEP-IN::Check array size
+            if(limitSize>-1 && Array.isArray(paramData)){
+                if(paramData.length>limitSize){
+                    return ErrorCode.ERR_Module__DataCheck_ArrayLimit;
+                }
             }
 
             //STEP-IN::Insert clean data

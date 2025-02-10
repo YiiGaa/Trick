@@ -198,7 +198,7 @@ Supplementary description of module parameters:
     | random id | Random number (default 8 bits)                  | Random number length (default 8 bits)                        | 1.0=2024.11.15 |
     | session   | Get the value from the session storage          | The key of the session storage. If it does not exist and `_isStorageNullError` is set to false, the "null" string is used | 1.0=2024.11.15 |
     | storage   | Get the value from the local storage            | The key of the local storage. If it does not exist and `_isStorageNullError` is set to false, the "null" string is used | 1.0=2024.11.15 |
-    | get       | Get the value from passParam                    | The key in passParam, and it can be used to locate multi-layer search. If it does not exist, use the "null" string | 1.0=2024.11.15 |
+    | get       | Get the value from passParam                    | The key in passParam. And it can use `>>` to locate multi-layer search. If it does not exist, use the "null" string | 1.0=2024.11.15 |
     | time      | Time, the default format is yyyy-MM-dd hh:mm:ss | Time format                                                  | 1.0=2024.11.15 |
 
 # ◎ Configuration Notes

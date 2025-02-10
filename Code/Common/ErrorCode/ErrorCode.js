@@ -38,6 +38,7 @@ const ErrorCode = Object.freeze({
     ERR_Module__DataCheck_Param_Illegal:["E-FP(_DataCheck)", "_DataCheck Check param illegal"],
     ERR_Module__DataCheck_Value_Illegal:["E-FP(_DataCheck)", "_DataCheck Check value illegal"],
     ERR_Module__DataCheck_Regex_Block:["E-FP(_DataCheck)", "_DataCheck Check value not match regex"],
+    ERR_Module__DataCheck_ArrayLimit:["E-FP(_DataCheck)", "_DataCheck Check param array size over limit"],
     ERR_Module__ServeHttp_Exception:["E-FP(_ServeHttp)", "_ServeHttp exception"],
     ERR_Module__ServeHttp_Action_Lack:["E-FP(_ServeHttp)", "_ServeHttp action lack"],
     ERR_Module__ServeHttp_Normal_Fail:["E-FP(_ServeHttp)", "_ServeHttp Normal request fail"],
