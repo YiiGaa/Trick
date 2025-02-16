@@ -97,7 +97,7 @@ function ParamGet (key, defaultValue, param) {
 //TIPS::Get param according the key, and It will be forcibly converted to string type
 //>>key::The key of the param.The 'key' can be set as json path(starting with 'get##' and use '>>' to locate), such as 'get##key_1>>2>>key_3'
 //>>defaultValue::The default value（must be string tpye）.
-//>>moduleParam::Get the value corresponding to the 'key' in this object
+//>>param::Get the value corresponding to the 'key' in this object
 //              - If the acquisition fails, the 'defaultValue' is returned;
 //>>return::Value
 function ParamGetStr (key, defaultValue, param) {
