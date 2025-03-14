@@ -188,6 +188,10 @@ python3 Christmas/Christmas.py ShellExcute/Build#Component _CompImg
 
 # ◎ 更新列表
 
+**1.0=2025.03.14**
+
+- [bug]错误图片不存在时，会一直重新获取
+
 **1.0=2024.11.15**
 
 - 组件建立

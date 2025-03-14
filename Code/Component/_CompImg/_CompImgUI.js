@@ -29,7 +29,9 @@ export function _CompImgUI(state, children, element, handler){
             src={state._src}
             onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = state._srcError;
+                if(state._srcError==="" || e.target.src.endsWith(state._srcError))
+                    return;
+                e.target.src = state._srcError
             }}
             className={clsx("_CompImg-Body", state._classBody)}
             {...state._prop}

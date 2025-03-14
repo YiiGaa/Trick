@@ -215,6 +215,10 @@ You can also run `ShellExcute>>Build#Component` through `Christmas plug-in` and 
 
 # ◎ Updated list
 
+**1.0=2025.03.14**
+
+- [bug] When the error picture does not exist, it will be re-acquired
+
 **1.0=2024.11.15**
 
 - Component create
