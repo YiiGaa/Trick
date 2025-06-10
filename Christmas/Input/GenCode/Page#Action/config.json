@@ -1,0 +1,19 @@
+{
+    "inputSign":"?",
+    "rewaitInput":"[page name]",
+    "isJudgeExist":false,
+    "isExistBackup":false,
+    "isFillLack":true,
+    "fillLackMap":{
+        "error":""
+    },
+    "templatePath":{
+        "file":"./Template/Init-Page/ACT-File.templ",
+        "function":"./Template/Init-Page/ACT-Function.templ",
+        "module":"./Template/Init-Page/ACT-Module.templ",
+        "moduleError":"./Template/Init-Page/ACT-Module.templ",
+        "skip":"./Template/Init-Page/ACT-Module-Skip.templ",
+        "skipError":"./Template/Init-Page/ACT-Module-Skip.templ",
+        "switch":"./Template/Init-Page/ACT-Module-Switch.templ"
+    }
+}

@@ -5,5 +5,7 @@
         "Xmas_path":"../node_modules/.bin/"
     },{
         "Xmas_path":"../node_modules/.cache/"
+    },{
+        "Xmas_path":"../node_modules/.package-lock.json"
     }
 ]

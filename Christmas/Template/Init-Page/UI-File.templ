@@ -17,11 +17,16 @@ Common_Theme.Init();
 
 @@layout@@
 
+Tools.TemplMark({
+    //Import UI component in .json
+})
+
 //STEP::Render dom
-ReactDOM.createRoot(document.getElementById("id_body")).render(
+window.TrickAPPRoot = ReactDOM.createRoot(document.getElementById("id_body"));
+window.TrickAPPRoot.render(
     <React.StrictMode>
         <Suspense fallback="">
-            <@@main@@></@@main@@>
+            <@@main@@>@@error@@</@@main@@>
         </Suspense>
     </React.StrictMode>
 );

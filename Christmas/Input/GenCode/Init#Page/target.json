@@ -17,7 +17,9 @@
             "name":"??",
             "page":"??",
             "module":"",
-            "child": ""
+            "child": "",
+            "layout": "",
+            "main": ""
         }
     },{
         "Xmas_path":"../Code/Page/??/??Action.js",
@@ -25,21 +27,9 @@
             "name":"??"
         }
     },{
-        "Xmas_path":"../Christmas/Input/GenCode/Page#??/config.json",
-        "XmasFile": {
-            "Xmas_templ":"CONFIG-UI",
-            "name":"??"
-        }
-    },{
         "Xmas_path":"../Code/Page/??/??UI.json",
         "XmasFile": {
             "Xmas_templ":"TARGET-UI",
-            "name":"??"
-        }
-    },{
-        "Xmas_path":"../Christmas/Input/GenCode/Page#??-Action/config.json",
-        "XmasFile": {
-            "Xmas_templ":"CONFIG-ACTION",
             "name":"??"
         }
     },{
@@ -50,6 +40,15 @@
         }
     },{
         "Xmas_path":"../Code/Page/??/Lang/def.json",
-        "langFile": {}
+        "langFile": {
+            "Xmas_templ":"DEFAULT"
+        }
+    },{
+        "Xmas_path":"../Code/Page/??/Lang/en.json",
+        "langFile": {
+            "Xmas_templ":"DEFAULT"
+        }
+    },{
+        "Xmas_path":"../Code/Page/??/Assets/.gitkeep"
     }
 ]

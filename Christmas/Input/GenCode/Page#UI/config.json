@@ -1,0 +1,16 @@
+{
+    "inputSign":"?",
+    "rewaitInput":"[page name]",
+    "isJudgeExist":false,
+    "isExistBackup":false,
+    "isFillLack":true,
+    "fillLackMap":{
+        "config":"{}",
+        "error":""
+    },
+    "templatePath":{
+        "file":"./Template/Init-Page/UI-File.templ",
+        "layout":"./Template/Init-Page/UI-Layout.templ",
+        "child":"./Template/Init-Page/UI-Child.templ"
+    }
+}
