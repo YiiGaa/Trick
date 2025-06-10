@@ -25,7 +25,8 @@ class Move:
             'isExistBackup':True,
 			'isFillLack':False,
 			'fillLackMap':{},
-            'templatePath':{}
+            'templatePath':{},
+            'isRemoveRepeat':False
         }
         for key,value in defaultConfig.items():
             if key not in param:
@@ -147,18 +148,29 @@ class Move:
             
             print(f'{Config.logPrefix}loading target setting')
             try:
-                targetParam = json.loads(setting[0])
+                targetParam = setting[0]
+                if targetParam.endswith(".json"):
+                    print(f'{Config.logPrefix}loading '+targetParam)
+                    targetParam = Move.ReadConfig(targetParam)
+                else:
+                    targetParam = json.loads(targetParam)
             except Exception as e:
                 print(f'Error: {e}')
                 Move.ErrorLog('load '+setting[0]+' as hash fail')
 
             print(f'{Config.logPrefix}loading config setting')
             try:
-                configParam = json.loads(setting[1])
+                configParam = setting[1]
+                if configParam.endswith(".json"):
+                    print(f'{Config.logPrefix}loading '+configParam)
+                    configParam = Move.ReadConfig(configParam)
+                else:
+                    configParam = json.loads(configParam)
                 configParam = Move.DefaultConfig(configParam)
             except Exception as e:
                 print(f'Error: {e}')
                 Move.ErrorLog('load '+setting[1]+' as hash fail')
+
             execute.Start(targetParam, configParam)
         else:
-            print('false')
+            Move.ErrorLog('function not match')

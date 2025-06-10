@@ -9,6 +9,7 @@ class ShellExcute:
             'mod_commandKey':'Xmas_shell',
             'mod_cwdKey':'Xmas_cwd',
             'mod_judgeKey':'Xmas_judge',
+            'mod_errorKey':'Xmas_error',
             "mod_inputExtraKey":'Xmas_'
         })
 

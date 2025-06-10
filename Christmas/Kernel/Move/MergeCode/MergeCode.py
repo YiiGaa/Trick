@@ -28,6 +28,7 @@ class MergeCode:
             'mod_replaceExtraKey':'Xmas_',
             'mod_isJudgeExist':configParam['isJudgeExist'],
             'mod_isExistBackup':configParam['isExistBackup'],
+            'mod_isRemoveRepeat':configParam['isRemoveRepeat'],
         })
 
         print('STEP::Clean Temporary Dir or File')
