@@ -1,13 +1,15 @@
 import {ParamGet} from "/Code/Common/Tools/_Param";
 import React from "react";
-import {Merge} from "/Code/Common/Tools/_Merge";
 import Lang from "/Code/Common/Lang/Lang";
+import {isNumber, merge} from "lodash-es"
 
 const _PageTemplateMap={};
+let _PageCompMap={};
 
 //TIPS::Organize form templates and change template settings
 function _DeepConfig(children, configDeep, baseConfig) {
     let template;
+    const isList = Array.isArray(children);
     try {
         if (!Array.isArray(children) && !children["props"].hasOwnProperty("children")) {
             return children;
@@ -17,7 +19,7 @@ function _DeepConfig(children, configDeep, baseConfig) {
         return children;
     }
 
-    return React.Children.map(template, (child, index) => {
+    template =  React.Children.map(template, (child, index) => {
         let name = typeof child.type === "string"?child.type:child.type.name;
         let newChild = child;
 
@@ -27,7 +29,7 @@ function _DeepConfig(children, configDeep, baseConfig) {
         let thisConfig = false;
         for(let key in configDeep) {
             const config = configDeep[key];
-            if(key===name){
+            if(key===name || key===("$."+name)){
                 thisConfig = config;
                 continue;
             }else if(key===`${index}`) {
@@ -49,22 +51,72 @@ function _DeepConfig(children, configDeep, baseConfig) {
             newChild = _DeepConfig(newChild, nestConfigDeep, baseConfig);
 
         //STEP::Set this child config
-        if(thisConfig!==false){
-            if(newChild["props"].hasOwnProperty("config")){
-                newChild = React.cloneElement(newChild, {config:Merge(thisConfig, newChild["props"]["config"], baseConfig)});
-            } else {
-                newChild = React.cloneElement(newChild, {config:Merge(thisConfig, baseConfig)});
-            }
+        if(thisConfig!==false && !Array.isArray(newChild)){
+            if(newChild.hasOwnProperty("props") && newChild["props"].hasOwnProperty("config"))
+                newChild = React.cloneElement(newChild, {config:merge({}, baseConfig, newChild["props"]["config"], thisConfig)});
+            else
+                newChild = React.cloneElement(newChild, {config:merge({}, baseConfig, thisConfig)});
         }
 
         return newChild;
     });
+
+    //STEP::Restore Children
+    if(isList)
+        return template
+    else
+        children = React.cloneElement(children, {children:template});
+    return  children;
+}
+
+//TIPS::Get inner child
+function TemplGet_DeepTempl(indexArr, template, isFirst = false){
+    //WHEN::End
+    if(indexArr.length===0){
+        return template;
+    }
+
+    //STEP::Get index
+    let index = indexArr.shift();
+    if(index === "")
+        return template;
+    index = isNaN(Number(index))?index:Number(index);
+
+    //STEP::Get children
+    try {
+        if (!Array.isArray(template) && !template["props"].hasOwnProperty("children")) {
+            return null;
+        }
+    } catch (e){return null;}
+    let children = template;
+    if(!isFirst)
+        children = Array.isArray(template)?template:template["props"]["children"];
+    children = React.Children.count(children)<=1&&!Array.isArray(children)?[children]:children;
+
+    //WHEN::Index is number
+    if(isNumber(index) && index>=0 && index<children.length){
+        return TemplGet_DeepTempl(indexArr, children[index], false);
+    }
+
+    //WHEN::Index is not number
+    for (const i in children) {
+        const child = children[i];
+        try {
+            let name = typeof child.type === "string"?child.type:child.type.name;
+            if(index===name || index===("$."+name)){
+                return TemplGet_DeepTempl(indexArr, child, false);
+            }
+        } catch (e){}
+    }
+
+    return null;
 }
 
 //TIPS::For getting template
 //>>setting::Get settings
 //          - Array type([]), means getting list
-//          - String type("page##layout name", starting with 'page##'), means getting from page layout(Add by TemplAdd())
+//          - String type("layout##layout name", starting with 'layout##'), means getting from page layout(Add by TemplAdd())
+//          **Trick2.2 and later versions have changed 'page##' to 'layout##'
 //          - String type("child##", starting with 'child##'), means getting from children, you can specify children index, such as 'child##1'
 //          - null, means the whole react children
 //          - String type(""), means text, It will be translated automatically(use translate)
@@ -82,39 +134,52 @@ const TemplGet = function (setting, children, baseConfig={}, config = null, deep
     try {
         //STEP::Get template
         let template = children;
+        //WHEN::React component
+        if(React.isValidElement(setting))
+            template = setting;
         //WHEN::Array call list
-        if (Array.isArray(setting)) {
+        else if (Array.isArray(setting)) {
             const element = []
-            for (const item of setting) {
-                element.push(TemplGet(item, children, baseConfig, config, deepConfig));
+            for (const [index, item] of setting.entries()) {
+                const piece = TemplGet(item, children, baseConfig, config, deepConfig, translate)
+                element.push(piece)
             }
-            template = (<>{element}</>);
+            template = element;
         }
         //WHEN::Object as detailed setting
         else if(typeof setting === "object" && setting!==null){
             const _templ = ParamGet("_templ",null, setting);
             const _config = ParamGet("_config",{}, setting);
             const _configDeep = ParamGet("_configDeep",{}, setting);
-            template = TemplGet(_templ, children, baseConfig, _config, _configDeep);
+            template = TemplGet(_templ, children, baseConfig, _config, _configDeep, translate);
+        }
+        //WHEN::Set UI component
+        else if (typeof setting === "string" && setting.startsWith("$.")) {
+            if(_PageCompMap.hasOwnProperty(setting))
+                template = _PageCompMap[setting];
+            else
+                template = setting;
         }
         //WHEN::Page layout as template
-        else if (typeof setting === "string" && setting.startsWith("page##")) {
-            let index = setting.substring("page##".length);
+        else if (typeof setting === "string" && setting.startsWith("layout##")) {
+            let index = setting.substring("layout##".length);
+            let indexArr = index.split(">>");
+            index = indexArr.shift();
             if(_PageTemplateMap.hasOwnProperty(index))
-                template = _PageTemplateMap[index]();
+                template = TemplGet_DeepTempl(indexArr, _PageTemplateMap[index](), false)
             else
+                template = setting
+            if(template === null)
                 template = setting
         }
         //WHEN::Child as template
         else if (typeof setting === "string" && setting.startsWith("child##")) {
-            const childrenMap = React.Children.count(children)<=1?[children]:children;
+            const childrenMap = React.Children.count(children)<=1&&!Array.isArray(children)?[children]:children;
             let index = setting.substring("child##".length);
-            index = index===""?-1:Number(index);
-            if(!isNaN(index) && index>=0 && index<childrenMap.length){
-                template = childrenMap[index];
-            }else {
-                template = children;
-            }
+            let indexArr = index.split(">>");
+            template = TemplGet_DeepTempl(indexArr, childrenMap, true)
+            if(template === null)
+                template = setting
         }
         //WHEN::Text
         else if (typeof setting === "string") {
@@ -140,9 +205,9 @@ const TemplGet = function (setting, children, baseConfig={}, config = null, deep
             if (config !== null) {
                 if (typeof config === 'object' && !Array.isArray(config) && Object.keys(config).length>0) {
                     if (template["props"].hasOwnProperty("config")) {
-                        template = React.cloneElement(template, {config: Merge(config, template["props"]["config"], baseConfig)});
+                        template = React.cloneElement(template, {config: merge({}, baseConfig, template["props"]["config"], config)});
                     } else {
-                        template = React.cloneElement(template, {config: Merge(config, baseConfig)});
+                        template = React.cloneElement(template, {config: merge({}, baseConfig, config)});
                     }
                 }
             }
@@ -163,4 +228,10 @@ const TemplGet = function (setting, children, baseConfig={}, config = null, deep
 const TemplAdd = function(name, template){
     _PageTemplateMap[name] = template;
 }
-export {TemplAdd, TemplGet};
+
+//TIPS::For marking ui component in config setting(_config)
+//>>map::Component map
+const TemplMark = function(map){
+    _PageCompMap = map;
+}
+export {TemplAdd, TemplMark, TemplGet};

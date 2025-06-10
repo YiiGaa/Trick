@@ -2,12 +2,11 @@ import Logger from "/Code/Common/Logger/Logger";
 import {ObjectClean, ObjectClone, ObjectCopy} from "/Code/Common/Tools/_Object"
 import {ParamRead, ParamGet} from "/Code/Common/Tools/_Param"
 import {CallBack} from "/Code/Common/Tools/_CallBack"
-import {MergeDefault, Merge} from "/Code/Common/Tools/_Merge"
+import {MergeDefault} from "/Code/Common/Tools/_Merge"
 import React from "react";
 import {TemplGet} from "/Code/Common/Tools/_Templ"
 import Lang from "/Code/Common/Lang/Lang"
-import {isEqual} from 'lodash-es';
-import {cloneDeep} from 'lodash-es';
+import {isEqual, merge, cloneDeep, isPlainObject, isObject, isString} from 'lodash-es';
 
 //TIPS::Pack component context
 //>>'Pack component' will mark callback function and value in this variable
@@ -37,8 +36,24 @@ function CompActEvent(moduleParam, passParam, data, state, setState, element, ev
 
     //STEP::Call back(according the setting of data, such as '_onChange', '_onClick')
     let _call = ParamRead('_call', null, moduleParam, data.current);
-    _call = _call === null?ParamGet(`_${event._reactName}`, null, data.current):_call;
+    _call = _call === null && isObject(event)?ParamGet(`_${event._reactName}`, null, data.current):_call;
     let _data = ParamGet("_data", null, moduleParam);
+
+    //STEP::Stop propagation
+    try {
+        if(isObject(event) && isObject(_call) && !Array.isArray(_call)){
+            let _isStop = false;
+            if(_call.hasOwnProperty("_isStop")) {
+                _isStop = (_call["_isStop"] === true);
+            }
+            if(_isStop === true){
+                console.debug(Logger.Header(), `Component-${moduleName} Event, stop propagation`);
+                event.stopPropagation();
+            }
+        }
+    } catch (e) {}
+
+    //STEP::Call Back
     setState(draft => {
         _data = _data === null?ObjectClone({...data.current, ...draft}):_data;
         console.debug(Logger.Header(), `Component-${moduleName} Event, _call`, _call);
@@ -68,8 +83,10 @@ function CompActGet(moduleParam, passParam, data, state, setState, element, even
 
 function CompActSet_Param(key, oldValue, defalutValue, moduleParam, passParam, isNec, isPush, pushIndex){
     let value = ParamRead(key, null, moduleParam, passParam);
-    if(!isNec)
-        value = MergeDefault(value, oldValue, true, true, false);
+    if(!isNec && isPlainObject(value) && isPlainObject(oldValue))
+        value = merge({}, oldValue ,value)
+    else if(!isNec && Array.isArray(value) && Array.isArray(oldValue))
+        value = merge([], oldValue ,value)
     if(isPush && Array.isArray(oldValue)){
         if(pushIndex<0 || pushIndex>=oldValue.length){
             if(Array.isArray(value))
@@ -129,14 +146,10 @@ function CompActSet(moduleParam, passParam, data, state, setState, element, even
 
 //TIPS::For component action call, such as onClick, onChange
 //>>In order to extract the general code of the component
-function CompActCall(actionCall, handler, param={}, isCall=true, isStop=true){
+function CompActCall(actionCall, handler, param={}, isCall=true){
     if(isCall===true) {
         return (event) => {
             Logger.SetId();
-            try {
-                if (isStop)
-                    event.stopPropagation();
-            } catch (e) {}
             actionCall(param, handler, event)
         };
     }
@@ -158,10 +171,37 @@ function CompChildCall(actionCall, handler, param={}, isCall=true){
     return result;
 }
 
+function CompTemplGet_ArrayGet(template, setting, children, baseConfig, config, deepConfig, translate){
+    const element = []
+    for (let [index, item] of template.entries()) {
+        if(Array.isArray(item)){
+            item = CompTemplGet_ArrayGet(item, setting[index], children, baseConfig, config, deepConfig, translate)
+        } else if(isString(item)){
+            item = TemplGet(setting[index], children, baseConfig, config, deepConfig, translate)
+        }
+        element.push((<React.Fragment key={index}>{item}</React.Fragment>));
+    }
+    return (<>{element}</>);
+}
+
+function CompTemplGet_Array(template, mark){
+    const element = []
+    for (let [index, item] of template.entries()) {
+        if(Array.isArray(item)){
+            item = CompTemplGet_Array(item)
+        } else if(isString(item)){
+            mark["hasString"] = true;
+        }
+        element.push((<React.Fragment key={index}>{item}</React.Fragment>));
+    }
+    return (<>{element}</>);
+}
+
 //TIPS::Get template, translate text/img
 //>>state::Component state object
 //        -If the key starts with '_templ', means getting template
-//         --If the value is string type("page##layout name", starting with 'page##'), means getting from page layout(Add by TemplAdd())
+//         --If the value is string type("layout##layout name", starting with 'layout##'), means getting from page layout(Add by TemplAdd())
+//         **Trick2.2 and later versions have changed 'page##' to 'layout##'
 //         --If the value is string type("child##", starting with 'child##'), means getting from children, you can specify children index, such as 'child##1'
 //         --If the value is null, means the whole react children
 //         --If the value is string type(""), means text, It will be translated automatically(use translate)
@@ -201,21 +241,36 @@ function CompTemplGet(state, templateMark, children, translate = null){
                 const configDeep = `_configDeep${addKey}` in state?state[`_configDeep${addKey}`]:{};
                 if(key in templateMark){
                     const template = templateMark[key];
-                    if(isEqual(setting, template["_templ"]) &&
-                       isEqual(config, template["_config"]) &&
-                       isEqual(configDeep, template["_configDeep"])
+                    if(((React.isValidElement(setting) === true && React.isValidElement(template["_templ"]) === true) || isEqual(setting, template["_templ"])) &&
+                        isEqual(config, template["_config"]) &&
+                        isEqual(configDeep, template["_configDeep"])
                     ){
-                        result[key] = template["template"];
+                        if(template["hasString"]===true)
+                            result[key] = CompTemplGet_ArrayGet(template["template"], setting, children, {}, config, configDeep, translate)
+                        else
+                            result[key] = template["template"];
                         continue;
                     }
                 }
-                const template = TemplGet(setting, children, state, config, configDeep, translate);
-                if(typeof template !== "string") {
-                    templateMark[key] = {};
+                let template = TemplGet(setting, children, {}, config, configDeep, translate);
+                templateMark[key] = {};
+                if(Array.isArray(template)) {
+                    templateMark[key]["hasString"] = false;
                     templateMark[key]["_templ"] = setting;
                     templateMark[key]["_config"] = config;
                     templateMark[key]["_configDeep"] = configDeep;
                     templateMark[key]["template"] = template;
+                    templateMark[key]["lang"] = Lang.GetLanguage();
+                    template = CompTemplGet_Array(template, templateMark[key])
+                    if(templateMark[key]["hasString"]===false)
+                        templateMark[key]["template"] = template;
+                }else if(!isString(template)) {
+                    templateMark[key]["_templ"] = setting;
+                    templateMark[key]["_config"] = config;
+                    templateMark[key]["_configDeep"] = configDeep;
+                    templateMark[key]["template"] = template;
+                    templateMark[key]["lang"] = Lang.GetLanguage();
+                    templateMark[key]["hasString"] = false;
                 }
                 result[key] = template;
             }
@@ -229,12 +284,12 @@ function CompTemplGet(state, templateMark, children, translate = null){
                 result[key] = Lang.TransSrc(value, translate);
 
             //WHEN-IN::Deep find
-            else if(typeof value === "object") {
+            else if(!key.startsWith("_config")&&typeof value === "object") {
                 if (!(key in templateMark))
                     templateMark[key] = {};
                 if(typeof value !== typeof templateMark[key] || Array.isArray(value) !== Array.isArray(templateMark[key]))
                     templateMark[key] = Array.isArray(value)?[]:{};
-                result[key] = CompTemplGet(value, templateMark[key], children);
+                result[key] = CompTemplGet(value, templateMark[key], children, translate);
             }
 
             //WHEN-IN::Other setting
