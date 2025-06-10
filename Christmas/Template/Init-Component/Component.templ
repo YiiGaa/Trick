@@ -66,19 +66,19 @@ import "/Code/Component/@@name@@/@@name@@.scss"
 import "/Code/Component/@@name@@/Custom.scss"
 
 //TIPS::Default setting for "state"
-export const @@name@@UIDefault = Tools.MergeDefault(Configs.componentUI.@@name@@,{
-    "_classBody":""
+export const @@name@@UIDefault = Tools.Merge(Configs.componentUI.@@name@@,{
+    "_class":""
 });
 
 //TIPS::JSX UI render
 export function @@name@@UI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(@@name@@Action, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(@@name@@Action, handler, param, isCall);
     }
 
     return (
-        <div ref={element} className={clsx("@@name@@-Body", state._classBody)}>
+        <div ref={element} className={clsx("@@name@@-Body", state._class)}>
             ...
         </div>
     );
@@ -98,7 +98,7 @@ import {@@name@@UIDefault} from "/Code/Component/@@name@@/@@name@@UI";
 // }
 
 //Default setting for "data"
-export const @@name@@ActionDefault = Tools.MergeDefault(Configs.componentAction.@@name@@,{
+export const @@name@@ActionDefault = Tools.Merge(Configs.componentAction.@@name@@,{
     "_id":"",
     "_data":null,
 });

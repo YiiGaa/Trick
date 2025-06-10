@@ -15,9 +15,8 @@
     "config": {
         "_id":"",
         "_templ":"child##0",
-        "_classBody":""
-    },
-    "child":[]
+        "_class":""
+    }
 }
 ```
 
@@ -26,7 +25,7 @@
 | _id          | 组件id，命名尽量唯一，且不包含`.`           | 不需要调用组件        | String   | 1.0=0000.00.00 |
 | _data        | 自定义暂存数据，获取组件数据时会被一同返回  | null                  | 开放类型 | 1.0=0000.00.00 |
 | _templ | 内容模板                           | 以整个`child`作为模板 | 开放类型 | 1.0=0000.00.00 |
-| _classBody   | 组件的外层样式                          |                       | String   | 1.0=0000.00.00 |
+| _class   | 组件的外层样式                          |                       | String   | 1.0=0000.00.00 |
 
 参数补充说明：
 
@@ -41,9 +40,11 @@
 ### > _templ
 
 - `_templ`开头的key都会被认为是模板设置
+- 当对应值为字符串，且以`$.`开头，(要求Trick2.2版本以后)，会采用对应组件作为模板。此设置仅在页面`xxxUI.json`、`xxxAction.json`配置中生效，其他情况会按照字符串处理
 - 当对应值设置为`null`（默认），或者以下设置中出现不能正确获取的情况，都会以整个`child`作为模板。`child`为页面UI设置时的`child`（此组件的内嵌子组件）
 - 当对应值为字符串，且以`child##`开头，会选择`child`的第n个子组件作为模板，如`child##2`，则会选择`child`中第3个（0开始）子组件作为模板
-- 当对应值为字符串，且以`page##`开头，会以某个页面布局作为模板，如`page##Theme`，则会选择id为`Theme`的页面布局作为模板
+- 当对应值为字符串，且以`layout##`开头（Trick2.2及以后版本生效），会以某个页面布局作为模板，如`layout##Theme`，则会选择id为`Theme`的页面布局作为模板
+- `child##`和`layout##`都支持深层筛选模式，用`>>`分隔，如`child##_BoxForm>>_CompInput`，层级是按jsx嵌套层级而定的
 - 当对应值为字符串，且不包含以上特殊开头，会认为是文字，且会自动进行翻译
 - 当对应值为对象`{}`，表示详细设置模式，固定格式为`{"_templ":"","_config":{},"_configDeep":{}}`。`_templ`对应模板选择（以上类型适用）；`_config`会自动合并进模板的最外层`config`；`_configDeep`会自动合并进模板的里层`config`，具体格式为`{"position 1":{},"position 2":{}}`，`key`为定位设置，使用`>>`分割，可以采用`序号`或者`组件名`进行选择，如`0>>div>>_Boxflex`，表示`第0个组件`>>`名称为div的组件`>>`名称为_Boxflex的组件`；当`_templ`为文字，会将`_config`作为翻译设置（变量替换），`_configDeep`无效
 - 当对应值为数组`[]`，可以内嵌以上类型，会以此数组顺序编排模板
@@ -54,6 +55,14 @@
 - 当对应值为字符串，都会自动进行翻译
 - 推荐需要翻译的文字格式为`**[所在页面布局]>>[文字提示]`，如`**Form>>occupation`，`**Form/occupation>>project manager`
 - 当对应值为对象`{}`，表示详细设置，固定格式为`{"_text":"xxx", "key 1":"value", "key 2":"value"}`，`_text`对应文字设置，其他设置作为翻译设置（变量替换）
+
+### > _src
+
+- `_src`开头的key都会被认为是资源文件路径设置
+- 以`//`开头，会自动定位到工程图片存放位置
+- 页面运行时，`//`会自动定位到`Code/Assets`
+- 本组件单独运行时，`//`会自动定位到当前组件的`test`文件夹
+- `test`文件夹需要手动创建，且仅用于当前组件单独测试运行
 
 ### > _class
 
@@ -66,11 +75,16 @@
 
 - `_on`开头的key一般为事件回调的设置
 - 当对应值设置为字符串，且以`pack##`开头，则自动调用其上层的`Pack组件`，如`_PackForm`等；这类`Pack组件`向所有下层组件传递回调地址、部分数据；`pack##`后面可以设置调用`pack组件`的`_action`，如`pack##commit`，则表示调用上层`Pack组件`的`commit`动作
+- Trick2.2新增，当对应值设置为字符串，且以`css##`开头，则表示css class开关模式，元素筛选设置与class用`>>`隔开，如`css##.Page-Title>>class_1 class_2`，表示通过`document.querySelector`筛选`.Page-Title`，若元素中同时存在`class_1 class_2`这两个class，则清理，否则补充不存在的class。在测试模式下，由于事件可能会触发2次（React机制），此设置会转换两次，所以表面上可能不生效
+- Trick2.2新增，当对应值设置为字符串，且以`css add##`开头，则表示`css class`追加模式，设置格式同`css##`
+- Trick2.2新增，当对应值设置为字符串，且以`css remove##`开头，则表示`css class`清理模式，设置格式同`css##`
+- Trick2.2新增，当对应值设置为字符串，且以`style##`开头，则表示`style`样式设置模式，元素筛选设置与`style设置`用`>>`隔开，多个样式设置用`;`隔开，如`style##.Page-Title>>color:#fff;width:100% !important;`，表示通过`document.querySelector`筛选`.Page-Title`，并设置样式
 - 当对应值设置为字符串，则表示以`id`的方式调用其他组件，或者页面Action的函数，页面Action的函数以`act##`开头，如`act##Language_Change`
 - 当对应值为函数，则表示调用此函数，此类型用于组件测试，在制作页面时，无法使用此种类型
 - 当对应值为对象`{}`，表示详细设置，一般情况下，事件回调时，返回的数据为整个组件的数据，如果希望详细配置返回的数据，则应该采用对象类型；固定格式为`{"_call":"","_data":{}}`，`_call`对应回调目标的设置，`_data`对应具体回调数据的设置；`_data`固定格式为`{"key 1":"value 1","key 2":"value 2"}`，最外层的`key`对应的`value`支持动态注入语法；`value`的动态语法为，`get##`开头表示从本组件数据中获取，`pack##`开头表示从`Pack组件`传递的数据中获取，且允许使用`>>`定位深层的数据，如`get##key_1>>key_2`
 
 - 当对应值为数组`[]`，可以内嵌以上类型，组件会执行多个回调（异步调用，无法保证顺序）
+- Trick2.2新增，默认情况下，`event`事件会冒泡传递（上层HTML节点也会响应），若希望不冒泡传递，可以采用`_isStop`设置，`{"_isStop":true,"_call":"xxx"}`。若希望设置多个回调，可以设置为`{"_isStop":true,"_call":["xxx", "xxx"]}`。若关闭冒泡传递，`_BoxPage`对SPA网页的`a`捕获也会失效
 
 # ※ set-修改组件设置
 
@@ -203,9 +217,8 @@ The main functions include:
     "config": {
         "_id":"",
         "_templ":"child##0",
-        "_classBody":""
-    },
-    "child":[]
+        "_class":""
+    }
 }
 ```
 
@@ -214,7 +227,7 @@ The main functions include:
 | _id          | Component id, the name should be as unique as possible, and do not contain `.` | No need to call components             | String    | 1.0=0000.00.00 |
 | _data        | Custom temporary storage data, which will be returned together when obtaining component data | null                                   | Open type | 1.0=0000.00.00 |
 | _templ       | Content template                                             | Take the whole `child` as the template | Open type | 1.0=0000.00.00 |
-| _classBody   | Outer style of the component                        |                                        | String    | 1.0=0000.00.00 |
+| _class   | Outer style of the component                        |                                        | String    | 1.0=0000.00.00 |
 
 Parameter Supplementary Description:
 
@@ -234,11 +247,14 @@ Parameter Supplementary Description:
 
 - The key at the beginning of `_templ` will be regarded as a template setting
 
+- When the corresponding value is a string and starts with `$.` (required for Trick2.2 version and later), the corresponding component is used as a template. This setting only takes effect in the `xxxUI.json` `xxxAction.json` page configuration, while other situations will be processed as a string
+
 - When the corresponding value is set to `null` (default), or the following settings cannot be obtained correctly, the whole `child` will be used as the template. And  `child` is the `child` set to the page UI (the embedded subcomponent of this component)
 
 - When the corresponding value is a string and begins with `child##`, the nth subcomponent of `child` will be selected as a template, such as `child##2`, the third (starting from 0) subcomponent of `child` will be selected as the template
 
-- When the corresponding value is a string and begins with `page##`, a page layout will be used as a template, such as `page##Theme`, and the page layout with id  `Theme` will be selected as the template
+- When the corresponding value is a string and begins with `layout##` (Trick2.2 and later versions take effect), a page layout will be used as a template, such as `layout##Theme`, and the page layout with id  `Theme` will be selected as the template
+- `child##` and `layout##` both support deep filtering mode, separated by `>>`, such as `child##_BoxForm>>_CompInput`, and the hierarchy is determined by the jsx nested hierarchy
 
 - When the corresponding value is a string and does not contain the above special beginning, it will be regarded as text and will be automatically translated
 
@@ -256,6 +272,18 @@ Parameter Supplementary Description:
 
 - When the corresponding value is the object `{}`, it indicates the detailed settings. The fixed format is `{"_text":"xxx", "key 1":"value", "key 2":"value"}`, `_text` corresponds to the text settings, and other settings are translated Settings (variable replacement)
 
+### > _src
+
+- The key starting with `_src` will be regarded as the resource file path setting
+
+- Starting with `//`, it will automatically locate the storage location of the project picture
+
+- When the page is running, `//` will automatically locate to `Code/Assets`
+
+- When this component is running alone, `//` will automatically locate the `test` folder of the current component
+
+- The `test` folder needs to be created manually and is only used for the separate test run of the current component
+
 ### > _class
 
 - The key at the beginning of `_class` is generally set to the class of html
@@ -272,6 +300,10 @@ Parameter Supplementary Description:
 
 - When the corresponding value is set to a string and starts with `pack##`, it automatically calls its upper `Pack component`, such as `_PackForm`, etc.; this kind of `Pack component` passes the callback address and some data to all lower components; It can be set the `_action` of calling `Pack component` after `pack##` , such as `pack##commit`, which indicates the `commit` action of calling the upper `Pack component`
 
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css##`, it indicates the css class switch mode, and the element filtering settings are separated from class by `>>`, such as `css##. Page-Title>>class_1 class_2`, indicating that it is filtered through `document.querySelector` with `. Page-Title`, if there are two classes of `class_1 class_2` in the element at the same time, clean it up, otherwise supplement the non-existent class. In the test mode, because the event may be triggered twice (React mechanism), this setting will be converted twice, so it may not be effective on the surface
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css add##`, it indicates the `css class` additional mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css remove##`, it indicates the `css class` cleanup mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `style##`, it indicates the `style` style setting mode. The element filtering setting and `style setting` are separated by `>>`, and multiple style settings are separated by `;`, such as `style##. Page-Title>>color:#fff;width:100%! Important;`, indicating that it is filtered through `document.querySelector` with`. Page-Title`, and set the style
 - When the corresponding value is set to a string, it means to call other components or the function of page Action in the way of `id`. And the function of page Action begins with `act##`, such as `act##Language_Change`
 
 - When the corresponding value is a function, it means that this function is called. This type is used for component testing. When making pages, this type cannot be used
@@ -279,6 +311,7 @@ Parameter Supplementary Description:
 - When the corresponding value is the object `{}`, it indicates the detailed setting. In general, when the event is called back, the returned data is the data of the whole component. If you want to configure the returned data in detail, the object type should be adopted; the fixed format is `{"_call":"",_data":{}} `,`_call` corresponds to the setting of the callback target, and `_data` corresponds to the setting of specific callback data; `_data` fixed format is `{"key 1":"value 1","key 2":"value 2"}`,  the `value` corresponding to the outermost `key` supports dynamic injection syntax; the dynamic syntax of `value` is that the beginning of `get##` means that it is obtained from the data of this component, and the beginning of `pack##` means that it is obtained from the data passed by `Pack component`, and it is allowed to use `>>` to locate deep data, such as `get## Key_1>>key_2`
 
 - When the corresponding value is the array `[]`, the above types can be embedded, and the component will execute multiple callbacks (asynchronous calls, the order cannot be guaranteed)
+- Trick2.2 added. By default, the `event` will be bubbled and passed (the upper HTML node will also respond). If you want not to bubble and pass, you can use the `_isStop` setting, `{"_isStop":true,"_call":"xxx "}`. If you want to set multiple callbacks, you can set it to `{"_isStop":true,"_call":["xxx", "xxx"]}`. If the bubble transmission is turned off, the `a` capture of the SPA web page by `_BoxPage` will also be invalidated
 
 # ※ set-modify component settings
 
@@ -362,7 +395,9 @@ In the `_data` setting, the `value` corresponding to the outermost `key` support
 
 Add version: Component general mechanism
 
-`Page Action` needs to use the `_BrokerUI` module for getting component data, and the returned data is all the data in the above `config settings`.
+`Page Action` needs to use the `_BrokerUI` module for getting component data, and the returned data is all the data in the above `config settings`
+
+The data will be automatically inserted into `passParam`, and the inserted field is the value corresponding to `_resultKey`. When the corresponding value of `_resultKey` is an empty string `""`, the entire `passParam` will be emptied and the data will be written
 
 ```
 {
