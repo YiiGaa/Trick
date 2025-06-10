@@ -17,7 +17,7 @@ async function Start(data={}){
         //STEP::Run task
         do{
             //STEP-IN::Call Module
-            moduleParam = {"_setting": {"$value": [{"_config>>_value": "Stop Refactoring"}, {"_config>>_value": "3"}, {"_config>>_value": "software engineer"}, {"_config>>_value": "We have been exploring the system architecture of medium and large cloud computing websites, and strive to make the website system have higher software quality and higher development efficiency at a lower cost."}, {}]}}
+            moduleParam = {"_setting": {"$value": [{"_config>>_value": "Stop Refactoring"}, {"_config>>_value": "3", "_templ": "$._CompInput"}, {"_config>>_value": "software engineer"}, {"_config>>_value": "We have been exploring the system architecture of medium and large cloud computing websites, and strive to make the website system have higher software quality and higher development efficiency at a lower cost."}, {}]}}
             result = await Module._DataFilling(moduleParam, passParam);
             if(ErrorCode.IsError(result, [
                

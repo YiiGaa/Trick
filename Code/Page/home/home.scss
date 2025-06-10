@@ -1,46 +1,51 @@
 //此文件为自定义css样式文件，可自由修改
 //This file is a custom css style file, which can be modified freely
-.Page-Body{
-    @apply flex items-center justify-center w-full p-[--Theme-Gap];
-    min-height: 100%;
-    overflow: auto;
+
+body{
+    background: var(--Theme-Color-Body);
 }
 
-.Page-Body::before {
-    content: "";
-    position: fixed;
-    background: url("/Code/Assets/backdrop.png") left top repeat-y,
-    url("/Code/Assets/backdrop.png") right top repeat-y;
-    top: 0rem;
-    right: 0rem;
-    width: 100%;
-    height: 100vh;
-    z-index: -1;
-    animation: Page-Backdrop-Breathe 6s ease-in-out infinite;
-}
-@keyframes Page-Backdrop-Breathe {
-    0%, 100% {opacity: 1;}
-    50% {opacity: 0.5;}
-}
-html[trick-theme=""] {
-    @media only screen and (max-width: 768px) {
-        .Page-Body::before {
-            background: url("/Code/Assets/backdrop.png") left top repeat-y;
+.Page-Body{
+    @apply flex items-center justify-center w-full p-[--Theme-Gap];
+    min-height: 100vh;
+    overflow: auto;
+
+    &::before {
+        content: "";
+        position: fixed;
+        background: url("/Code/Assets/backdrop.png") left top repeat-y,
+        url("/Code/Assets/backdrop.png") right top repeat-y;
+        top: 0rem;
+        right: 0rem;
+        width: 100%;
+        height: 100vh;
+        z-index: -1;
+        animation: Page-Backdrop-Breathe 6s ease-in-out infinite;
+
+        @keyframes Page-Backdrop-Breathe {
+            0%, 100% {opacity: 1;}
+            50% {opacity: 0.5;}
         }
-    }
-}
-html[trick-theme="dark"] {
-    .Page-Body::before {
-        background-image: url("/Code/Assets/backdrop-dark.svg");
-        background-position: center;
-        background-size: 80% 80%;
-        background-repeat: no-repeat;
-        filter: blur(3rem);
-        animation: Page-Backdrop-Breathe-dark 6s ease-in-out infinite;
-    }
-    @keyframes Page-Backdrop-Breathe-dark {
-        0%, 100% {opacity: 0.3; transform: scale(1)}
-        50% {opacity: 0.2; transform: scale(0.97)}
+
+        html[trick-theme=""] &{
+            @media only screen and (max-width: 768px) {
+                background: url("/Code/Assets/backdrop.png") left top repeat-y;
+            }
+        }
+
+        html[trick-theme="dark"] &{
+            background-image: url("/Code/Assets/backdrop-dark.svg");
+            background-position: center;
+            background-size: 80% 80%;
+            background-repeat: no-repeat;
+            filter: blur(3rem);
+            animation: Page-Backdrop-Breathe-dark 6s ease-in-out infinite;
+  
+            @keyframes Page-Backdrop-Breathe-dark {
+                0%, 100% {opacity: 0.3; transform: scale(1)}
+                50% {opacity: 0.2; transform: scale(0.97)}
+            }
+        }
     }
 }
 

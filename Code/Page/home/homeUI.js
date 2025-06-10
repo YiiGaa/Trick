@@ -18,10 +18,10 @@ Common_Theme.Init();
 const Start = function(){
     return (
         <>
-            <$._BoxFlex config={{"_isRow": false, "_isWap": false, "_map": [{"_templ": "page##Logo", "_isFill": false, "_backdrop": false}, {"_templ": "page##Title", "_isFill": false, "_backdrop": false}, {"_templ": "page##Language", "_isFill": false, "_backdrop": false}, {"_templ": "page##Form", "_isFill": false, "_backdrop": true}], "_classBody": "w-full md:!w-[50rem]"}} className="">
+            <$._BoxFlex config={{"_flex": ["column", "nowarp"], "_map": [{"_templ": "layout##Logo", "_isFill": false, "_backdrop": false}, {"_templ": "layout##Title", "_isFill": false, "_backdrop": false}, {"_templ": "layout##Language", "_isFill": false, "_backdrop": false}, {"_templ": "layout##Form", "_isFill": false, "_backdrop": true}], "_class": "w-full md:!w-[50rem]"}} className="">
                 
             </$._BoxFlex>
-            <$._BoxDialog config={{"_id": "comp##_BoxDialog<<Start", "_isOpen": false, "_templ": "page##Dialog"}} className="">
+            <$._BoxDialog config={{"_id": "comp##_BoxDialog<<Start", "_isOpen": false, "_templ": "layout##Dialog"}} className="">
                 
             </$._BoxDialog>
         </>
@@ -34,7 +34,7 @@ const Logo = function(){
     return (
         <>
             <div config={{}} className="flex justify-center">
-                <$._CompImg config={{"_src": "//logo.{lng}.{theme}.png", "_srcError": "//logo..{theme}.png", "_classBody": "!w-[20rem]"}} className="">
+                <$._CompImg config={{"_src": "//logo.{lng}.{theme}.png", "_srcError": "//logo..{theme}.png", "_class": "!w-[20rem]"}} className="">
                     
                 </$._CompImg>
             </div>
@@ -62,10 +62,10 @@ Tools.TemplAdd("Title", Title);
 const Language = function(){
     return (
         <>
-            <$._CompSwitch config={{"_id": "comp##_CompSwitch<<Language", "_templ": "**Language>>tips", "_classLabel": "Page-Desc", "_classBody": "float-right ml-[--Theme-Gap]", "_onClick": "act##LanguageChange"}} className="">
+            <$._CompSwitch config={{"_id": "comp##_CompSwitch<<Language", "_templ": "**Language>>tips", "_classLabel": "Page-Desc", "_class": "float-right ml-[--Theme-Gap]", "_onClick": "act##LanguageChange"}} className="">
                 
             </$._CompSwitch>
-            <$._CompSwitch config={{"_id": "comp##_CompSwitch<<Theme", "_templ": "**Theme>>tips", "_classLabel": "Page-Desc", "_classBody": "float-right", "_onClick": "act##ThemeChange"}} className="">
+            <$._CompSwitch config={{"_id": "comp##_CompSwitch<<Theme", "_templ": "**Theme>>tips", "_classLabel": "Page-Desc", "_class": "float-right", "_onClick": "act##ThemeChange"}} className="">
                 
             </$._CompSwitch>
         </>
@@ -77,7 +77,7 @@ Tools.TemplAdd("Language", Language);
 const Theme = function(){
     return (
         <>
-            <$._CompSwitch config={{"_id": "comp##_CompSwitch<<Theme", "_templ": "**Theme>>tips", "_classLabel": "Page-Desc", "_classBody": "float-left", "_onClick": "act##ThemeChange"}} className="">
+            <$._CompSwitch config={{"_id": "comp##_CompSwitch<<Theme", "_templ": "**Theme>>tips", "_classLabel": "Page-Desc", "_class": "float-left", "_onClick": "act##ThemeChange"}} className="">
                 
             </$._CompSwitch>
         </>
@@ -89,22 +89,8 @@ Tools.TemplAdd("Theme", Theme);
 const Form = function(){
     return (
         <>
-            <$._PackForm config={{"_id": "comp##_PackForm<<Form", "_textError": "illegal", "_onCommit": "act##Commit", "_map": [{"_name": "name", "_templLabel": "**Form>>name", "_templDesc": "**Form>>name desc", "_templ": "child##0", "_config": {"_prop": {"maxLength": 30}}}, {"_name": "age", "_templLabel": "**Form>>age", "_templDesc": "**Form>>age desc", "_templ": "child##0", "_check": "^(0*[1-9][0-9]?|1[0-4][0-9]|150)$", "_config": {"_onChange": {"_call": "pack##check", "_data": {"_index": "pack##_index", "_value": "get##_value"}}, "_prop": {"maxLength": 3}}}, {"_name": "occupation", "_templLabel": "**Form>>occupation", "_templDesc": "**Form>>occupation desc", "_templ": "child##2", "_config": {"_value": "software engineer", "_map": [{"_templ": "**Form/occupation>>software engineer", "_text": "**Form/occupation>>software engineer", "_value": "software engineer"}, {"_templ": "**Form/occupation>>project manager", "_text": "**Form/occupation>>project manager", "_value": "project manager"}, {"_templ": "**Form/occupation>>test engineer", "_text": "**Form/occupation>>test engineer", "_value": "test engineer"}, {"_templ": "**Form/occupation>>student", "_text": "**Form/occupation>>student", "_value": "student"}, {"_templ": "**Form/occupation>>else", "_text": "**Form/occupation>>else", "_value": "else"}]}}, {"_name": "introduction", "_templLabel": "**Form>>introduction", "_templDesc": "**Form>>introduction desc", "_templ": "child##3", "_config": {"_textPlaceholder": "**Form>>introduction tips", "_prop": {"maxLength": 500}}}, {"_templ": "child##4", "_config": {"_templ": "**Form>>commit", "_onClick": "pack##commit"}}]}} className="">
-                <$._CompInput config={{}} className="">
-                    
-                </$._CompInput>
-                <$._CompCheckbox config={{}} className="">
-                    
-                </$._CompCheckbox>
-                <$._CompSelect config={{}} className="">
-                    
-                </$._CompSelect>
-                <$._CompTextarea config={{}} className="">
-                    
-                </$._CompTextarea>
-                <$._CompButton config={{}} className="">
-                    
-                </$._CompButton>
+            <$._PackForm config={{"_id": "comp##_PackForm<<Form", "_textError": "illegal", "_onCommit": "act##Commit", "_map": [{"_name": "name", "_templLabel": "**Form>>name", "_templDesc": "**Form>>name desc", "_templ": "$._CompInput", "_config": {"_name": "name", "_prop": {"maxLength": 30}}}, {"_name": "age", "_templLabel": "**Form>>age", "_templDesc": "**Form>>age desc", "_templ": "$._CompInput", "_check": "^(0*[1-9][0-9]?|1[0-4][0-9]|150)$", "_config": {"_name": "age", "_onChange": {"_call": "pack##check", "_data": {"_index": "pack##_index", "_value": "get##_value"}}, "_prop": {"maxLength": 3}}}, {"_name": "occupation", "_templLabel": "**Form>>occupation", "_templDesc": "**Form>>occupation desc", "_templ": "$._CompSelect", "_config": {"_name": "occupation", "_value": "software engineer", "_map": [{"_templ": "**Form/occupation>>software engineer", "_text": "**Form/occupation>>software engineer", "_value": "software engineer"}, {"_templ": "**Form/occupation>>project manager", "_text": "**Form/occupation>>project manager", "_value": "project manager"}, {"_templ": "**Form/occupation>>test engineer", "_text": "**Form/occupation>>test engineer", "_value": "test engineer"}, {"_templ": "**Form/occupation>>student", "_text": "**Form/occupation>>student", "_value": "student"}, {"_templ": "**Form/occupation>>else", "_text": "**Form/occupation>>else", "_value": "else"}]}}, {"_name": "introduction", "_templLabel": "**Form>>introduction", "_templDesc": "**Form>>introduction desc", "_templ": "$._CompTextarea", "_config": {"_name": "introduction", "_textPlaceholder": "**Form>>introduction tips", "_prop": {"maxLength": 500}}}, {"_templ": "$._CompButton", "_config": {"_templ": "**Form>>commit", "_onClick": "pack##commit"}}]}} className="">
+                
             </$._PackForm>
         </>
     );
@@ -115,7 +101,7 @@ Tools.TemplAdd("Form", Form);
 const Dialog = function(){
     return (
         <>
-            <$._BoxGrid config={{"_id": "comp##_BoxGrid<<Dialog", "_count": 3, "_map": [{"_templ": "**Dialog>>title", "_classItem": "Page-Title", "_count": 3}, {"_templ": "", "_count": 1, "_classItem": "text-right font-bold"}, {"_templ": "", "_count": 2, "_classItem": ""}, {"_templ": "", "_count": 1, "_classItem": "text-right font-bold"}, {"_templ": "", "_count": 2, "_classItem": ""}, {"_templ": "", "_count": 1, "_classItem": "text-right font-bold"}, {"_templ": "", "_count": 2, "_classItem": ""}, {"_templ": "", "_count": 1, "_classItem": "text-right font-bold"}, {"_templ": "", "_count": 2, "_classItem": ""}], "_classBody": "w-full md:!w-[40rem]"}} className="">
+            <$._BoxGrid config={{"_id": "comp##_BoxGrid<<Dialog", "_grid": ["1fr 2fr", "title title", "auto", "key-1 value-1", "auto", "key-2 value-2", "auto", "key-3 value-3", "auto", "key-4 value-4", "auto"], "_count": 3, "_map": [{"_templ": "**Dialog>>title", "_area": "title", "_class": "Page-Title"}, {"_templ": "", "_area": "key-1", "_class": "text-right font-bold"}, {"_templ": "", "_area": "value-1", "_class": ""}, {"_templ": "", "_area": "key-2", "_class": "text-right font-bold"}, {"_templ": "", "_area": "value-2", "_class": ""}, {"_templ": "", "_area": "key-3", "_class": "text-right font-bold"}, {"_templ": "", "_area": "value-3", "_class": ""}, {"_templ": "", "_area": "key-4", "_class": "text-right font-bold"}, {"_templ": "", "_area": "value-4", "_class": ""}], "_class": "w-full md:!w-[40rem]"}} className="">
                 
             </$._BoxGrid>
         </>
@@ -124,8 +110,17 @@ const Dialog = function(){
 Tools.TemplAdd("Dialog", Dialog);
 
 
+Tools.TemplMark({
+    "$._CompInput":(<$._CompInput></$._CompInput>),
+    "$._CompSelect":(<$._CompSelect></$._CompSelect>),
+    "$._CompTextarea":(<$._CompTextarea></$._CompTextarea>),
+    "$._CompButton":(<$._CompButton></$._CompButton>),
+    
+})
+
 //STEP::Render dom
-ReactDOM.createRoot(document.getElementById("id_body")).render(
+window.TrickAPPRoot = ReactDOM.createRoot(document.getElementById("id_body"));
+window.TrickAPPRoot.render(
     <React.StrictMode>
         <Suspense fallback="">
             <Start></Start>

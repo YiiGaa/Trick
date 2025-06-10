@@ -10,22 +10,21 @@
                     {
                         "name": "$._BoxFlex",
                         "config": {
-                            "_isRow":false,
-                            "_isWap":false,
+                            "_flex":["column","nowarp"],
                             "_map":[
-                                {"_templ":"page##Logo", "_isFill":false, "_backdrop":false},
-                                {"_templ":"page##Title", "_isFill":false, "_backdrop":false},
-                                {"_templ":"page##Language", "_isFill":false, "_backdrop":false},
-                                {"_templ":"page##Form", "_isFill":false, "_backdrop":true}
+                                {"_templ":"layout##Logo", "_isFill":false, "_backdrop":false},
+                                {"_templ":"layout##Title", "_isFill":false, "_backdrop":false},
+                                {"_templ":"layout##Language", "_isFill":false, "_backdrop":false},
+                                {"_templ":"layout##Form", "_isFill":false, "_backdrop":true}
                             ],
-                            "_classBody": "w-full md:!w-[50rem]"
+                            "_class": "w-full md:!w-[50rem]"
                         }
                     },{
                         "name": "$._BoxDialog",
                         "config": {
                             "_id": "comp##_BoxDialog<<Start",
                             "_isOpen": false,
-                            "_templ": "page##Dialog"
+                            "_templ": "layout##Dialog"
                         }
                     }
                 ]
@@ -40,7 +39,7 @@
                             "config": {
                                 "_src": "//logo.{lng}.{theme}.png",
                                 "_srcError": "//logo..{theme}.png",
-                                "_classBody": "!w-[20rem]"
+                                "_class": "!w-[20rem]"
                             }
                         }
                     }
@@ -78,7 +77,7 @@
                             "_id": "comp##_CompSwitch<<Language",
                             "_templ": "**Language>>tips",
                             "_classLabel": "Page-Desc",
-                            "_classBody":"float-right ml-[--Theme-Gap]",
+                            "_class":"float-right ml-[--Theme-Gap]",
                             "_onClick": "act##LanguageChange"
                         }
                     },{
@@ -87,7 +86,7 @@
                             "_id": "comp##_CompSwitch<<Theme",
                             "_templ": "**Theme>>tips",
                             "_classLabel": "Page-Desc",
-                            "_classBody":"float-right",
+                            "_class":"float-right",
                             "_onClick": "act##ThemeChange"
                         }
                     }
@@ -101,7 +100,7 @@
                             "_id": "comp##_CompSwitch<<Theme",
                             "_templ": "**Theme>>tips",
                             "_classLabel": "Page-Desc",
-                            "_classBody":"float-left",
+                            "_class":"float-left",
                             "_onClick": "act##ThemeChange"
                         }
                     }
@@ -119,8 +118,9 @@
                                 "_name": "name",
                                 "_templLabel": "**Form>>name",
                                 "_templDesc": "**Form>>name desc",
-                                "_templ": "child##0",
+                                "_templ": "$._CompInput",
                                 "_config": {
+                                    "_name": "name",
                                     "_prop": {
                                         "maxLength": 30
                                     }
@@ -129,9 +129,10 @@
                                 "_name": "age",
                                 "_templLabel": "**Form>>age",
                                 "_templDesc": "**Form>>age desc",
-                                "_templ": "child##0",
+                                "_templ": "$._CompInput",
                                 "_check": "^(0*[1-9][0-9]?|1[0-4][0-9]|150)$",
                                 "_config": {
+                                    "_name": "age",
                                     "_onChange": {
                                         "_call": "pack##check",
                                         "_data": {
@@ -146,8 +147,9 @@
                                 "_name": "occupation",
                                 "_templLabel": "**Form>>occupation",
                                 "_templDesc": "**Form>>occupation desc",
-                                "_templ": "child##2",
+                                "_templ": "$._CompSelect",
                                 "_config": {
+                                    "_name": "occupation",
                                     "_value": "software engineer",
                                     "_map":[
                                         {
@@ -177,29 +179,23 @@
                                 "_name": "introduction",
                                 "_templLabel": "**Form>>introduction",
                                 "_templDesc": "**Form>>introduction desc",
-                                "_templ": "child##3",
+                                "_templ": "$._CompTextarea",
                                 "_config": {
+                                    "_name": "introduction",
                                     "_textPlaceholder":"**Form>>introduction tips",
                                     "_prop": {
                                         "maxLength": 500
                                     }
                                 }
                             },{
-                                "_templ": "child##4",
+                                "_templ": "$._CompButton",
                                 "_config": {
                                     "_templ": "**Form>>commit",
                                     "_onClick": "pack##commit"
                                 }
                             }
                         ]
-                    },
-                    "child": [
-                        {"name": "$._CompInput"},
-                        {"name": "$._CompCheckbox"},
-                        {"name": "$._CompSelect"},
-                        {"name": "$._CompTextarea"},
-                        {"name": "$._CompButton"}
-                    ]
+                    }
                 }
             },{
                 "id":"Dialog",
@@ -208,19 +204,27 @@
                         "name": "$._BoxGrid",
                         "config": {
                             "_id": "comp##_BoxGrid<<Dialog",
+                            "_grid":[
+                                "1fr 2fr",
+                                "title title", "auto",
+                                "key-1 value-1", "auto",
+                                "key-2 value-2", "auto",
+                                "key-3 value-3", "auto",
+                                "key-4 value-4", "auto"
+                            ],
                             "_count":3,
                             "_map":[
-                                {"_templ":"**Dialog>>title", "_classItem":"Page-Title", "_count": 3},
-                                {"_templ":"", "_count": 1,"_classItem": "text-right font-bold"},
-                                {"_templ":"", "_count": 2,"_classItem": ""},
-                                {"_templ":"", "_count": 1, "_classItem": "text-right font-bold"},
-                                {"_templ":"", "_count": 2,"_classItem": ""},
-                                {"_templ":"", "_count": 1, "_classItem": "text-right font-bold"},
-                                {"_templ":"", "_count": 2,"_classItem": ""},
-                                {"_templ":"", "_count": 1, "_classItem": "text-right font-bold"},
-                                {"_templ":"", "_count": 2,"_classItem": ""}
+                                {"_templ":"**Dialog>>title", "_area": "title", "_class":"Page-Title"},
+                                {"_templ":"", "_area": "key-1", "_class": "text-right font-bold"},
+                                {"_templ":"", "_area": "value-1", "_class": ""},
+                                {"_templ":"", "_area": "key-2", "_class": "text-right font-bold"},
+                                {"_templ":"", "_area": "value-2", "_class": ""},
+                                {"_templ":"", "_area": "key-3", "_class": "text-right font-bold"},
+                                {"_templ":"", "_area": "value-3", "_class": ""},
+                                {"_templ":"", "_area": "key-4", "_class": "text-right font-bold"},
+                                {"_templ":"", "_area": "value-4", "_class": ""}
                             ],
-                            "_classBody": "w-full md:!w-[40rem]"
+                            "_class": "w-full md:!w-[40rem]"
                         }
                     }
                 ]
