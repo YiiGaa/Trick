@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 
 const Config = Tools.MergeDefault(Configs.common,{
     "Theme.enable":true,
-    "Theme.range":["","dark"],
+    "Theme.range":["","dark"]
 });
 
 export const Theme = {
     Enable:false,
-    Theme:"",
+    Theme:document.documentElement.getAttribute('trick-theme'),
     Init:function() {
         if (!Config["Theme.enable"]) {
             return;
@@ -36,17 +36,17 @@ export const Theme = {
     },
     GetTheme:function(){
         if(!Theme.Enable) return "";
-        return Theme.Theme;
+        return document.documentElement.getAttribute('trick-theme');
     }
 }
 
 //TIPS::For refreshing component
 export function useTheme() {
-    const [theme, setTheme] = useState(null);
+    const [theme, setTheme] = useState(Theme.Theme);
 
     useEffect(() => {
         const handleThemeChange = () => {
-            setTheme(Theme.Theme);
+            setTheme(document.documentElement.getAttribute('trick-theme'));
         };
 
         if(Theme.Enable)
