@@ -8,10 +8,12 @@
     "run-component": "webpack serve --config Setting/webpack/webpack.component.js",
     "run-module": "webpack serve --config Setting/webpack/webpack.module.js",
     "run-page-build": "webpack serve --config Setting/webpack/webpack.page.js",
-    "run-page-watch": "nodemon --watch Code/Page --ext json --exec 'python3 Christmas/Christmas.py Input/ShellExcute/Page#Genrate'",
+    "run-page-build-spa": "webpack serve --config Setting/webpack/webpack.page.js --env spa=true",
+    "run-page-watch": "nodemon --delay 2 --watch Code/Page --ext json --exec 'python3 Christmas/Christmas.py Input/ShellExcute/Page#Genrate'",
     "run-page": "npm-run-all --parallel run-page-build run-page-watch",
+    "run-page-spa": "npm-run-all --parallel run-page-build-spa run-page-watch",
     "build": "webpack --config Setting/webpack/webpack.build.js",
-    "build-view": "http-server Build -p 5678 -o"
+    "build-view": "node Setting/webpack/http.serve.js"
   },
   "browserslist": [
     ">0.2%",
@@ -21,11 +23,11 @@
   "keywords": [],
   "devDependencies": {
     "nodemon": "^3.1.7",
-    "@babel/core": "^7.26.0",
-    "@babel/preset-env": "^7.26.0",
-    "@babel/preset-react": "^7.25.9",
-    "@babel/plugin-transform-object-rest-spread": "^7.25.9",
-    "@babel/plugin-transform-runtime": "^7.25.9",
+    "@babel/core": "^7.27.1",
+    "@babel/preset-env": "^7.27.2",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/plugin-transform-object-rest-spread": "^7.27.2",
+    "@babel/plugin-transform-runtime": "^7.27.1",
     "autoprefixer": "^10.4.20",
     "babel-loader": "^9.2.1",
     "babel-plugin-lodash": "^3.3.4",
@@ -38,18 +40,20 @@
     "copy-webpack-plugin": "^12.0.2",
     "mini-css-extract-plugin": "^2.9.0",
     "npm-run-all": "^4.1.5",
-    "postcss": "^8.4.41",
+    "postcss": "^8.5.3",
     "postcss-preset-env": "^10.1.0",
     "postcss-loader": "^8.1.1",
     "restrict-imports-loader": "^3.2.6",
     "sass": "^1.77.8",
     "sass-loader": "^16.0.0",
+    "string-replace-loader": "^3.1.0",
     "style-loader": "^4.0.0",
     "tailwindcss": "^3.4.10",
     "webpack": "^5.93.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4",
-    "webpack-merge": "^6.0.1"
+    "webpack-merge": "^6.0.1",
+    "wrapper-webpack-plugin": "^2.2.2"
   },
   "dependencies": {
     @@link@@
@@ -57,7 +61,7 @@
   },
   "overrides": {
     "babel-plugin-lodash": {
-      "@babel/types": "^7.26.3"
+      "@babel/types": "^7.27.1"
     }
   }
 }

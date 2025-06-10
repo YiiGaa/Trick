@@ -2,17 +2,18 @@
 [
     @@piece@@
     {
-        "Xmas_shell":"python3 Christmas.py Input/MergeCode/LinkModule",
+        "Xmas_shell":"python3 Christmas.py Input/MergeCode/PageTempl",
         "Xmas_cwd":".",
-        "Xmas_judge":true
+        "Xmas_judge":false
     }
 ]
 ######DEFAULT######
 
 ######PAGE######
 {
-    "Xmas_shell":"python3 Christmas.py Input/GenCode/Page#@@page@@",
+    "Xmas_shell":"python3 Christmas.py GenCode '../Code/Page/@@page@@/@@page@@@@part@@.json' './Input/GenCode/Page#@@part@@/config.json'",
     "Xmas_cwd":".",
-    "Xmas_judge":true
+    "Xmas_judge":false,
+    "Xmas_error":"python3 Christmas.py GenCode '{\"Xmas_path\":\"../Code/Page/@@page@@/@@page@@@@part@@.js\",\"file\":{\"page\":\"@@page@@\",\"main\":\"div\",\"error\":\"<strong>Generate fail, there may be an error in the /Code/Page/@@page@@/@@page@@@@part@@.json file format</strong>\"}}' './Input/GenCode/Page#UI/config.json'"
 },
 ######PAGE######

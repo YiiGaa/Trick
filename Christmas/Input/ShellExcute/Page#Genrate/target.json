@@ -1,17 +1,19 @@
 [
     {
-        "Xmas_shell":"python3 Christmas.py Input/GenCode/Page#home",
+        "Xmas_shell":"python3 Christmas.py GenCode '../Code/Page/home/homeUI.json' './Input/GenCode/Page#UI/config.json'",
         "Xmas_cwd":".",
-        "Xmas_judge":true
+        "Xmas_judge":false,
+        "Xmas_error":"python3 Christmas.py GenCode '{\"Xmas_path\":\"../Code/Page/home/homeUI.js\",\"file\":{\"page\":\"home\",\"main\":\"div\",\"error\":\"<strong>Generate fail, there may be an error in the /Code/Page/home/homeUI.json file format</strong>\"}}' './Input/GenCode/Page#UI/config.json'"
     },
     {
-        "Xmas_shell":"python3 Christmas.py Input/GenCode/Page#home-Action",
+        "Xmas_shell":"python3 Christmas.py GenCode '../Code/Page/home/homeAction.json' './Input/GenCode/Page#Action/config.json'",
         "Xmas_cwd":".",
-        "Xmas_judge":true
+        "Xmas_judge":false,
+        "Xmas_error":"python3 Christmas.py GenCode '{\"Xmas_path\":\"../Code/Page/home/homeAction.js\",\"file\":{\"page\":\"home\",\"main\":\"div\",\"error\":\"<strong>Generate fail, there may be an error in the /Code/Page/home/homeAction.json file format</strong>\"}}' './Input/GenCode/Page#UI/config.json'"
     },
     {
-        "Xmas_shell":"python3 Christmas.py Input/MergeCode/LinkModule",
+        "Xmas_shell":"python3 Christmas.py Input/MergeCode/PageTempl",
         "Xmas_cwd":".",
-        "Xmas_judge":true
+        "Xmas_judge":false
     }
 ]
