@@ -267,11 +267,6 @@ The logical function can modify the settings or retrieve data for specified UI c
 
 ## 2.2
 - [update]升级Christmas 2.4
-- [update]页面调试运行，固定打开导航菜单/trick-page-index.html
-- [update]追加SPA打包方式
-- [bug]网页打包会引用多余组件、模块
-- [bug]页面调试时，频繁修改页面，可能会造成网页生成卡死问题
-
 - [update]追加SPA打包方式，增加微前端引入方式
 - [update]嵌入模板`_templ`支持直接引用组件，仅在页面配置xxxUI.json、xxxAction.json中生效
 - [update]嵌入模板`_templ`语法，`page##`改为`layout##`
