@@ -11,29 +11,30 @@ import "/Code/Component/_BoxDropdown/Custom.scss"
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 
 //TIPS::Default setting for "state"
-export const _BoxDropdownUIDefault = Tools.MergeDefault(Configs.componentUI._BoxDropdown,{
-    "_templButton":null,
+export const _BoxDropdownUIDefault = Tools.Merge(Configs.componentUI._BoxDropdown,{
+    "_templ":null,
+    "_config":null,
+    "_configDeep":null,
+    "_class":"",
+    "_classMenu":"",
     "_map":[
         {
             "_templ":null,
-            "_classItem":"",
-            "_onClick":null,
-            "_data":null,
             "_config":null,
             "_configDeep":null,
+            "_class":"",
+            "_onClick":null,
+            "_data":null,
         }
     ],
-    "_styleAnchor":"bottom",
-    "_classMenu":"",
-    "_classItem":"",
-    "_classButton":""
+    "_styleAnchor":"bottom"
 });
 
 //TIPS::JSX UI render
 export function _BoxDropdownUI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_BoxDropdownAction, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_BoxDropdownAction, handler, param, isCall);
     }
 
     return (
@@ -43,7 +44,7 @@ export function _BoxDropdownUI(state, children, element, handler){
                 className={clsx("_BoxDropdown-Button",state._classButton)}
                 onClick={Call({"_action": "event"})}
             >
-                {state._templButton}
+                {state._templ}
             </MenuButton>
             <MenuItems
                 as="div"
@@ -51,11 +52,11 @@ export function _BoxDropdownUI(state, children, element, handler){
                 transition
                 className={clsx("_BoxDropdown", state._classMenu)}
             >
-                {(Array.isArray(state._map)?state._map:[state._map]).map((item, index) => (
+                {state._map.map((item, index) => (
                     <MenuItem
                         as="div"
                         key={`${index}`}
-                        className={clsx("_BoxDropdown-Item", state._classItem, item._classItem)}
+                        className={clsx("_BoxDropdown-Item", item._class)}
                         onClick={Call({"_action": "event", "_data": item, "_call": item._onClick})}
                     >
                         {item._templ}

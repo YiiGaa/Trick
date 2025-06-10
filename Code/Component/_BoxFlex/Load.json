@@ -1,9 +1,10 @@
 {
-    "version": "1.0=2024.11.15",
-    "publish": "2025.03.14",
+    "version": "1.1=2025.04.11",
+    "publish": "2025.06.10",
     "file": [
         "_BoxFlex.scss",
         "Once.Config",
+        "__MotionCss.js",
         "Sample.js",
         "Once.Link",
         "_BoxFlexUI.js",

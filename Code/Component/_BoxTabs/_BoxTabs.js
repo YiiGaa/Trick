@@ -45,6 +45,7 @@ export default function _BoxTabs({config, children}) {
     //STEP::Auto change template, translate text/img
     const {t} = useTranslation();
     const theme = useTheme();
+    console.debug(Logger.Header(), "Component-_BoxTabs auto change template, state", state)
     const newState = Tools.CompTemplGet(state,templateMark.current,children,t);
     console.debug(Logger.Header(), "Component-_BoxTabs auto change template, state", newState, "theme", theme);
 

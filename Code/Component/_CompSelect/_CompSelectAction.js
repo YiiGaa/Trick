@@ -10,9 +10,10 @@ import {_CompSelectUIDefault} from "/Code/Component/_CompSelect/_CompSelectUI";
 // }
 
 //Default setting for "data"
-export const _CompSelectActionDefault = Tools.MergeDefault(Configs.componentAction._CompSelect,{
+export const _CompSelectActionDefault = Tools.Merge(Configs.componentAction._CompSelect,{
     "_id":"",
     "_data":null,
+    "_onChange":null
 })
 
 //TIPS::Action processing entrance
@@ -31,6 +32,10 @@ export function _CompSelectAction(param, handler, event=null) {
         const _action = Tools.ParamRead("_action", "", moduleParam, passParam);
 
         switch(_action){
+            case "change":
+                Tools.CompActSet(moduleParam, passParam, data, state, setState, element, event, parentContext, "_CompSelect", _CompSelectActionDefault, _CompSelectUIDefault, templateMark);
+                Tools.CompActEvent(moduleParam, passParam, data, state, setState, element, event, parentContext, "_CompSelect");
+                break;
             case "event":
                 Tools.CompActEvent(moduleParam, passParam, data, state, setState, element, event, parentContext, "_CompSelect");
                 break;

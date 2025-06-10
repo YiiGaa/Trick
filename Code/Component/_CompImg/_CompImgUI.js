@@ -9,18 +9,18 @@ import "/Code/Component/_CompImg/_CompImg.scss"
 import "/Code/Component/_CompImg/Custom.scss"
 
 //TIPS::Default setting for "state"
-export const _CompImgUIDefault = Tools.MergeDefault(Configs.componentUI._CompImg,{
+export const _CompImgUIDefault = Tools.Merge(Configs.componentUI._CompImg,{
     "_src":"",
     "_srcError":"",
-    "_classBody":"",
+    "_class":"",
     "_prop":{},
 });
 
 //TIPS::JSX UI render
 export function _CompImgUI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_CompImgAction, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_CompImgAction, handler, param, isCall);
     }
 
     return (
@@ -33,7 +33,7 @@ export function _CompImgUI(state, children, element, handler){
                     return;
                 e.target.src = state._srcError
             }}
-            className={clsx("_CompImg-Body", state._classBody)}
+            className={clsx("_CompImg-Body", state._class)}
             {...state._prop}
         />
     );

@@ -11,7 +11,7 @@ import "/Code/Component/_BoxPopover/Custom.scss"
 import {Popover, PopoverButton, PopoverPanel, CloseButton, TransitionChild} from '@headlessui/react'
 
 //TIPS::Default setting for "state"
-export const _BoxPopoverUIDefault =  Tools.MergeDefault(Configs.componentUI._BoxPopover,{
+export const _BoxPopoverUIDefault =  Tools.Merge(Configs.componentUI._BoxPopover,{
     "_templButton":null,
     "_templPanel":null,
     "_styleAnchor":"bottom",
@@ -22,8 +22,8 @@ export const _BoxPopoverUIDefault =  Tools.MergeDefault(Configs.componentUI._Box
 //TIPS::JSX UI render
 export function _BoxPopoverUI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_BoxPopoverAction, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_BoxPopoverAction, handler, param, isCall);
     }
 
     return (

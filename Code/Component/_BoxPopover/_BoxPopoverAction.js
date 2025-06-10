@@ -28,7 +28,7 @@ function Show(moduleParam, passParam, data, state, setState, element, event){
 }
 
 //Default setting for "data"
-export const _BoxPopoverActionDefault = Tools.MergeDefault(Configs.componentAction._BoxPopover,{
+export const _BoxPopoverActionDefault = Tools.Merge(Configs.componentAction._BoxPopover,{
     "_id":"",
     "_data":null,
 })

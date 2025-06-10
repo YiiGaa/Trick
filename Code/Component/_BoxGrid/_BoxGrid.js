@@ -49,5 +49,5 @@ export default function _BoxGrid({config, children}) {
     console.debug(Logger.Header(), "Component-_BoxGrid auto change template, state", newState, "theme", theme);
 
     //STEP::UI render
-    return _BoxGridUI(newState, children, element, handler);
+    return _BoxGridUI(newState, children, element, handler, templateMark);
 }

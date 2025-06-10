@@ -2,14 +2,19 @@
 //It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
 
 ._CompTextarea{
-  @apply w-full;
-  @apply outline-2 -outline-offset-2 outline-transparent;
-  @apply transition-colors ease-in-out focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2;
-  @apply data-[focus]:outline-[color:--Theme-Color-Active] data-[focus]:border-[color:--Theme-Color-Active];
-  padding: var(--Theme-Gap-XS) var(--Theme-Gap-SM);
-  border: 0.1rem solid var(--Theme-Color-Divider);
-  border-radius: var(--Theme-Radius-SM);
-  background: var(--Theme-Color-Module);
-  transition-duration: var(--Theme-TransDuration);
-  resize: none;
+    width: 100%;
+    outline: 2px solid transparent;
+    outline-offset: -1px;
+    padding: var(--Theme-Gap-XS) var(--Theme-Gap-SM);
+    border: 0.1rem solid var(--Theme-Color-Divider);
+    border-radius: var(--Theme-Radius-SM);
+    background: var(--Theme-Color-Module);
+    resize: none;
+    transition-property: border, outline-color, outline-width;
+    transition-timing-function: ease-in-out;
+    transition-duration: var(--Theme-TransDuration);
+    &[data-focus]{
+        outline-color: var(--Theme-Color-Active);
+    }
+
 }

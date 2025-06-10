@@ -25,7 +25,7 @@ function Switch(moduleParam, passParam, data, state, setState, element, event, p
 }
 
 //Default setting for "data"
-export const _BoxCollapseActionDefault = Tools.MergeDefault(Configs.componentAction._BoxCollapse,{
+export const _BoxCollapseActionDefault = Tools.Merge(Configs.componentAction._BoxCollapse,{
     "_id":"",
     "_data":null,
 })

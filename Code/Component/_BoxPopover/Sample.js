@@ -34,7 +34,7 @@ ReactDOM.createRoot(document.getElementById("id_body")).render(
             className="absolute py-[--Theme-Gap-SM] px-[--Theme-Gap] bg-[--Theme-Color-Active] text-[--Theme-Color-Invert] rounded-[--Theme-Radius-SM] cursor-pointer"
             onClick={TestCall}
         >
-            Test Toggle
+            Test Show
         </button>
         <div className="flex justify-center items-center h-screen">
             <_BoxPopover config={config}>

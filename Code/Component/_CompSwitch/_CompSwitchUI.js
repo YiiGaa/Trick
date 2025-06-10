@@ -11,11 +11,13 @@ import "/Code/Component/_CompSwitch/Custom.scss"
 import { Switch, Field, Label } from '@headlessui/react'
 
 //TIPS::Default setting for "state"
-export const _CompSwitchUIDefault = Tools.MergeDefault(Configs.componentUI._CompSwitch,{
+export const _CompSwitchUIDefault = Tools.Merge(Configs.componentUI._CompSwitch,{
     "_name":"",
     "_isAble":true,
     "_templ":null,
-    "_classBody":"",
+    "_config":null,
+    "_configDeep":null,
+    "_class":"",
     "_classSlot":"",
     "_classBar":"",
     "_classLabel":"",
@@ -25,12 +27,12 @@ export const _CompSwitchUIDefault = Tools.MergeDefault(Configs.componentUI._Comp
 //TIPS::JSX UI render
 export function _CompSwitchUI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_CompSwitchAction, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_CompSwitchAction, handler, param, isCall);
     }
 
     return (
-        <Field className={clsx("_CompSwitch-Body", state._classBody)}>
+        <Field className={clsx("_CompSwitch-Body", state._class)}>
             <Switch
                 name={state._name}
                 checked={state._isAble}

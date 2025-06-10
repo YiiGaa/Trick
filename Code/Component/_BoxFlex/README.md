@@ -1,5 +1,7 @@
 # _BoxFlex-Flex布局
 
+此组件1.1及以后版本，要求Trick版本为2.2或以上
+
 主要功能包括：
 
 - Config设置
@@ -10,20 +12,16 @@
 
 ```
 {
-	"name": "$._BoxFlex",
+    "name": "$._BoxFlex",
     "config": {
         "_id":"",
-        "_isRow":true,
-        "_isWap":true,
+        "_as":"div",
+        "_flex": ["row", "nowrap"],
+        "_class":"",
         "_map":[
-            {
-                "_templ":null,
-                "_isFill":true, 
-                "_backdrop":false
-            }
+            {"_templ":null}
         ]
-    },
-    "child":[]
+    }
 }
 ```
 
@@ -31,27 +29,102 @@
 | ------------ | ------------------------------------------- | --------------------- | -------- | -------------- |
 | _id          | 组件id，命名尽量唯一，且不包含`.`           | 不需要调用组件        | String   | 1.0=2024.11.15 |
 | _data        | 自定义暂存数据，获取组件数据时会被一同返回  | null                  | 开放类型 | 1.0=2024.11.15 |
-| _isRow | 是否横向布局，true：横向，false：纵向 | true | Bool | 1.0=2024.11.15 |
-| _isWap | 是否允许换行，true：允许，false：不允许 | true | Bool | 1.0=2024.11.15 |
+| _as | 实际采用的HTML标签，例如：a、div | div | String | 1.1=2025.04.11 |
+| _prop     | HTML标签属性，自动展开并设置到HTML标签中               |                | Object       | 1.1=2025.04.11                   |
+| _call     | HTML事件属性，组件会自动转换事件触发并设置到HTML标签中 |                | Object       | 1.1=2025.04.11                   |
+| _flex | flex布局设置 |  | Array/Object | 1.1=2025.04.11 |
 | _map | 布局子项设置 |  | Array/Object | 1.0=2024.11.15 |
-| _classBody   | 组件的外层样式                          |                       | String   | 1.0=2024.11.15 |
+| _class   | 组件的外层样式                          |                       | String   | 1.0=2024.11.15<br>1.1=2025.04.11 |
+| _backdrop | 是否采用默认背景（主题背景色、圆角、阴影） | false | Bool | 1.0=2024.11.15 |
 
 参数补充说明：
+
+### > _call
+
+- HTML标签事件属性，组件会自动转换事件触发并设置到HTML标签属性中
+- key对应Jsx的事件，如：onClick
+- value对应事件回调，要求符合以下`_on`的要求，Trick会自动转换
+
+### > _flex
+
+- Flex布局设置
+
+- 实际是设置CSS的`flex-direction`、`flex-wrap`
+
+- `flex-direction`设置的是排列方向，允许的值范围：`row`，`row-reverse`，`column`，`column-reverse`
+
+- `flex-wrap`设置的是换行设置，允许的值范围：`nowrap`，`wrap`，`wrap-reverse`
+
+- 设置格式为，第1个元素为`flex-direction`设置，第2个元素为`flex-wrap`设置
+
+- ```
+    "_flex":["row", "nowrap"]
+    ```
+
+- `_flex`支持响应式布局，具体格式为：
+
+- ```
+    "_grid":{
+    		"all":["row", "wrap"],
+        "md":["column", "nowrap"]
+    }
+    ```
+
+- 组件预设了几个屏幕宽度设置，当屏幕宽度符合对应情况生效，一般小屏设置需要放在设置数组的靠前位置，不然可能会发生CSS优先级问题
+
+- ```
+    all 等效  默认设置
+    sm	等效  @media(width >= 640px)
+    md	等效  @media(width >= 768px)
+    lg	等效  @media(width >= 1024px)
+    xl	等效  @media(width >= 1280px)
+    2xl	等效  @media(width >= 1536px)
+    max-sm	等效  @media(width < 640px)
+    max-md	等效  @media(width < 768px)
+    max-lg	等效  @media(width < 1024px)
+    max-xl	等效  @media(width < 1280px)
+    max-2xl	等效  @media(width < 1536px)
+    ```
+
+- 若以上预设不满足某些特殊情况，可以进行自定义
+
+- ```
+    "_flex":{
+    	"20rem":[...],
+        "max-300rem":[...]
+    }
+    
+    20rem   等效  	@media(width >= 20rem)
+    max-300rem  等效  @media(width < 30rem)
+    ```
+
+### > _class
+
+- 样式设置
+- 若希望设置响应式样式，可以采用[tailwindCSS](https://tailwindcss.com/docs/responsive-design#targeting-a-breakpoint-range)的相关设置，如`md:max-xl:hidden`，表示当屏幕宽度>=768px且<=1280px时隐藏元素
 
 ### > _map
 
 - 布局子项设置，可以是数组内嵌对象`[{},{}]`，或者单个对象`{}`
 
-- 对象`{}`参数设置如下
+- 当前组件是一个递归嵌套的布局组件，所以在单个子项设置对象中，可以再次使用`_flex`、`_map`进行深层次布局
 
-    | key         | 说明                                       | 默认值                | 类型   | 组入/更新版本  |
-    | ----------- | ------------------------------------------ | --------------------- | ------ | -------------- |
-    | _templ      | 布局子项模板，请参考`_templ`说明           | 以整个`child`作为模板 | String | 1.0=2024.11.15 |
-    | _config     | 模板外层设置，请参考`_templ`说明           | null                  | Object | 1.0=2024.11.15 |
-    | _configDeep | 模板深层设置，请参考`_templ`说明           | null                  | Object | 1.0=2024.11.15 |
-    | _classItem  | 布局子项样式                               |                       | String | 1.0=2024.11.15 |
-    | _isFill     | 是否允许伸缩，true：允许，false：不允许    | true                  | Bool   | 1.0=2024.11.15 |
-    | _backdrop   | 是否采用默认背景（主题背景色、圆角、阴影） | false                 | Bool   | 1.0=2024.11.15 |
+- 当单个子项设置中，`_map`设置不存在，`_templ`模版才会被插入
+
+    | key         | 说明                                                   | 默认值                | 类型         | 组入/更新版本                    |
+    | ----------- | ------------------------------------------------------ | --------------------- | ------------ | -------------------------------- |
+    | _templ      | 布局子项模板，请参考`_templ`说明                       | 以整个`child`作为模板 | String       | 1.0=2024.11.15                   |
+    | _config     | 模板设置，请参考`_templ`说明                           | null                  | Object       | 1.0=2024.11.15                   |
+    | _configDeep | 模板深层设置，请参考`_templ`说明                       | null                  | Object       | 1.0=2024.11.15                   |
+    | _class      | 布局子项样式                                           |                       | String       | 1.0=2024.11.15<br>1.1=2025.04.11 |
+    | _isFill     | 是否允许伸缩，true：允许，false：不允许                | false                 | Bool         | 1.0=2024.11.15<br>1.1=2025.04.11 |
+    | _backdrop   | 是否采用默认背景（主题背景色、圆角、阴影）             | false                 | Bool         | 1.0=2024.11.15                   |
+    | _as         | 实际采用的HTML标签，例如：a、div                       | div                   | String       | 1.1=2025.04.11                   |
+    | _prop       | HTML标签属性，自动展开并设置到HTML标签中               |                       | Object       | 1.1=2025.04.11                   |
+    | _call       | HTML事件属性，组件会自动转换事件触发并设置到HTML标签中 |                       | Object       | 1.1=2025.04.11                   |
+    | _flex       | flex布局设置                                           |                       | Array/Object | 1.1=2025.04.11                   |
+    | _map        | 内嵌布局子项设置                                       |                       | Array/Object | 1.1=2025.04.11                   |
+    | _data       | 自定义暂存数据，事件回调时会一并返回                   | null                  | 开放类型     | 1.1=2025.04.11                   |
 
 ### > _id
 
@@ -64,9 +137,11 @@
 ### > _templ
 
 - `_templ`开头的key都会被认为是模板设置
+- 当对应值为字符串，且以`$.`开头，(要求Trick2.2版本以后)，会采用对应组件作为模板。此设置仅在页面`xxxUI.json`、`xxxAction.json`配置中生效，其他情况会按照字符串处理
 - 当对应值设置为`null`（默认），或者以下设置中出现不能正确获取的情况，都会以整个`child`作为模板。`child`为页面UI设置时的`child`（此组件的内嵌子组件）
 - 当对应值为字符串，且以`child##`开头，会选择`child`的第n个子组件作为模板，如`child##2`，则会选择`child`中第3个（0开始）子组件作为模板
-- 当对应值为字符串，且以`page##`开头，会以某个页面布局作为模板，如`page##Theme`，则会选择id为`Theme`的页面布局作为模板
+- 当对应值为字符串，且以`layout##`开头（Trick2.2及以后版本生效），会以某个页面布局作为模板，如`layout##Theme`，则会选择id为`Theme`的页面布局作为模板
+- `child##`和`layout##`都支持深层筛选模式，用`>>`分隔，如`child##_BoxForm>>_CompInput`，层级是按jsx嵌套层级而定的
 - 当对应值为字符串，且不包含以上特殊开头，会认为是文字，且会自动进行翻译
 - 当对应值为对象`{}`，表示详细设置模式，固定格式为`{"_templ":"","_config":{},"_configDeep":{}}`。`_templ`对应模板选择（以上类型适用）；`_config`会自动合并进模板的最外层`config`；`_configDeep`会自动合并进模板的里层`config`，具体格式为`{"position 1":{},"position 2":{}}`，`key`为定位设置，使用`>>`分割，可以采用`序号`或者`组件名`进行选择，如`0>>div>>_Boxflex`，表示`第0个组件`>>`名称为div的组件`>>`名称为_Boxflex的组件`；当`_templ`为文字，会将`_config`作为翻译设置（变量替换），`_configDeep`无效
 - 当对应值为数组`[]`，可以内嵌以上类型，会以此数组顺序编排模板
@@ -77,6 +152,14 @@
 - 当对应值为字符串，都会自动进行翻译
 - 推荐需要翻译的文字格式为`**[所在页面布局]>>[文字提示]`，如`**Form>>occupation`，`**Form/occupation>>project manager`
 - 当对应值为对象`{}`，表示详细设置，固定格式为`{"_text":"xxx", "key 1":"value", "key 2":"value"}`，`_text`对应文字设置，其他设置作为翻译设置（变量替换）
+
+### > _src
+
+- `_src`开头的key都会被认为是资源文件路径设置
+- 以`//`开头，会自动定位到工程图片存放位置
+- 页面运行时，`//`会自动定位到`Code/Assets`
+- 本组件单独运行时，`//`会自动定位到当前组件的`test`文件夹
+- `test`文件夹需要手动创建，且仅用于当前组件单独测试运行
 
 ### > _class
 
@@ -89,11 +172,15 @@
 
 - `_on`开头的key一般为事件回调的设置
 - 当对应值设置为字符串，且以`pack##`开头，则自动调用其上层的`Pack组件`，如`_PackForm`等；这类`Pack组件`向所有下层组件传递回调地址、部分数据；`pack##`后面可以设置调用`pack组件`的`_action`，如`pack##commit`，则表示调用上层`Pack组件`的`commit`动作
+- Trick2.2新增，当对应值设置为字符串，且以`css##`开头，则表示css class开关模式，元素筛选设置与class用`>>`隔开，如`css##.Page-Title>>class_1 class_2`，表示通过`document.querySelector`筛选`.Page-Title`，若元素中同时存在`class_1 class_2`这两个class，则清理，否则补充不存在的class。在测试模式下，由于事件可能会触发2次（React机制），此设置会转换两次，所以表面上可能不生效
+- Trick2.2新增，当对应值设置为字符串，且以`css add##`开头，则表示`css class`追加模式，设置格式同`css##`
+- Trick2.2新增，当对应值设置为字符串，且以`css remove##`开头，则表示`css class`清理模式，设置格式同`css##`
+- Trick2.2新增，当对应值设置为字符串，且以`style##`开头，则表示`style`样式设置模式，元素筛选设置与`style设置`用`>>`隔开，多个样式设置用`;`隔开，如`style##.Page-Title>>color:#fff;width:100% !important;`，表示通过`document.querySelector`筛选`.Page-Title`，并设置样式
 - 当对应值设置为字符串，则表示以`id`的方式调用其他组件，或者页面Action的函数，页面Action的函数以`act##`开头，如`act##Language_Change`
 - 当对应值为函数，则表示调用此函数，此类型用于组件测试，在制作页面时，无法使用此种类型
 - 当对应值为对象`{}`，表示详细设置，一般情况下，事件回调时，返回的数据为整个组件的数据，如果希望详细配置返回的数据，则应该采用对象类型；固定格式为`{"_call":"","_data":{}}`，`_call`对应回调目标的设置，`_data`对应具体回调数据的设置；`_data`固定格式为`{"key 1":"value 1","key 2":"value 2"}`，最外层的`key`对应的`value`支持动态注入语法；`value`的动态语法为，`get##`开头表示从本组件数据中获取，`pack##`开头表示从`Pack组件`传递的数据中获取，且允许使用`>>`定位深层的数据，如`get##key_1>>key_2`
-
 - 当对应值为数组`[]`，可以内嵌以上类型，组件会执行多个回调（异步调用，无法保证顺序）
+- Trick2.2新增，默认情况下，`event`事件会冒泡传递（上层HTML节点也会响应），若希望不冒泡传递，可以采用`_isStop`设置，`{"_isStop":true,"_call":"xxx"}`。若希望设置多个回调，可以设置为`{"_isStop":true,"_call":["xxx", "xxx"]}`。若关闭冒泡传递，`_BoxPage`对SPA网页的`a`捕获也会失效
 
 # ※ set-修改组件设置
 
@@ -202,6 +289,16 @@ python3 Christmas/Christmas.py ShellExcute/Build#Component _BoxFlex
 `Sample.html`，`Sample.js`是专门用于单独测试的代码
 
 # ◎ 更新列表
+
+**1.1=2025.04.11**
+
+- [*]要求Trick2.2或以后版本
+- [update]增加`_as`、`_prop`、`_call`、`_flex`字段
+- [update]去除`_isRow`、`_isWap`字段
+- [update]`_classBody`字段名改为`_class`
+- [update]`_classItem`字段名改为`_class`
+- [update]去除组件css中的tailwincss工具类，避免页面必须使用`important`才能覆盖样式
+- [update]The default value of `_isFill` is changed to `false`
 
 **1.0=2024.11.15**
 

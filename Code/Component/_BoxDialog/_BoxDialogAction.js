@@ -27,7 +27,7 @@ function ShakeDialog(moduleParam, passParam, data, state, setState, element, eve
 }
 
 //TIPS::Default setting for "data"
-export const _BoxDialogActionDefault = Tools.MergeDefault(Configs.componentAction._BoxDialog,{
+export const _BoxDialogActionDefault = Tools.Merge(Configs.componentAction._BoxDialog,{
     "_id":"",
     "_data":null,
 });

@@ -10,7 +10,7 @@ import {_BoxDropdownUIDefault} from "/Code/Component/_BoxDropdown/_BoxDropdownUI
 // }
 
 //Default setting for "data"
-export const _BoxDropdownActionDefault = Tools.MergeDefault(Configs.componentAction._BoxDropdown,{
+export const _BoxDropdownActionDefault = Tools.Merge(Configs.componentAction._BoxDropdown,{
     "_id":"",
     "_data":null,
     "_onClick":null

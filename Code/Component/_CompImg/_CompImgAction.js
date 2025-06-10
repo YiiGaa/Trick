@@ -10,7 +10,7 @@ import {_CompImgUIDefault} from "/Code/Component/_CompImg/_CompImgUI";
 // }
 
 //Default setting for "data"
-export const _CompImgActionDefault = Tools.MergeDefault(Configs.componentAction._CompImg,{
+export const _CompImgActionDefault = Tools.Merge(Configs.componentAction._CompImg,{
     "_id":"",
     "_data":null,
 });

@@ -2,43 +2,67 @@
 //It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
 
 ._BoxDialog-Body{
-    @apply relative z-50;
+    position: relative;
+    z-index: 50;
 }
 
 ._BoxDialog-Backdrop{
-    @apply fixed inset-0;
-    @apply opacity-95;
-    @apply ease-out data-[closed]:opacity-0;
+    position: fixed;
+    inset: 0;
+    opacity: 0.95;
     background:var(--Theme-Color-Body);
-    transition:var(--Theme-TransDuration);
+    transition: opacity var(--Theme-TransDuration) ease-out;
+    &[data-closed]{
+        opacity: 0;
+    }
 }
 
 ._BoxDialog-Content{
-    @apply fixed inset-0 flex w-screen items-center justify-center;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    display: flex;
     padding:var(--Theme-Gap);
 }
 
 ._BoxDialog-Content-Panel{
-    @apply flex max-w-screen-md max-h-full;
-    @apply ease-out data-[closed]:scale-75 data-[closed]:opacity-0;
-    transition-duration:var(--Theme-TransDuration);
+    display: flex;
+    max-height: 100%;
+    max-width: 768px;
+    transition-property: opacity,transform;
+    transition-duration: var(--Theme-TransDuration);
+    transition-timing-function: ease-out;
     background: var(--Theme-Color-Module);
     box-shadow: var(--Theme-BoxShadow);
     padding:var(--Theme-Gap);
     border-radius: var(--Theme-Radius);
+    &[data-closed]{
+        opacity: 0;
+        transform: scale(0.75);
+    }
 }
 
 ._BoxDialog-Content-Panel-Child{
-    @apply flex-1 overflow-x-hidden overflow-y-auto;
+    flex: 1 1 0;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 ._BoxDialog-Close{
-    @apply float-right rtl:float-left cursor-pointer;
-    @apply transition-transform hover:rotate-90 cursor-pointer;
-    transition-duration:var(--Theme-TransDuration);
+    float:right;
+    cursor: pointer;
     width: var(--Theme-Text-LG);
     height: var(--Theme-Text-LG);
     color: var(--Theme-Color-Text);
+    transition: transform var(--Theme-TransDuration);
+    &:hover{
+        transform: rotate(90deg);
+    }
+    html[dir="rtl"] &{
+        float:left;
+    }
 }
 ._BoxDialog-Close:hover{
     color: var(--Theme-Color-Active);

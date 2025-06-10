@@ -18,8 +18,7 @@ The main functions include:
         "_templPanel":null,
         "_classButton":"",
         "_classPanel":""
-    },
-    "child":[]
+    }
 }
 ```
 
@@ -50,17 +49,13 @@ Parameter Supplementary Description:
 ### > _templ
 
 - The key at the beginning of `_templ` will be regarded as a template setting
-
+- When the corresponding value is a string and starts with `$.` (required for Trick2.2 version and later), the corresponding component is used as a template. This setting only takes effect in the `xxxUI.json` `xxxAction.json` page configuration, while other situations will be processed as a string
 - When the corresponding value is set to `null` (default), or the following settings cannot be obtained correctly, the whole `child` will be used as the template. And  `child` is the `child` set to the page UI (the embedded subcomponent of this component)
-
 - When the corresponding value is a string and begins with `child##`, the nth subcomponent of `child` will be selected as a template, such as `child##2`, the third (starting from 0) subcomponent of `child` will be selected as the template
-
-- When the corresponding value is a string and begins with `page##`, a page layout will be used as a template, such as `page##Theme`, and the page layout with id  `Theme` will be selected as the template
-
+- When the corresponding value is a string and begins with `layout##` (Trick2.2 and later versions take effect), a page layout will be used as a template, such as `layout##Theme`, and the page layout with id  `Theme` will be selected as the template
+- `child##` and `layout##` both support deep filtering mode, separated by `>>`, such as `child##_BoxForm>>_CompInput`, and the hierarchy is determined by the jsx nested hierarchy
 - When the corresponding value is a string and does not contain the above special beginning, it will be regarded as text and will be automatically translated
-
 - When the corresponding value is the object `{}`, it indicates the detailed setting mode, and the fixed format is `{"_templ":"","_config":{},"_configDeep":{}}`. `_templ` corresponds to the template selection (the above types are applicable); `_config` will automatically merge into the outermost layer of the template `config`; `_configDeep` will automatically merge into the inner layer of the template `config`, and the specific format is `{"position 1":{},"position 2":{}}`, `key` is the positioning setting, using `>>` locate, you can use `index number` or `component name` to select, such as `0>>div>>_Boxflex`, indicating `0th component`>>`div`>>`component named _Boxflex`; when `_templ` is text, `_config` will be used as a translation setting (variable replacement), and `_configDeep` is invalid
-
 - When the corresponding value is the array `[]`, the above type can be embedded, and the template will be arranged in the order of this array
 
 ### > _text
@@ -73,6 +68,18 @@ Parameter Supplementary Description:
 
 - When the corresponding value is the object `{}`, it indicates the detailed settings. The fixed format is `{"_text":"xxx", "key 1":"value", "key 2":"value"}`, `_text` corresponds to the text settings, and other settings are translated Settings (variable replacement)
 
+### > _src
+
+- The key starting with `_src` will be regarded as the resource file path setting
+
+- Starting with `//`, it will automatically locate the storage location of the project picture
+
+- When the page is running, `//` will automatically locate to `Code/Assets`
+
+- When this component is running alone, `//` will automatically locate the `test` folder of the current component
+
+- The `test` folder needs to be created manually and is only used for the separate test run of the current component
+- 
 ### > _class
 
 - The key at the beginning of `_class` is generally set to the class of html
@@ -96,6 +103,7 @@ Parameter Supplementary Description:
 - When the corresponding value is the object `{}`, it indicates the detailed setting. In general, when the event is called back, the returned data is the data of the whole component. If you want to configure the returned data in detail, the object type should be adopted; the fixed format is `{"_call":"",_data":{}} `,`_call` corresponds to the setting of the callback target, and `_data` corresponds to the setting of specific callback data; `_data` fixed format is `{"key 1":"value 1","key 2":"value 2"}`,  the `value` corresponding to the outermost `key` supports dynamic injection syntax; the dynamic syntax of `value` is that the beginning of `get##` means that it is obtained from the data of this component, and the beginning of `pack##` means that it is obtained from the data passed by `Pack component`, and it is allowed to use `>>` to locate deep data, such as `get## Key_1>>key_2`
 
 - When the corresponding value is the array `[]`, the above types can be embedded, and the component will execute multiple callbacks (asynchronous calls, the order cannot be guaranteed)
+- Trick2.2 added. By default, the `event` will be bubbled and passed (the upper HTML node will also respond). If you want not to bubble and pass, you can use the `_isStop` setting, `{"_isStop":true,"_call":"xxx "}`. If you want to set multiple callbacks, you can set it to `{"_isStop":true,"_call":["xxx", "xxx"]}`. If the bubble transmission is turned off, the `a` capture of the SPA web page by `_BoxPage` will also be invalidated
 
 # ※ show-Display the pop-up box
 
@@ -201,7 +209,9 @@ In the `_data` setting, the `value` corresponding to the outermost `key` support
 
 Add version: Component general mechanism
 
-`Page Action` needs to use the `_BrokerUI` module for getting component data, and the returned data is all the data in the above `config settings`.
+`Page Action` needs to use the `_BrokerUI` module for getting component data, and the returned data is all the data in the above `config settings`
+
+The data will be automatically inserted into `passParam`, and the inserted field is the value corresponding to `_resultKey`. When the corresponding value of `_resultKey` is an empty string `""`, the entire `passParam` will be emptied and the data will be written
 
 ```
 {
@@ -232,6 +242,11 @@ You can also run `ShellExcute>>Build#Component` through `Christmas plug-in` and 
 `Sample.html`, `Sample.js` is a code specifically for separate testing
 
 # ◎ Updated list
+
+**1.1=2025.04.11**
+
+- [update]`_templ` add `self##` mode
+- [update] Remove the tailwincss utility classes from the component css to avoid the page requiring `important` to override styles
 
 **1.0=2024.11.15**
 

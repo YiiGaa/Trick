@@ -11,7 +11,7 @@ import "/Code/Component/_CompTextarea/Custom.scss"
 import { Textarea } from '@headlessui/react'
 
 //TIPS::Default setting for "state"
-export const _CompTextareaUIDefault = Tools.MergeDefault(Configs.componentUI._CompTextarea,{
+export const _CompTextareaUIDefault = Tools.Merge(Configs.componentUI._CompTextarea,{
     "_isAble":true,
     "_name":"",
     "_textPlaceholder":"",
@@ -24,8 +24,8 @@ export const _CompTextareaUIDefault = Tools.MergeDefault(Configs.componentUI._Co
 //TIPS::JSX UI render
 export function _CompTextareaUI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_CompTextareaAction, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_CompTextareaAction, handler, param, isCall);
     }
 
     return (

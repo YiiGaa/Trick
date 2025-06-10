@@ -10,7 +10,7 @@ import {_CompCheckboxUIDefault} from "/Code/Component/_CompCheckbox/_CompCheckbo
 // }
 
 //Default setting for "data"
-export const _CompCheckboxActionDefault = Tools.MergeDefault(Configs.componentAction._CompCheckbox,{
+export const _CompCheckboxActionDefault = Tools.Merge(Configs.componentAction._CompCheckbox,{
     "_id":"",
     "_data":null,
     "_onClick":null

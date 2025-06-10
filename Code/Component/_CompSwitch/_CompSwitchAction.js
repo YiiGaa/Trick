@@ -10,7 +10,7 @@ import {_CompSwitchUIDefault} from "/Code/Component/_CompSwitch/_CompSwitchUI";
 // }
 
 //Default setting for "data"
-export const _CompSwitchActionDefault = Tools.MergeDefault(Configs.componentAction._CompSwitch,{
+export const _CompSwitchActionDefault = Tools.Merge(Configs.componentAction._CompSwitch,{
     "_id":"",
     "_data":null,
     "_onClick":null

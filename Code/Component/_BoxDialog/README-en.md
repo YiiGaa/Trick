@@ -19,8 +19,7 @@ The main functions include:
         "_id":"",
         _isOpen":false,
         "_templ":""
-    },
-    "child":[]
+    }
 }
 ```
 
@@ -31,8 +30,10 @@ The main functions include:
 | _isOpen                  | Whether to open the modal box, true: open, false: close      | true                                   | Bool      | 1.0=2024.11.15 |
 | _isCloseDismiss          | Clicking the background, can the modal window be closed, true: allow, false: not allow | true                                   | Bool      | 1.0=2024.11.15 |
 | _templ                   | Content template                                             | Take the whole `child` as the template | Open type | 1.0=2024.11.15 |
+| _config                  | Template outer layer settings, please refer to `_templ` description | null                                   | Object    | 1.1=2025.04.11 |
+| _configDeep              | Template deep settings, please refer to `_templ` instructions | null                                   | Object    | 1.1=2025.04.11 |
 | _textClose               | Close button prompt text                                     | The prompt text is not displayed       | String    | 1.0=2024.11.15 |
-| _classBody               | Outer style of the component                                 |                                        | String    | 1.0=2024.11.15 |
+| _class               | Outer style of the component                                 |                                        | String    | 1.0=2024.11.15<br/>1.1=2025.04.11 |
 | _classBackdrop           | Modal dialog background style                                |                                        | String    | 1.0=2024.11.15 |
 | _classContent            | Modal box position style                                     |                                        | String    | 1.0=2024.11.15 |
 | _classContentPanel       | Modal dialog style                                           |                                        | String    | 1.0=2024.11.15 |
@@ -57,11 +58,14 @@ Parameter Supplementary Description:
 
 - The key at the beginning of `_templ` will be regarded as a template setting
 
+- When the corresponding value is a string and starts with `$.` (required for Trick2.2 version and later), the corresponding component is used as a template. This setting only takes effect in the `xxxUI.json` `xxxAction.json` page configuration, while other situations will be processed as a string
+
 - When the corresponding value is set to `null` (default), or the following settings cannot be obtained correctly, the whole `child` will be used as the template. And  `child` is the `child` set to the page UI (the embedded subcomponent of this component)
 
 - When the corresponding value is a string and begins with `child##`, the nth subcomponent of `child` will be selected as a template, such as `child##2`, the third (starting from 0) subcomponent of `child` will be selected as the template
 
-- When the corresponding value is a string and begins with `page##`, a page layout will be used as a template, such as `page##Theme`, and the page layout with id  `Theme` will be selected as the template
+- When the corresponding value is a string and begins with `layout##` (Trick2.2 and later versions take effect), a page layout will be used as a template, such as `layout##Theme`, and the page layout with id  `Theme` will be selected as the template
+- `child##` and `layout##` both support deep filtering mode, separated by `>>`, such as `child##_BoxForm>>_CompInput`, and the hierarchy is determined by the jsx nested hierarchy
 
 - When the corresponding value is a string and does not contain the above special beginning, it will be regarded as text and will be automatically translated
 
@@ -79,15 +83,39 @@ Parameter Supplementary Description:
 
 - When the corresponding value is the object `{}`, it indicates the detailed settings. The fixed format is `{"_text":"xxx", "key 1":"value", "key 2":"value"}`, `_text` corresponds to the text settings, and other settings are translated Settings (variable replacement)
 
+### > _src
+
+- The key starting with `_src` will be regarded as the resource file path setting
+
+- Starting with `//`, it will automatically locate the storage location of the project picture
+
+- When the page is running, `//` will automatically locate to `Code/Assets`
+
+- When this component is running alone, `//` will automatically locate the `test` folder of the current component
+
+- The `test` folder needs to be created manually and is only used for the separate test run of the current component
+
 ### > _class
 
 - The key at the beginning of `_class` is generally set to the class of html
 
-- It is recommended to use the class of `tailwindcss` for setting. If you need to overwrite the inherent style settings of the component, you need to add  `!`  before the class name, such as `!w-full`
+- It is recommended to use the class of `tailwind- Trick2.2 add, When the corresponding value is set to a string and begins with `css##`, it indicates the css class switch mode, and the element filtering settings are separated from class by `>>`, such as `css##. Page-Title>>class_1 class_2`, indicating that it is filtered through `document.querySelector` with `. Page-Title`, if there are two classes of `class_1 class_2` in the element at the same time, clean it up, otherwise supplement the non-existent class. In the test mode, because the event may be triggered twice (React mechanism), this setting will be converted twice, so it may not be effective on the surface
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css##`, it indicates the css class switch mode, and the element filtering settings are separated from class by `>>`, such as `css##. Page-Title>>class_1 class_2`, indicating that it is filtered through `document.querySelector` with `. Page-Title`, if there are two classes of `class_1 class_2` in the element at the same time, clean it up, otherwise supplement the non-existent class. In the test mode, because the event may be triggered twice (React mechanism), this setting will be converted twice, so it may not be effective on the surface
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css add##`, it indicates the `css class` additional mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css remove##`, it indicates the `css class` cleanup mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `style##`, it indicates the `style` style setting mode. The element filtering setting and `style setting` are separated by `>>`, and multiple style settings are separated by `;`, such as `style##. Page-Title>>color:#fff;width:100%! Important;`, indicating that it is filtered through `document.querySelector` with`. Page-Title`, and set the style` for setting. If you need to overwrite the inherent style settings of the component, you need to add  `!`  before the class name, such as `!w-full`
 
 - You can use the page-customized `class` to set it. If you need to overwrite the inherent style settings of the component, you need to set it `!important`
 
-- Text, margin size, color, etc.Try to use the variables of the theme css file, custom `class` can be set by `var(xxx)`; `tailwindcss` can be set by `[xxx]`, such as `gap-[--Theme-Gap]`
+- Text, margin size, color, etc.Try to use the variables of the theme - Trick2.2 add, When the corresponding value is set to a string and begins with `css##`, it indicates the css class switch mode, and the element filtering settings are separated from class by `>>`, such as `css##. Page-Title>>class_1 class_2`, indicating that it is filtered through `document.querySelector` with `. Page-Title`, if there are two classes of `class_1 class_2` in the element at the same time, clean it up, otherwise supplement the non-existent class. In the test mode, because the event may be triggered twice (React mechanism), this setting will be converted twice, so it may not be effective on the surface
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css##`, it indicates the css class switch mode, and the element filtering settings are separated from class by `>>`, such as `css##. Page-Title>>class_1 class_2`, indicating that it is filtered through `document.querySelector` with `. Page-Title`, if there are two classes of `class_1 class_2` in the element at the same time, clean it up, otherwise supplement the non-existent class. In the test mode, because the event may be triggered twice (React mechanism), this setting will be converted twice, so it may not be effective on the surface
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css add##`, it indicates the `css class` additional mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css remove##`, it indicates the `css class` cleanup mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `style##`, it indicates the `style` style setting mode. The element filtering setting and `style setting` are separated by `>>`, and multiple style settings are separated by `;`, such as `style##. Page-Title>>color:#fff;width:100%! Important;`, indicating that it is filtered through `document.querySelector` with`. Page-Title`, and set the style file, custom `class` can be set by `var(xxx)`; `tailwind- Trick2.2 add, When the corresponding value is set to a string and begins with `css##`, it indicates the css class switch mode, and the element filtering settings are separated from class by `>>`, such as `css##. Page-Title>>class_1 class_2`, indicating that it is filtered through `document.querySelector` with `. Page-Title`, if there are two classes of `class_1 class_2` in the element at the same time, clean it up, otherwise supplement the non-existent class. In the test mode, because the event may be triggered twice (React mechanism), this setting will be converted twice, so it may not be effective on the surface
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css##`, it indicates the css class switch mode, and the element filtering settings are separated from class by `>>`, such as `css##. Page-Title>>class_1 class_2`, indicating that it is filtered through `document.querySelector` with `. Page-Title`, if there are two classes of `class_1 class_2` in the element at the same time, clean it up, otherwise supplement the non-existent class. In the test mode, because the event may be triggered twice (React mechanism), this setting will be converted twice, so it may not be effective on the surface
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css add##`, it indicates the `css class` additional mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css remove##`, it indicates the `css class` cleanup mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `style##`, it indicates the `style` style setting mode. The element filtering setting and `style setting` are separated by `>>`, and multiple style settings are separated by `;`, such as `style##. Page-Title>>color:#fff;width:100%! Important;`, indicating that it is filtered through `document.querySelector` with`. Page-Title`, and set the style` can be set by `[xxx]`, such as `gap-[--Theme-Gap]`
 
 ### > _on
 
@@ -95,6 +123,10 @@ Parameter Supplementary Description:
 
 - When the corresponding value is set to a string and starts with `pack##`, it automatically calls its upper `Pack component`, such as `_PackForm`, etc.; this kind of `Pack component` passes the callback address and some data to all lower components; It can be set the `_action` of calling `Pack component` after `pack##` , such as `pack##commit`, which indicates the `commit` action of calling the upper `Pack component`
 
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css##`, it indicates the css class switch mode, and the element filtering settings are separated from class by `>>`, such as `css##. Page-Title>>class_1 class_2`, indicating that it is filtered through `document.querySelector` with `. Page-Title`, if there are two classes of `class_1 class_2` in the element at the same time, clean it up, otherwise supplement the non-existent class. In the test mode, because the event may be triggered twice (React mechanism), this setting will be converted twice, so it may not be effective on the surface
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css add##`, it indicates the `css class` additional mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css remove##`, it indicates the `css class` cleanup mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `style##`, it indicates the `style` style setting mode. The element filtering setting and `style setting` are separated by `>>`, and multiple style settings are separated by `;`, such as `style##. Page-Title>>color:#fff;width:100%! Important;`, indicating that it is filtered through `document.querySelector` with`. Page-Title`, and set the style
 - When the corresponding value is set to a string, it means to call other components or the function of page Action in the way of `id`. And the function of page Action begins with `act##`, such as `act##Language_Change`
 
 - When the corresponding value is a function, it means that this function is called. This type is used for component testing. When making pages, this type cannot be used
@@ -102,6 +134,7 @@ Parameter Supplementary Description:
 - When the corresponding value is the object `{}`, it indicates the detailed setting. In general, when the event is called back, the returned data is the data of the whole component. If you want to configure the returned data in detail, the object type should be adopted; the fixed format is `{"_call":"",_data":{}} `,`_call` corresponds to the setting of the callback target, and `_data` corresponds to the setting of specific callback data; `_data` fixed format is `{"key 1":"value 1","key 2":"value 2"}`,  the `value` corresponding to the outermost `key` supports dynamic injection syntax; the dynamic syntax of `value` is that the beginning of `get##` means that it is obtained from the data of this component, and the beginning of `pack##` means that it is obtained from the data passed by `Pack component`, and it is allowed to use `>>` to locate deep data, such as `get## Key_1>>key_2`
 
 - When the corresponding value is the array `[]`, the above types can be embedded, and the component will execute multiple callbacks (asynchronous calls, the order cannot be guaranteed)
+- Trick2.2 added. By default, the `event` will be bubbled and passed (the upper HTML node will also respond). If you want not to bubble and pass, you can use the `_isStop` setting, `{"_isStop":true,"_call":"xxx "}`. If you want to set multiple callbacks, you can set it to `{"_isStop":true,"_call":["xxx", "xxx"]}`. If the bubble transmission is turned off, the `a` capture of the SPA web page by `_BoxPage` will also be invalidated
 
 # ※ shake dialog-Play the animation that the prompt box cannot be closed
 
@@ -201,7 +234,9 @@ In the `_data` setting, the `value` corresponding to the outermost `key` support
 
 Add version: Component general mechanism
 
-`Page Action` needs to use the `_BrokerUI` module for getting component data, and the returned data is all the data in the above `config settings`.
+`Page Action` needs to use the `_BrokerUI` module for getting component data, and the returned data is all the data in the above `config settings`
+
+The data will be automatically inserted into `passParam`, and the inserted field is the value corresponding to `_resultKey`. When the corresponding value of `_resultKey` is an empty string `""`, the entire `passParam` will be emptied and the data will be written
 
 ```
 {
@@ -232,6 +267,20 @@ You can also run `ShellExcute>>Build#Component` through `Christmas plug-in` and 
 `Sample.html`, `Sample.js` is a code specifically for separate testing
 
 # ◎ Updated list
+
+**1.1=2025.04.11**
+
+- [update] Add `_config` and `_configDeep` parameters
+- [update] The config key `_classBody` is changed to `_class`
+- [update] Remove the tailwin- Trick2.2 add, When the corresponding value is set to a string and begins with `css##`, it indicates the css class switch mode, and the element filtering settings are separated from class by `>>`, such as `css##. Page-Title>>class_1 class_2`, indicating that it is filtered through `document.querySelector` with `. Page-Title`, if there are two classes of `class_1 class_2` in the element at the same time, clean it up, otherwise supplement the non-existent class. In the test mode, because the event may be triggered twice (React mechanism), this setting will be converted twice, so it may not be effective on the surface
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css##`, it indicates the css class switch mode, and the element filtering settings are separated from class by `>>`, such as `css##. Page-Title>>class_1 class_2`, indicating that it is filtered through `document.querySelector` with `. Page-Title`, if there are two classes of `class_1 class_2` in the element at the same time, clean it up, otherwise supplement the non-existent class. In the test mode, because the event may be triggered twice (React mechanism), this setting will be converted twice, so it may not be effective on the surface
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css add##`, it indicates the `css class` additional mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css remove##`, it indicates the `css class` cleanup mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `style##`, it indicates the `style` style setting mode. The element filtering setting and `style setting` are separated by `>>`, and multiple style settings are separated by `;`, such as `style##. Page-Title>>color:#fff;width:100%! Important;`, indicating that it is filtered through `document.querySelector` with`. Page-Title`, and set the style utility classes from the component - Trick2.2 add, When the corresponding value is set to a string and begins with `css##`, it indicates the css class switch mode, and the element filtering settings are separated from class by `>>`, such as `css##. Page-Title>>class_1 class_2`, indicating that it is filtered through `document.querySelector` with `. Page-Title`, if there are two classes of `class_1 class_2` in the element at the same time, clean it up, otherwise supplement the non-existent class. In the test mode, because the event may be triggered twice (React mechanism), this setting will be converted twice, so it may not be effective on the surface
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css##`, it indicates the css class switch mode, and the element filtering settings are separated from class by `>>`, such as `css##. Page-Title>>class_1 class_2`, indicating that it is filtered through `document.querySelector` with `. Page-Title`, if there are two classes of `class_1 class_2` in the element at the same time, clean it up, otherwise supplement the non-existent class. In the test mode, because the event may be triggered twice (React mechanism), this setting will be converted twice, so it may not be effective on the surface
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css add##`, it indicates the `css class` additional mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css remove##`, it indicates the `css class` cleanup mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `style##`, it indicates the `style` style setting mode. The element filtering setting and `style setting` are separated by `>>`, and multiple style settings are separated by `;`, such as `style##. Page-Title>>color:#fff;width:100%! Important;`, indicating that it is filtered through `document.querySelector` with`. Page-Title`, and set the style to avoid the page requiring `important` to override styles
 
 **1.0=2024.11.15**
 

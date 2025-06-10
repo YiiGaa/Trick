@@ -17,7 +17,7 @@ function Change(moduleParam, passParam, data, state, setState, element, even){
 }
 
 //Default setting for "data"
-export const _CompTextareaActionDefault = Tools.MergeDefault(Configs.componentAction._CompTextarea,{
+export const _CompTextareaActionDefault = Tools.Merge(Configs.componentAction._CompTextarea,{
     "_id":"",
     "_data":null,
 })

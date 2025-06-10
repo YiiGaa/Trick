@@ -11,12 +11,14 @@ import {Dialog, DialogBackdrop, DialogPanel} from "@headlessui/react"
 import { XMarkIcon } from '@heroicons/react/24/solid'
 
 //TIPS::Default setting for "state"{}
-export const _BoxDialogUIDefault = Tools.MergeDefault(Configs.componentUI._BoxDialog,{
+export const _BoxDialogUIDefault = Tools.Merge(Configs.componentUI._BoxDialog,{
     "_isOpen":true,
     "_isCloseDismiss":false,
     "_textClose":null,
     "_templ":null,
-    "_classBody":"",
+    "_config":null,
+    "_configDeep":null,
+    "_class":"",
     "_classBackdrop":"",
     "_classContent":"",
     "_classContentPanel":"",
@@ -28,14 +30,14 @@ export const _BoxDialogUIDefault = Tools.MergeDefault(Configs.componentUI._BoxDi
 //TIPS::JSX UI render
 export function _BoxDialogUI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_BoxDialogAction, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_BoxDialogAction, handler, param, isCall);
     }
 
     return (
         <Dialog
             open={state._isOpen}
-            className={clsx("_BoxDialog-Body", state._classBody)}
+            className={clsx("_BoxDialog-Body", state._class)}
             onClose={Call({"_isOpen": false}, state._isCloseDismiss)}
         >
             <DialogBackdrop

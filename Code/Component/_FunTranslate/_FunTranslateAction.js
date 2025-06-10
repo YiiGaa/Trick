@@ -10,7 +10,7 @@ import {_FunTranslateUIDefault} from "/Code/Component/_FunTranslate/_FunTranslat
 // }
 
 //Default setting for "data"
-export const _FunTranslateActionDefault = Tools.MergeDefault(Configs.componentAction._FunTranslate,{
+export const _FunTranslateActionDefault = Tools.Merge(Configs.componentAction._FunTranslate,{
     "_id":"",
     "_data":null,
 });

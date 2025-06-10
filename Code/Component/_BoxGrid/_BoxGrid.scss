@@ -1,10 +1,9 @@
 //推荐使用class定义样式，且请以'组件名'作为前缀(避免与其他组件class产生冲突)
 //It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
 
-._BoxGrid-Body {
-    @apply w-full grid;
-    @apply gap-[--Theme-Gap];
-}
-
-._BoxGrid-Item {
+._BoxGrid-Backdrop {
+    background: var(--Theme-Color-Module);
+    padding: var(--Theme-Gap);
+    border-radius: var(--Theme-Gap);
+    box-shadow: var(--Theme-BoxShadow);
 }

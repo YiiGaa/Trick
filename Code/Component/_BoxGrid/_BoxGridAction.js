@@ -10,7 +10,7 @@ import {_BoxGridUIDefault} from "/Code/Component/_BoxGrid/_BoxGridUI";
 // }
 
 //Default setting for "data"
-export const _BoxGridActionDefault = Tools.MergeDefault(Configs.componentAction._BoxGrid,{
+export const _BoxGridActionDefault = Tools.Merge(Configs.componentAction._BoxGrid,{
     "_id":"",
     "_data":null,
 });

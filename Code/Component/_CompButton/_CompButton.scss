@@ -2,12 +2,12 @@
 //It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
 
 ._CompButton{
-    @apply rounded-[--Theme-Radius-SM];
-    @apply cursor-pointer;
     padding: var(--Theme-Gap-SM) var(--Theme-Gap);
     transition-duration: var(--Theme-TransDuration);
     background: var(--Theme-Color-Active);
     color: var(--Theme-Color-Invert);
+    cursor: pointer;
+    border-radius: var(--Theme-Radius-SM);
 
     &:hover{
         background: var(--Theme-Color-ActiveHover);
@@ -15,7 +15,7 @@
 }
 
 ._CompButton[disabled]{
-    @apply cursor-default;
+    cursor: default;
     background: var(--Theme-Color-Disable);
     color: var(--Theme-Color-Text-XS);
 }

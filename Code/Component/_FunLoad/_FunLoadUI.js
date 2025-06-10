@@ -9,9 +9,9 @@ import "/Code/Component/_FunLoad/_FunLoad.scss"
 import "/Code/Component/_FunLoad/Custom.scss"
 
 //TIPS::Default setting for "state"
-export const _FunLoadUIDefault = Tools.MergeDefault(Configs.componentUI._FunLoad,{
+export const _FunLoadUIDefault = Tools.Merge(Configs.componentUI._FunLoad,{
     "_isLoad":true,
-    "_classBody":"",
+    "_class":"",
     "_classChild":"",
     "_classLoadItem":"",
     "_classLoadList":["","","!w-9/12"],
@@ -21,13 +21,13 @@ export const _FunLoadUIDefault = Tools.MergeDefault(Configs.componentUI._FunLoad
 //TIPS::JSX UI render
 export function _FunLoadUI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_FunLoadAction, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_FunLoadAction, handler, param, isCall);
     }
 
     return (
         <div ref={element}
-             className={clsx("_FunLoad-Body", state._classBody)}
+             className={clsx("_FunLoad-Body", state._class)}
         >
             <div
                 className={clsx("_FunLoad-Child", state._classChild, state._isLoad?"opacity-0":"opacity-100")}

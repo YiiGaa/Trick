@@ -11,17 +11,19 @@ import "/Code/Component/_CompButton/Custom.scss"
 import { Button } from '@headlessui/react'
 
 //TIPS::Default setting for "state"
-export const _CompButtonUIDefault = Tools.MergeDefault(Configs.componentUI._CompButton,{
+export const _CompButtonUIDefault = Tools.Merge(Configs.componentUI._CompButton,{
     "_templ":null,
     "_prop":{},
-    "_class":""
+    "_class":"",
+    "_config":null,
+    "_configDeep":null
 })
 
 //TIPS::JSX UI render
 export function _CompButtonUI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_CompButtonAction, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_CompButtonAction, handler, param, isCall);
     }
 
     return (

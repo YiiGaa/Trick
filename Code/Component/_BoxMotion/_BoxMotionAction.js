@@ -39,7 +39,7 @@ function Show(moduleParam, passParam, data, state, setState, element, event, par
 }
 
 //Default setting for "data"
-export const _BoxMotionActionDefault = Tools.MergeDefault(Configs.componentAction._BoxMotion,{
+export const _BoxMotionActionDefault = Tools.Merge(Configs.componentAction._BoxMotion,{
     "_id":"",
     "_data":null,
 })

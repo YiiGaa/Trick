@@ -10,7 +10,7 @@ import "/Code/Component/_PackForm/Custom.scss"
 import {Field, Fieldset, Label, Description} from "@headlessui/react"
 
 //TIPS::Default setting for "state"
-export const _PackFormUIDefault = Tools.MergeDefault(Configs.componentUI._PackForm,{
+export const _PackFormUIDefault = Tools.Merge(Configs.componentUI._PackForm,{
     "_map":[
         {
             "_name":"",
@@ -28,7 +28,7 @@ export const _PackFormUIDefault = Tools.MergeDefault(Configs.componentUI._PackFo
         }
     ],
     "_textError":"",
-    "_classBody":"",
+    "_class":"",
     "_classField":"",
     "_classLabel":"",
     "_classDesc":"",
@@ -43,7 +43,7 @@ export function _PackFormUI(state, children, element, handler){
     }
 
     return (
-        <Fieldset ref={element} className={clsx("_PackForm-Body", state._classBody)}>
+        <Fieldset ref={element} className={clsx("_PackForm-Body", state._class)}>
             {
                 (Array.isArray(state._map)?state._map:[state._map]).map((item, index)=>
                     <Field key={index} className={clsx("_PackForm-Field", state._classField, item._classField)}>

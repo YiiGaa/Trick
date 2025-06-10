@@ -2,48 +2,87 @@
 //It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
 
 ._CompSelect-Body{
-    @apply w-full;
+    width: 100%;
 }
 
 ._CompSelect-Button{
-    @apply w-full;
-    @apply outline-2 -outline-offset-2 outline-transparent;
-    @apply transition-colors ease-in-out data-[open]:outline-2 data-[open]:-outline-offset-2;
-    @apply data-[open]:outline-[color:--Theme-Color-Active] data-[open]:border-[color:--Theme-Color-Active];
-    @apply flex flex-row items-center flex-nowrap text-left rtl:text-right;
+    width: 100%;
+    outline-offset: -1px;
+    outline: 2px solid transparent;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    text-align: left;
     padding: var(--Theme-Gap-XS) var(--Theme-Gap-SM);
     border: 0.1rem solid var(--Theme-Color-Divider);
     border-radius: var(--Theme-Radius-SM);
     background: var(--Theme-Color-Module);
+    transition-property: border, outline-color, outline-width;
+    transition-timing-function: ease-in-out;
     transition-duration: var(--Theme-TransDuration);
     background: var(--Theme-Color-Module);
+    html[dir="rtl"] &{
+        text-align:right;
+    }
+    &[data-open]{
+        outline-color: var(--Theme-Color-Active);
+    }
 }
 
 ._CompSelect-Button-Text {
-    @apply grow text-ellipsis whitespace-nowrap overflow-hidden;
+    flex-grow: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 ._CompSelect-Button-Text[data-isselected="false"] {
-    @apply text-[--Theme-Color-Text-XS];
+    color: var(--Theme-Color-Text-XS);
 }
 
 ._CompSelect-Button-Icon{
-    @apply grow-0 shrink-0 pointer-events-none size-[--Theme-Text-LG] fill-[color:--Theme-Color-Text];
-    @apply group-data-[open]:rotate-180 duration-[--Theme-TransDuration] group-data-[open]:fill-[color:--Theme-Color-Active];
+    flex-grow: 0;
+    flex-shrink: 0;
+    pointer-events: none;
+    width: var(--Theme-Text-LG);
+    height: var(--Theme-Text-LG);
+    fill: var(--Theme-Color-Text);
+    transition-property: fill,transform;
+    transition-duration: var(--Theme-TransDuration);
+    .group[data-open] &{
+        transform: rotate(180deg);
+        fill: var(--Theme-Color-Active);
+    }
 }
 
 ._CompSelect-Option{
-    @apply [--anchor-gap:--Theme-Gap-SM] min-w-[var(--button-width)] focus:outline-none;
-    @apply transition ease-out data-[closed]:-translate-y-[--Theme-Gap-SM] data-[closed]:opacity-0;
+    --anchor-gap: var(--Theme-Gap-SM);
+    min-width:var(--button-width);
     padding: var(--Theme-Gap-SM);
     box-shadow: var(--Theme-BoxShadow);
     border-radius: var(--Theme-Radius);
     background: var(--Theme-Color-Module);
+    transition-property: opacity, transform;
+    transition-timing-function: ease-out;
+    transition-duration: var(--Theme-TransDuration);
+    &:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+    }
+    &[data-closed]{
+        opacity: 0;
+        transform: translateY(-1rem);
+    }
 }
 
-._CompSelect-Option-Item{
-    @apply cursor-pointer;
-    @apply data-[focus]:bg-[--Theme-Color-ActiveHover] data-[focus]:text-[color:--Theme-Color-Invert];
+._CompSelect-Option-Item {
+    cursor: pointer;
     border-radius: var(--Theme-Radius);
-    padding:var(--Theme-Gap-SM) var(--Theme-Gap);
+    padding: var(--Theme-Gap-SM) var(--Theme-Gap);
+
+    &[data-focus] {
+        background-color: var(--Theme-Color-ActiveHover);
+        color: var(--Theme-Color-Invert);
+    }
 }

@@ -11,7 +11,7 @@ import "/Code/Component/_CompInput/Custom.scss"
 import { Input } from '@headlessui/react'
 
 //TIPS::Default setting for "state"
-export const _CompInputUIDefault = Tools.MergeDefault(Configs.componentUI._CompInput,{
+export const _CompInputUIDefault = Tools.Merge(Configs.componentUI._CompInput,{
     "_isAble":true,
     "_name":"",
     "_textPlaceholder":"",
@@ -23,8 +23,8 @@ export const _CompInputUIDefault = Tools.MergeDefault(Configs.componentUI._CompI
 //TIPS::JSX UI render
 export function _CompInputUI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_CompInputAction, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_CompInputAction, handler, param, isCall);
     }
 
     return (

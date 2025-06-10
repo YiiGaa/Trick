@@ -11,7 +11,7 @@ import "/Code/Component/_CompRadio/Custom.scss"
 import { Field, Label, Radio, RadioGroup } from '@headlessui/react'
 
 //TIPS::Default setting for "state"
-export const _CompRadioUIDefault = Tools.MergeDefault(Configs.componentUI._CompRadio,{
+export const _CompRadioUIDefault = Tools.Merge(Configs.componentUI._CompRadio,{
     "_name":"",
     "_value":null,
     "_map":[
@@ -19,21 +19,21 @@ export const _CompRadioUIDefault = Tools.MergeDefault(Configs.componentUI._CompR
             "_templ":null,
             "_value":null,
             "_config":null,
-            "_configDeep":null
+            "_configDeep":null,
+            "_class":"",
+            "_classRadio":"",
+            "_classSpan":"",
         }
     ],
-    "_classBody":"",
-    "_classItem":"",
-    "_classItemRadio":"",
-    "_classItemRadioSpan":"",
+    "_class":"",
     "_prop":{},
 })
 
 //TIPS::JSX UI render
 export function _CompRadioUI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_CompRadioAction, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_CompRadioAction, handler, param, isCall);
     }
 
     return (
@@ -41,20 +41,20 @@ export function _CompRadioUI(state, children, element, handler){
             as="div"
             name={state._name}
             value={state._value}
-            onChange={Call({"_value":"get##event"})}
-            className={clsx("_CompRadio-Body", state._classBody)}
+            onChange={Call({"_action":"change", "_value":"get##event", "_call":"get##_onChange"})}
+            className={clsx("_CompRadio-Body", state._class)}
             {...state._prop}
         >
             {(Array.isArray(state._map)?state._map:[state._map]).map((item, index) => (
                 <Field
                     key={index}
-                    className={clsx("_CompRadio-Item", state._classItem)}
+                    className={clsx("_CompRadio-Item", item._class)}
                 >
                     <Radio
                         value={item._value}
-                        className={clsx("_CompRadio-Item-Radio group", state._classItemRadio)}
+                        className={clsx("_CompRadio-Item-Radio group", item._classRadio)}
                     >
-                        <span className={clsx("_CompRadio-Item-Radio-Span", state._classItemRadioSpan)}/>
+                        <span className={clsx("_CompRadio-Item-Radio-Span", item._classSpan)}/>
                     </Radio>
                     <Label>{item._templ}</Label>
                 </Field>

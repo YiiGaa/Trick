@@ -1,41 +1,89 @@
 //推荐使用class定义样式，且请以'组件名'作为前缀(避免与其他组件class产生冲突)
 //It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
 
-._CompSelectFilter-Body{
-  @apply w-full;
-  @apply outline-2 outline-transparent;
-  @apply transition-colors ease-in-out data-[open]:outline-2 data-[focus]:outline-2;
-  @apply data-[open]:outline-[color:--Theme-Color-Active] data-[focus]:outline-[color:--Theme-Color-Active];
-  @apply flex flex-row items-center flex-nowrap text-left rtl:text-right;
-  padding: var(--Theme-Gap-XS) var(--Theme-Gap-SM);
-  border: 0.1rem solid var(--Theme-Color-Divider);
-  border-radius: var(--Theme-Radius-SM);
-  background: var(--Theme-Color-Module);
-  transition-duration: var(--Theme-TransDuration);
-  background: var(--Theme-Color-Module);
+._CompSelectFilter-Body {
+    width: 100%;
+    outline-width: 2px;
+    outline-color: transparent;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    text-align: left;
+    padding: var(--Theme-Gap-XS) var(--Theme-Gap-SM);
+    border: 0.1rem solid var(--Theme-Color-Divider);
+    border-radius: var(--Theme-Radius-SM);
+    background: var(--Theme-Color-Module);
+    transition-property: border, outline-color, outline-width;
+    transition-timing-function: ease-in-out;
+    transition-duration: var(--Theme-TransDuration);
+    background: var(--Theme-Color-Module);
+
+    html[dir="rtl"] & {
+        text-align: right;
+    }
+    &:focus{
+        outline-width: 2px
+    }
+    &[data-open] {
+        outline-color: var(--Theme-Color-Active);
+        border-color: var(--Theme-Color-Active);
+    }
 }
 
 ._CompSelectFilter-Text {
-  @apply grow text-ellipsis whitespace-nowrap overflow-hidden;
+    flex-grow: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
-._CompSelectFilter-Icon{
-  @apply grow-0 shrink-0 pointer-events-none size-[--Theme-Text-LG] fill-[color:--Theme-Color-Text];
-  @apply group-data-[open]:rotate-180 duration-[--Theme-TransDuration] group-data-[open]:fill-[color:--Theme-Color-Active];
+._CompSelectFilter-Icon {
+    flex-grow: 0;
+    flex-shrink: 0;
+    pointer-events: none;
+    width: var(--Theme-Text-LG);
+    height: var(--Theme-Text-LG);
+    fill: var(--Theme-Color-Text);
+    transition-property: fill,transform;
+    transition-duration: var(--Theme-TransDuration);
+    .group[data-open] &{
+        transform: rotate(180deg);
+        fill: var(--Theme-Color-Active);
+    }
 }
 
-._CompSelectFilter-Option{
-  @apply empty:invisible [--anchor-gap:--Theme-Gap-SM] min-w-[var(--button-width)] focus:outline-none;
-  @apply transition ease-out data-[closed]:-translate-y-[--Theme-Gap-SM] data-[closed]:opacity-0;
-  padding: var(--Theme-Gap-SM);
-  box-shadow: var(--Theme-BoxShadow);
-  border-radius: var(--Theme-Radius);
-  background: var(--Theme-Color-Module);
+._CompSelectFilter-Option {
+    background: var(--Theme-Color-Module);
+    --anchor-gap: var(--Theme-Gap-SM);
+    min-width:var(--button-width);
+    padding: var(--Theme-Gap-SM);
+    box-shadow: var(--Theme-BoxShadow);
+    border-radius: var(--Theme-Radius);
+    background: var(--Theme-Color-Module);
+    transition-property: opacity, transform;
+    transition-timing-function: ease-out;
+    transition-duration: var(--Theme-TransDuration);
+    &:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+    }
+    &[data-closed]{
+        opacity: 0;
+        transform: translateY(-1rem);
+    }
+    &:empty {
+        visibility: hidden;
+    }
 }
 
-._CompSelectFilter-Option-Item{
-  @apply cursor-pointer;
-  @apply data-[focus]:bg-[--Theme-Color-ActiveHover] data-[focus]:text-[color:--Theme-Color-Invert];
-  border-radius: var(--Theme-Radius);
-  padding:var(--Theme-Gap-SM) var(--Theme-Gap);
+._CompSelectFilter-Option-Item {
+    cursor: pointer;
+    border-radius: var(--Theme-Radius);
+    padding: var(--Theme-Gap-SM) var(--Theme-Gap);
+
+    &[data-focus] {
+        background-color: var(--Theme-Color-ActiveHover);
+        color: var(--Theme-Color-Invert);
+    }
 }

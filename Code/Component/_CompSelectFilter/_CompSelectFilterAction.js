@@ -10,9 +10,10 @@ import {_CompSelectFilterUIDefault} from "/Code/Component/_CompSelectFilter/_Com
 // }
 
 //Default setting for "data"
-export const _CompSelectFilterActionDefault = Tools.MergeDefault(Configs.componentAction._CompSelectFilter,{
+export const _CompSelectFilterActionDefault = Tools.Merge(Configs.componentAction._CompSelectFilter,{
     "_id":"",
     "_data":null,
+    "_onChange":null
 })
 
 //TIPS::Action processing entrance
@@ -31,6 +32,11 @@ export function _CompSelectFilterAction(param, handler, event=null) {
         const _action = Tools.ParamRead("_action", "", moduleParam, passParam);
 
         switch(_action){
+            case "change":
+                passParam = passParam === null && event ===null? {event:""}:passParam;
+                Tools.CompActSet(moduleParam, passParam, data, state, setState, element, event, parentContext, "_CompSelectFilter", _CompSelectFilterActionDefault, _CompSelectFilterUIDefault, templateMark);
+                Tools.CompActEvent(moduleParam, passParam, data, state, setState, element, event, parentContext, "_CompSelectFilter");
+                break;
             case "event":
                 Tools.CompActEvent(moduleParam, passParam, data, state, setState, element, event, parentContext, "_CompSelectFilter");
                 break;

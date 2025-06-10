@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { jsx,css } from '@emotion/react';
 import React from "react"
 import clsx from "clsx";
 import * as Tools from "/Code/Common/Tools/Tools"
@@ -7,59 +9,56 @@ import "/Code/Common/Theme/Theme.scss"
 import "/Code/Common/Theme/Style.scss"
 import "/Code/Component/_BoxGrid/_BoxGrid.scss"
 import "/Code/Component/_BoxGrid/Custom.scss"
+import __MotionCss from "/Code/Component/_BoxGrid/__MotionCss";
 
 //TIPS::Default setting for "state"
-export const _BoxGridUIDefault = Tools.MergeDefault(Configs.componentUI._BoxGrid,{
-    "_isCol":true,
-    "_count":1,
-    "_map":[
-        {
-            "_templ":null, 
-            "_classItem":"", 
-            "_count":-1, 
-            "_backdrop":false,
-            "_config":null,
-            "_configDeep":null,
-        }
-    ],
-    "_classBody":""
+export const _BoxGridUIDefault = Tools.Merge(Configs.componentUI._BoxGrid,{
+    "_as":"div",
+    "_prop":{},
+    "_call":{},
+    "_grid":[[],{}],
+    "_class":"",
+    "_backdrop":false,
+    "_map":[[],{}]
 });
 
-//TIPS::JSX UI render
-export function _BoxGridUI(state, children, element, handler){
-    //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_BoxGridAction, handler, param, isCall, isStop);
+const InnerComponent = function({state, Call, templateMark}){
+    const Component = state._as || "div";
+
+    for(const key in state._call){
+        state._call[key] = Call({"_action": "event", "_data":state, "_call": state._call[key]})
     }
 
     return (
-        <div
-            ref={element}
+        <Component
             className={clsx(
-                "_BoxGrid-Body",
-                state._classBody
+                state._class?state._class:undefined,
+                state._area?state._area:undefined,
+                state._backdrop && "_BoxGrid-Backdrop",
+                state._grid?"gap-[--Theme-Gap]":undefined
             )}
-            style={{
-                "gridTemplateColumns":state._isCol?`repeat(${state._count}, minmax(0, 1fr))`:"none",
-                "gridTemplateRows":!state._isCol?`repeat(${state._count}, minmax(0, 1fr))`:"none"
-            }}
+            {...state._prop}
+            {...state._call}
+            css={__MotionCss(state._grid, state._area, templateMark)}
         >
-            {(Array.isArray(state._map)?state._map:[state._map]).map((item,index)=>(
-                <div
-                    key={index}
-                    className={clsx(
-                        "_BoxGrid-Item",
-                        item._backdrop && "bg-[--Theme-Color-Module] rounded-[--Theme-Gap] shadow-[shadow:--Theme-BoxShadow] p-[--Theme-Gap]",
-                        item._classItem
-                    )}
-                    style={{
-                        "gridColumn":state._isCol?`span ${item._count} / span ${item._count}`:"auto",
-                        "gridRows":!state._isCol?`span ${item._count} / span ${item._count}`:"auto"
-                    }}
-                >
-                    {item._templ}
-                </div>
-            ))}
-        </div>
+            {
+                state._map && (Array.isArray(state._map)?state._map:[state._map]).map((item,index)=>(
+                    <InnerComponent key={index} state={item} Call={Call} templateMark={Array.isArray(state._map)?templateMark._map[index]:templateMark._map}/>
+                ))
+            }
+            {(!state._map && state._templ) ? state._templ : undefined}
+        </Component>
+    );
+}
+
+//TIPS::JSX UI render
+export function _BoxGridUI(state, children, element, handler, templateMark){
+    //TIPS::Call real action function
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_BoxGridAction, handler, param, isCall);
+    }
+
+    return (
+        <InnerComponent state={state} Call={Call} templateMark={templateMark.current}/>
     );
 }

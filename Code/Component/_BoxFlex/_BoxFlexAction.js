@@ -10,7 +10,7 @@ import {_BoxFlexUIDefault} from "/Code/Component/_BoxFlex/_BoxFlexUI";
 // }
 
 //Default setting for "data"
-export const _BoxFlexActionDefault = Tools.MergeDefault(Configs.componentAction._BoxFlex,{
+export const _BoxFlexActionDefault = Tools.Merge(Configs.componentAction._BoxFlex,{
     "_id":"",
     "_data":null,
 });

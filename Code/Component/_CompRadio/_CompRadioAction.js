@@ -10,9 +10,10 @@ import {_CompRadioUIDefault} from "/Code/Component/_CompRadio/_CompRadioUI";
 // }
 
 //Default setting for "data"
-export const _CompRadioActionDefault = Tools.MergeDefault(Configs.componentAction._CompRadio,{
+export const _CompRadioActionDefault = Tools.Merge(Configs.componentAction._CompRadio,{
     "_id":"",
     "_data":null,
+    "_onChange":null
 })
 
 //TIPS::Action processing entrance
@@ -31,6 +32,10 @@ export function _CompRadioAction(param, handler, event=null) {
         const _action = Tools.ParamRead("_action", "", moduleParam, passParam);
 
         switch(_action){
+            case "change":
+                Tools.CompActSet(moduleParam, passParam, data, state, setState, element, event, parentContext, "_CompRadio", _CompRadioActionDefault, _CompRadioUIDefault, templateMark);
+                Tools.CompActEvent(moduleParam, passParam, data, state, setState, element, event, parentContext, "_CompRadio");
+                break;
             case "event":
                 Tools.CompActEvent(moduleParam, passParam, data, state, setState, element, event, parentContext, "_CompRadio");
                 break;

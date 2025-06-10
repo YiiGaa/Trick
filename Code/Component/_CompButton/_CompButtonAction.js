@@ -10,7 +10,7 @@ import {_CompButtonUIDefault} from "/Code/Component/_CompButton/_CompButtonUI";
 // }
 
 //Default setting for "data"
-export const _CompButtonActionDefault = Tools.MergeDefault(Configs.componentAction._CompButton,{
+export const _CompButtonActionDefault = Tools.Merge(Configs.componentAction._CompButton,{
     "_id":"",
     "_data":null,
     "_onClick":null

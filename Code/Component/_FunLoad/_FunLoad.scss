@@ -2,21 +2,27 @@
 //It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
 
 ._FunLoad-Body{
-    @apply relative overflow-y-hidden;
+    position: relative;
+    overflow-y: hidden;
 }
 
 ._FunLoad-Child{
-    @apply transition-opacity ease-out;
     transition-duration: var(--Theme-TransDuration);
+    transition-property: opacity;
 }
 
 ._FunLoad-Load{
-    @apply absolute inset-0;
-    @apply flex flex-col gap-y-[--Theme-Gap];
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--Theme-Gap);
+    position: absolute;
+    inset: 0;
     @apply animate-pulse;
 }
 
 ._FunLoad-Load-Item{
-    @apply w-full h-[--Theme-Text] rounded-[--Theme-Radius-XS];
+    width: 100%;
+    height: var(--Theme-Text);
+    border-radius: calc(infinity * 1px);
     background: var(--Theme-Color-Widges);
 }

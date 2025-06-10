@@ -12,11 +12,13 @@ import { Checkbox, Description, Field, Label } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/16/solid'
 
 //TIPS::Default setting for "state"
-export const _CompCheckboxUIDefault = Tools.MergeDefault(Configs.componentUI._CompCheckbox,{
+export const _CompCheckboxUIDefault = Tools.Merge(Configs.componentUI._CompCheckbox,{
     "_name":"",
     "_isAble":false,
     "_templ":null,
-    "_classBody":"",
+    "_config":null,
+    "_configDeep":null,
+    "_class":"",
     "_classBox":"",
     "_classIcon":"",
     "_classLabel":"",
@@ -26,12 +28,12 @@ export const _CompCheckboxUIDefault = Tools.MergeDefault(Configs.componentUI._Co
 //TIPS::JSX UI render
 export function _CompCheckboxUI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_CompCheckboxAction, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_CompCheckboxAction, handler, param, isCall);
     }
 
     return (
-        <Field className={clsx("_CompCheckbox-Body", state._classBody)}>
+        <Field className={clsx("_CompCheckbox-Body", state._class)}>
             <Checkbox
                 name={state._name}
                 value={state._isAble}

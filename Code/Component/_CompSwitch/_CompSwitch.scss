@@ -2,24 +2,53 @@
 //It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
 
 ._CompSwitch-Body{
-    @apply flex items-center gap-[--Theme-Gap-SM];
+    display: flex;
+    align-items: center;
+    gap: var(--Theme-Gap-SM);
 }
 
 ._CompSwitch-Slot{
-    @apply relative flex h-[--Theme-Text-LG] w-[--Theme-Text-4XL] rounded-full cursor-pointer;
-    @apply outline outline-1 outline-offset-0 outline-[color:--Theme-Color-Divider];
-    @apply transition-colors ease-in-out;
-    @apply  data-[checked]:outline-offset-0 data-[checked]:outline-[color:--Theme-Color-Active] data-[checked]:bg-[--Theme-Color-Active];
-    background: var(--Theme-Color-Module);
+    position: relative;
+    display: flex;
+    height: var(--Theme-Text-LG);
+    width: var(--Theme-Text-4XL);
+    border-radius: calc(infinity * 1px);
+    cursor: pointer;
+    outline-offset: 0px;
+    outline: 1px solid var(--Theme-Color-Divider);
+    transition-property: outline-color,background-color;
     transition-duration: var(--Theme-TransDuration);
+    transition-timing-function: ease-in-out;
+    background: var(--Theme-Color-Module);
+    &[data-checked]{
+        outline-color: var(--Theme-Color-Active);
+        background: var(--Theme-Color-Active);
+    }
 }
 
 ._CompSwitch-Bar{
-    @apply size-[--Theme-Text-LG] rounded-full pointer-events-none inline-block;
-    @apply transition ease-in-out translate-x-0;
-    @apply group-data-[checked]:bg-[--Theme-Color-Invert];
+    height: var(--Theme-Text-LG);
+    width: var(--Theme-Text-LG);
+    border-radius: calc(infinity * 1px);
+    pointer-events: none;
+    display: inline-block;
+
+
+    //@apply size-[--Theme-Text-LG] rounded-full pointer-events-none inline-block;
+    //@apply translate-x-0;
+    //@apply group-data-[checked]:bg-[--Theme-Color-Invert];
     @apply rtl:group-data-[checked]:-translate-x-full group-data-[checked]:translate-x-full;
-    background: var(--Theme-Color-Divider);
+    --tw-translate-x: 0px;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+
+    transition-property: transform,background-color;
     transition-duration: var(--Theme-TransDuration);
+    transition-timing-function: ease-in-out;
+
+    background: var(--Theme-Color-Divider);
+    .group[data-checked] & {
+        background-color: var(--Theme-Color-Invert);
+    }
+
 }
 

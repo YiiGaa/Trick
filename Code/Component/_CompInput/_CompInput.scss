@@ -2,13 +2,25 @@
 //It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
 
 ._CompInput{
-    @apply w-full;
-    @apply outline-2 -outline-offset-2 outline-transparent;
-    @apply transition-colors ease-in-out focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2;
-    @apply data-[focus]:outline-[color:--Theme-Color-Active] data-[focus]:border-[color:--Theme-Color-Active];
+    width: 100%;
+    outline-width: 2px;
+    outline-offset: -2px;
+    outline-color: transparent;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: ease-in-out;
+    transition-duration: var(--Theme-TransDuration);
     padding: var(--Theme-Gap-XS) var(--Theme-Gap-SM);
     border: 0.1rem solid var(--Theme-Color-Divider);
     border-radius: var(--Theme-Radius-SM);
     background: var(--Theme-Color-Module);
-    transition-duration: var(--Theme-TransDuration);
+    &:focus{
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+    }
+    &[data-focus]{
+        outline-width: 2px;
+        outline-offset: -2px;
+        outline-color: var(--Theme-Color-Active);
+        border-color: var(--Theme-Color-Active);
+    }
 }

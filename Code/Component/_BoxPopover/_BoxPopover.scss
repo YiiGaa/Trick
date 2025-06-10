@@ -6,15 +6,28 @@
 }
 
 ._BoxPopover-Button{
-    @apply cursor-pointer focus:outline-none;
+    cursor: pointer;
+    &:focus{
+        outline: none;
+    }
 }
 
 ._BoxPopover-Panel{
-    @apply flex flex-col w-80 [--anchor-gap:--Theme-Gap-SM];
-    @apply transition ease-out data-[closed]:-translate-y-[--Theme-Gap-SM] data-[closed]:opacity-0;
+    display: flex;
+    flex-direction: column;
+    --anchor-gap:var(--Theme-Gap-SM);
     background: var(--Theme-Color-Module);
     border-radius: var(--Theme-Radius);
     box-shadow: var(--Theme-BoxShadow);
-    transition-duration:var(--Theme-TransDuration);
     padding: var(--Theme-Gap);
+    transition-duration:var(--Theme-TransDuration);
+    transition-property: opacity, transform;
+    transition-timing-function: ease-out;
+    &:focus{
+        outline: none;
+    }
+    &[data-closed]{
+        opacity: 0;
+        transform: translateY(-1rem);
+    }
 }

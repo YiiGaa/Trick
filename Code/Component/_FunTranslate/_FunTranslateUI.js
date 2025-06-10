@@ -11,7 +11,7 @@ import { Trans } from "react-i18next"
 import htmr from "htmr"
 
 //TIPS::Default setting for "state"
-export const _FunTranslateUIDefault = Tools.MergeDefault(Configs.componentUI._FunTranslate,{
+export const _FunTranslateUIDefault = Tools.Merge(Configs.componentUI._FunTranslate,{
     "_value":"",
     "_config":{},
     "_html":{}
@@ -20,8 +20,8 @@ export const _FunTranslateUIDefault = Tools.MergeDefault(Configs.componentUI._Fu
 //TIPS::JSX UI render
 export function _FunTranslateUI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_FunTranslateAction, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_FunTranslateAction, handler, param, isCall);
     }
 
     //STEP::Trans string to html

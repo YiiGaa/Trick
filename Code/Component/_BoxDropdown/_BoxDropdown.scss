@@ -2,19 +2,27 @@
 //It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
 
 ._BoxDropdown{
-    @apply [--anchor-gap:--Theme-Gap-SM] focus:outline-none;
-    @apply transition ease-out data-[closed]:-translate-y-[--Theme-Gap-SM] data-[closed]:opacity-0;
+    --anchor-gap: var(--Theme-Gap-SM);
     background: var(--Theme-Color-Module);
     padding: var(--Theme-Gap-SM);
     border-radius: var(--Theme-Radius);
     box-shadow: var(--Theme-BoxShadow);
     transition-duration:var(--Theme-TransDuration);
+    transition-property: opacity, transform;
+    transition-timing-function: ease-out;
+    &:focus{
+        outline: none;
+    }
+    &[data-closed]{
+        opacity: 0;
+        transform: translateY(-1rem);
+    }
 }
 
 ._BoxDropdown-Item{
-    @apply cursor-pointer;
     border-radius: var(--Theme-Radius);
     padding:var(--Theme-Gap-SM) var(--Theme-Gap);
+    cursor: pointer;
 }
 ._BoxDropdown-Item:hover{
     color: var(--Theme-Color-Invert);

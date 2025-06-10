@@ -11,7 +11,7 @@ import "/Code/Component/_BoxMotion/Custom.scss"
 import {MenuItem, Tab, Transition, TransitionChild} from '@headlessui/react'
 
 //TIPS::Default setting for "state"
-export const _BoxMotionUIDefault =  Tools.MergeDefault(Configs.componentUI._BoxMotion,{
+export const _BoxMotionUIDefault =  Tools.Merge(Configs.componentUI._BoxMotion,{
     "_isShow":true,
     "_map":[
         {
@@ -25,8 +25,8 @@ export const _BoxMotionUIDefault =  Tools.MergeDefault(Configs.componentUI._BoxM
 //TIPS::JSX UI render
 export function _BoxMotionUI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_BoxMotionAction, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_BoxMotionAction, handler, param, isCall);
     }
 
     return (
@@ -37,6 +37,7 @@ export function _BoxMotionUI(state, children, element, handler){
         >
             {(Array.isArray(state._map)?state._map:[state._map]).map((item, index) => (
                 <TransitionChild
+                    as="div"
                     key={index}
                 >
                     {item._templ}

@@ -2,6 +2,5 @@
 //It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
 
 ._CompImg-Body{
-    @apply w-full;
-    //@apply object-cover w-full aspect-[4/3];
+    width: 100%;
 }

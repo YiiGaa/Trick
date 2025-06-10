@@ -13,7 +13,7 @@ import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headless
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 
 //TIPS::Default setting for "state"
-export const _CompSelectUIDefault = Tools.MergeDefault(Configs.componentUI._CompSelect,{
+export const _CompSelectUIDefault = Tools.Merge(Configs.componentUI._CompSelect,{
     "_name":"",
     "_value":null,
     "_textPlaceholder":"",
@@ -24,23 +24,23 @@ export const _CompSelectUIDefault = Tools.MergeDefault(Configs.componentUI._Comp
             "_value":null,
             "_text":null,
             "_config":null,
-            "_configDeep":null
+            "_configDeep":null,
+            "_class":""
         }
     ],
-    "_classBody":"",
+    "_class":"",
     "_classButton":"",
     "_classButtonText":"",
     "_classButtonIcon":"",
     "_classOption":"",
-    "_classOptionItem":"",
     "_prop":{},
 })
 
 //TIPS::JSX UI render
 export function _CompSelectUI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_CompSelectAction, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_CompSelectAction, handler, param, isCall);
     }
 
     let select = state._map.find(object => object._value === state._value);
@@ -55,11 +55,12 @@ export function _CompSelectUI(state, children, element, handler){
             as="div"
             name={state._name}
             value={state._value}
-            className={clsx("_CompSelect", state._classBody)}
-            onChange={Call({"_value":"get##event"})}
+            className={clsx("_CompSelect", state._class)}
+            onChange={Call({"_action":"change", "_value":"get##event", "_call":"get##_onChange"})}
             {...state._prop}
         >
             <ListboxButton
+                as="div"
                 className={clsx("_CompSelect-Button group", state._classButton)}
             >
                 <div data-isselected = {isSelected} className={clsx("_CompSelect-Button-Text", state._classButtonText)}>{select._text}</div>
@@ -76,7 +77,7 @@ export function _CompSelectUI(state, children, element, handler){
                     <ListboxOption
                         key={index}
                         value={item._value}
-                        className={clsx("_CompSelect-Option-Item group", state._classOptionItem)}
+                        className={clsx("_CompSelect-Option-Item group", item._class)}
                     >
                         {item._templ}
                     </ListboxOption>

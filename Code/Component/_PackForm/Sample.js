@@ -63,7 +63,7 @@ function TestElement({config, children}) {
                 value={state._value}
                 name={state._name}
                 onChange={handleChange}
-                className="border-solid border-[0.2rem] border-[color:--Theme-Color-Divider] rounded-[--Theme-Radius-SM] py-[--Theme-Gap-XS] px-[--Theme-Gap-SM] text-[--Theme-Color-Module]"
+                className="border-solid border-[0.2rem] border-[color:--Theme-Color-Divider] rounded-[--Theme-Radius-SM] py-[--Theme-Gap-XS] px-[--Theme-Gap-SM] text-[--Theme-Color-Divider]"
             />
         </>
     )

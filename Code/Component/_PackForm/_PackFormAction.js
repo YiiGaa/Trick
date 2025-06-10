@@ -115,7 +115,7 @@ function Commit(moduleParam, passParam, data, state, setState, element, event, p
 }
 
 //TIPS::Default setting for "data"
-export const _PackFormActionDefault = Tools.MergeDefault(Configs.componentAction._PackForm,{
+export const _PackFormActionDefault = Tools.Merge(Configs.componentAction._PackForm,{
     "_id":"",
     "_data":null,
     "_onCommit":null

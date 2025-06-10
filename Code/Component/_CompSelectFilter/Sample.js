@@ -5,19 +5,15 @@ import Logger from "/Code/Common/Logger/Logger"
 import * as Tools from "/Code/Common/Tools/Tools"
 
 //WHEN::Test for calling component
-function TestCall() {
-    Logger.SetId();
-    let data = {
-        "_action":"xxx",
-        "xxx":"xxx"
-    };
-    Tools.PubSubSend("id_test", data);
+function TestCall(data) {
+    console.log("** TestCall", data)
 }
 
 //STEP::Setting component config for test
 let config = {
     "_id":"id_test",
     "_value":"value 1",
+    "_onChange":TestCall,
     "_map":[
         { _value: "value 1", _templ: 'Durward Reynolds', _text:'Durward'},
         { _value: "value 2", _templ: 'Kenton Towne', _text:'Kenton'},

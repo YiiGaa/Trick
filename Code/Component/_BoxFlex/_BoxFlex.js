@@ -49,5 +49,5 @@ export default function _BoxFlex({config, children}) {
     console.debug(Logger.Header(), "Component-_BoxFlex auto change template, state", newState, "theme", theme);
 
     //STEP::UI render
-    return _BoxFlexUI(newState, children, element, handler);
+    return _BoxFlexUI(newState, children, element, handler, templateMark);
 }

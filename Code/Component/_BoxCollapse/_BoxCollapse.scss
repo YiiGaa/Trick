@@ -6,10 +6,14 @@
 }
 
 ._BoxCollapse-Button{
-    @apply cursor-pointer;
+    cursor: pointer;
 }
 
 ._BoxCollapse-Panel{
-    @apply transition ease-in-out data-[closed]:-translate-y-[--Theme-Gap] data-[closed]:opacity-0;
-    transition-duration:var(--Theme-TransDuration);
+    transition: opacity var(--Theme-TransDuration) ease-in-out;
+
+    &[data-closed] {
+        overflow: hidden;
+        opacity: 0;
+    }
 }

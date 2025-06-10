@@ -11,11 +11,11 @@ import "/Code/Component/_BoxCollapse/Custom.scss"
 import {Disclosure, DisclosureButton, DisclosurePanel} from '@headlessui/react'
 
 //TIPS::Default setting for "state"
-export const _BoxCollapseUIDefault = Tools.MergeDefault(Configs.componentUI._BoxCollapse,{
+export const _BoxCollapseUIDefault = Tools.Merge(Configs.componentUI._BoxCollapse,{
     "_initOpen":true,
     "_templButton":null,
     "_templPanel":null,
-    "_classBody":"",
+    "_class":"",
     "_classButton":"",
     "_classPanel":""
 })
@@ -23,15 +23,15 @@ export const _BoxCollapseUIDefault = Tools.MergeDefault(Configs.componentUI._Box
 //TIPS::JSX UI render
 export function _BoxCollapseUI(state, children, element, handler){
     //TIPS::Call real action function
-    function Call (param={}, isCall=true, isStop=true){
-        return Tools.CompActCall(_BoxCollapseAction, handler, param, isCall, isStop);
+    function Call (param={}, isCall=true){
+        return Tools.CompActCall(_BoxCollapseAction, handler, param, isCall);
     }
 
     return (
         <Disclosure
             as="div"
             defaultOpen={state._initOpen}
-            className={clsx("_BoxCollapse", state._classBody)}
+            className={clsx("_BoxCollapse", state._class)}
         >
             <DisclosureButton
                 as="div"

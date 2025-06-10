@@ -10,7 +10,7 @@ import {_CompInputUIDefault} from "/Code/Component/_CompInput/_CompInputUI";
 // }
 
 //Default setting for "data"
-export const _CompInputActionDefault = Tools.MergeDefault(Configs.componentAction._CompInput,{
+export const _CompInputActionDefault = Tools.Merge(Configs.componentAction._CompInput,{
     "_id":"",
     "_data":null,
     "_onChange":null

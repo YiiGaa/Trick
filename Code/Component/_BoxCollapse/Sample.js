@@ -19,7 +19,7 @@ let config = {
     "_id":"id_test",
     "_templButton":"child##0",
     "_templPanel":"child##1",
-    "_classBody":"rounded-[--Theme-Gap] shadow-[shadow:--Theme-BoxShadow] p-[--Theme-Gap]"
+    "_class":"rounded-[--Theme-Gap] shadow-[shadow:--Theme-BoxShadow] p-[--Theme-Gap]"
 }
 
 //STEP::Generate component test page

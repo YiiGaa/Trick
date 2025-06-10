@@ -2,21 +2,34 @@
 //It is recommended to use class to define the style, and please prefix with 'component name'(Avoid conflicts with other component class)
 
 ._CompCheckbox-Body{
-    @apply flex items-center gap-[--Theme-Gap-SM];
+    display: flex;
+    align-items: center;
+    gap: var(--Theme-Gap-SM);
 }
 
 ._CompCheckbox-Box{
-    @apply size-[--Theme-Text-LG];
-    @apply data-[checked]:bg-[--Theme-Color-Active] data-[checked]:border-[color:--Theme-Color-Active];
+    width: var(--Theme-Text-LG);
+    height: var(--Theme-Text-LG);
     border: 0.1rem solid var(--Theme-Color-Divider);
     border-radius: var(--Theme-Radius-SM);
     background: var(--Theme-Color-Module);
     transition-duration: var(--Theme-TransDuration);
+    &[data-checked]{
+        background: var(--Theme-Color-Active);
+        border-color: var(--Theme-Color-Active);
+    }
 }
 
 ._CompCheckbox-Icon{
-    @apply size-[--Theme-Text] fill-[--Theme-Color-Invert] stroke-2;
-    @apply opacity-0 ease-in group-data-[checked]:opacity-100;
+    width: var(--Theme-Text);
+    height: var(--Theme-Text);
+    fill: var(--Theme-Color-Invert);
+    opacity:0;
+    stroke-width: 2;
+    transition: opacity var(--Theme-TransitionDuration) ease-in;
+    .group[data-checked] & {
+        opacity: 1;
+    }
 }
 
 ._CompCheckbox-Label{}

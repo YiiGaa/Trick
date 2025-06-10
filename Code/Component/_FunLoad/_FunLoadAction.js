@@ -10,7 +10,7 @@ import {_FunLoadUIDefault} from "/Code/Component/_FunLoad/_FunLoadUI";
 // }
 
 //Default setting for "data"
-export const _FunLoadActionDefault = Tools.MergeDefault(Configs.componentAction._FunLoad,{
+export const _FunLoadActionDefault = Tools.Merge(Configs.componentAction._FunLoad,{
     "_id":"",
     "_data":null,
 });

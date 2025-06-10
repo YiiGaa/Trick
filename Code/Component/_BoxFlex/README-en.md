@@ -1,5 +1,7 @@
 # _BoxFlex-Flex layout
 
+This component version 1.1 and later requires Trick version 2.2 or above.
+
 The main functions include:
 
 - Config Settings
@@ -10,20 +12,16 @@ The main functions include:
 
 ```
 {
-	"name": "$._BoxFlex",
+    "name": "$._BoxFlex",
     "config": {
         "_id":"",
-        "_isRow":true,
-        "_isWap":true,
+        "_as":"div",
+        "_flex": ["row", "nowrap"],
+        "_class":"",
         "_map":[
-            {
-                "_templ":null,
-                "_isFill":true, 
-                "_backdrop":false
-            }
+            {"_templ":null}
         ]
-    },
-    "child":[]
+    }
 }
 ```
 
@@ -31,27 +29,103 @@ The main functions include:
 | ---------- | ------------------------------------------------------------ | -------------------------- | ------------ | -------------- |
 | _id        | Component id, the name should be as unique as possible, and do not contain `.` | No need to call components | String       | 1.0=2024.11.15 |
 | _data      | Custom temporary storage data, which will be returned together when obtaining component data | null                       | Open type    | 1.0=2024.11.15 |
-| _isRow     | Whether horizontal layout, true: horizontal, false: vertical | true                       | Bool         | 1.0=2024.11.15 |
-| _isWap     | Whether to allow line breaks, true: allow, false: not allow  | true                       | Bool         | 1.0=2024.11.15 |
+| _as       | HTML tags actually used, such as: a, div                     | div                        | String       | 1.1=2025.04.11                   |
+| _prop     | HTML tag attributes, automatically expand and set in HTML tags |                            | Object       | 1.1=2025.04.11                   |
+| _call     | HTML event attributes, the component will automatically convert the event trigger and set it to the HTML tag |                            | Object       | 1.1=2025.04.11                   |
+| _flex     | Flex layout settings                                         |                            | Array/Object | 1.1=2025.04.11                   |
 | _map       | Layout item settings                                         |                            | Array/Object | 1.0=2024.11.15 |
-| _classBody | Outer style of the component                                 |                            | String       | 1.0=2024.11.15 |
+| _class | Outer style of the component                                 |                            | String       | 1.0=2024.11.15<br>1.1=2025.04.11 |
+| _backdrop | Whether to use the default background (theme background color, rounded corners, shadows) | false | Bool | 1.0=2024.11.15 |
 
 Parameter Supplementary Description:
+
+### > _call
+
+- HTML tag event attributes, the component will automatically convert the event trigger and set it to the HTML tag attribute
+- key corresponds to Jsx events, such as: onClick
+
+- value corresponds to the event callback, and the requirements meet the following `_on` requirements, and Trick will automatically convert
+
+### > _flex
+
+- Flex layout settings
+
+- The actual setting is the CSS `flex-direction`, `flex-wrap`
+
+- `flex-direction` sets the arrangement direction, and the allowed value range is: `row`, `row-reverse`, `column`, `column-reverse`
+
+- `flex-wrap` is set to a newline setting, and the allowed value range is: `nowrap`, `wrap`, `wrap-reverse`
+
+- The setting format is, the first element is set to `flex-direction`, and the second element is set to `flex-wrap`
+
+- ```
+    "_flex":["row", "nowrap"]
+    ```
+
+- `_flex` supports responsive layout, and the specific format is:
+
+- ```
+    "_grid":{
+    		"all":["row", "wrap"],
+        "md":["column", "nowrap"]
+    }
+    ```
+
+- The component presets several screen width settings. When the screen width conforms to the corresponding situation, the general small screen settings need to be placed in the front position of the setting array, otherwise CSS priority problems may occur
+
+- ```
+    all Equivalent  default settings
+    sm	Equivalent	@media(width >= 640px)
+    md	Equivalent	@media(width >= 768px)
+    lg	Equivalent	@media(width >= 1024px)
+    xl	Equivalent	@media(width >= 1280px)
+    2xl	Equivalent	@media(width >= 1536px)
+    max-sm	Equivalent	@media(width < 640px)
+    max-md	Equivalent	@media(width < 768px)
+    max-lg	Equivalent	@media(width < 1024px)
+    max-xl	Equivalent	@media(width < 1280px)
+    max-2xl	Equivalent	@media(width < 1536px)
+    ```
+
+- If the above presets do not meet some special circumstances, they can be customized
+
+- ```
+    "_flex":{
+    	"20rem":[...],
+        "max-300rem":[...]
+    }
+    
+    20rem   Equivalent  	@media(width >= 20rem)
+    max-300rem  Equivalent  	@media(width < 30rem)
+    ```
+
+### > _class
+
+- The outer style of the component
+- If you want to set a responsive style, you can use [tailwindCSS](https://tailwindcss.com/docs/responsive-design#targeting-a-breakpoint-range) related settings, such as `md:max-xl:hidden`, indicate that the element is hidden when the screen width>=768px and <=1280px
 
 ### > _map
 
 - Layout item settings can be array embedded object `[{},{}]`, or a single object `{}`
 
-- The parameter settings of the object `{}` are as follows
+- The current component is a recursive nested layout component, so in a single sub-item setting object, `_flex` and `_map` can be used again for deep layout
 
-    | key         | Description                                                  | Default value                          | Type   | Group/Update version |
-    | ----------- | ------------------------------------------------------------ | -------------------------------------- | ------ | -------------------- |
-    | _templ      | Menu item template, please refer to `_templ` instructions    | Take the whole `child` as the template | String | 1.0=2024.11.15       |
-    | _config     | Template outer layer settings, please refer to `_templ` description | null                                   | Object | 1.0=2024.11.15       |
-    | _configDeep | Template deep settings, please refer to `_templ` instructions | null                                   | Object | 1.0=2024.11.15       |
-    | _classItem  | Layout item style                                            |                                        | String | 1.0=2024.11.15       |
-    | _isFill     | Whether to allow scaling, true: allowed, false: not allowed  | true                                   | Bool   | 1.0=2024.11.15       |
-    | _backdrop   | Whether to use the default background (theme background color, rounded corners, shadows) | false                                  | Bool   | 1.0=2024.11.15       |
+- When the `_map` setting does not exist in a single sub-item setting, the `_templ` template will be inserted
+
+    | key         | Description                                                  | Default value                          | Type         | Group/Update version             |
+    | ----------- | ------------------------------------------------------------ | -------------------------------------- | ------------ | -------------------------------- |
+    | _templ      | Menu item template, please refer to `_templ` instructions    | Take the whole `child` as the template | String       | 1.0=2024.11.15                   |
+    | _config     | Template settings, please refer to `_templ` description      | null                                   | Object       | 1.0=2024.11.15                   |
+    | _configDeep | Template deep settings, please refer to `_templ` instructions | null                                   | Object       | 1.0=2024.11.15                   |
+    | _class      | Layout item style                                            |                                        | String       | 1.0=2024.11.15<br>1.1=2025.04.11 |
+    | _isFill     | Whether to allow scaling, true: allowed, false: not allowed  | false                                  | Bool         | 1.0=2024.11.15<br>1.1=2025.04.11 |
+    | _backdrop   | Whether to use the default background (theme background color, rounded corners, shadows) | false                                  | Bool         | 1.0=2024.11.15                   |
+    | _as         | HTML tags actually used, such as: a, div                     | div                                    | String       | 1.1=2025.04.11                   |
+    | _prop       | HTML tag attributes, automatically expand and set in HTML tags |                                        | Object       | 1.1=2025.04.11                   |
+    | _call       | HTML event attributes, the component will automatically convert the event trigger and set it to the HTML tag |                                        | Object       | 1.1=2025.04.11                   |
+    | _flex       | flex layout settings                                         |                                        | Array/Object | 1.1=2025.04.11                   |
+    | _map        | Layout sub-item settings                                     |                                        | Array/Object | 1.1=2025.04.11                   |
+    | _data       | Custom temporary data, it will be returned together when the event callback occurs | null                                   | Open type    | 1.1=2025.04.11                   |
 
 ### > _id
 
@@ -68,12 +142,15 @@ Parameter Supplementary Description:
 ### > _templ
 
 - The key at the beginning of `_templ` will be regarded as a template setting
+- When the corresponding value is a string and starts with `$.` (required for Trick2.2 version and later), the corresponding component is used as a template. This setting only takes effect in the `xxxUI.json` `xxxAction.json` page configuration, while other situations will be processed as a string
 
 - When the corresponding value is set to `null` (default), or the following settings cannot be obtained correctly, the whole `child` will be used as the template. And  `child` is the `child` set to the page UI (the embedded subcomponent of this component)
 
 - When the corresponding value is a string and begins with `child##`, the nth subcomponent of `child` will be selected as a template, such as `child##2`, the third (starting from 0) subcomponent of `child` will be selected as the template
 
-- When the corresponding value is a string and begins with `page##`, a page layout will be used as a template, such as `page##Theme`, and the page layout with id  `Theme` will be selected as the template
+- When the corresponding value is a string and begins with `layout##` (Trick2.2 and later versions take effect), a page layout will be used as a template, such as `layout##Theme`, and the page layout with id  `Theme` will be selected as the template
+- `child##` and `layout##` both support deep filtering mode, separated by `>>`, such as `child##_BoxForm>>_CompInput`, and the hierarchy is determined by the jsx nested hierarchy
+
 
 - When the corresponding value is a string and does not contain the above special beginning, it will be regarded as text and will be automatically translated
 
@@ -91,6 +168,18 @@ Parameter Supplementary Description:
 
 - When the corresponding value is the object `{}`, it indicates the detailed settings. The fixed format is `{"_text":"xxx", "key 1":"value", "key 2":"value"}`, `_text` corresponds to the text settings, and other settings are translated Settings (variable replacement)
 
+### > _src
+
+- The key starting with `_src` will be regarded as the resource file path setting
+
+- Starting with `//`, it will automatically locate the storage location of the project picture
+
+- When the page is running, `//` will automatically locate to `Code/Assets`
+
+- When this component is running alone, `//` will automatically locate the `test` folder of the current component
+
+- The `test` folder needs to be created manually and is only used for the separate test run of the current component
+
 ### > _class
 
 - The key at the beginning of `_class` is generally set to the class of html
@@ -107,6 +196,10 @@ Parameter Supplementary Description:
 
 - When the corresponding value is set to a string and starts with `pack##`, it automatically calls its upper `Pack component`, such as `_PackForm`, etc.; this kind of `Pack component` passes the callback address and some data to all lower components; It can be set the `_action` of calling `Pack component` after `pack##` , such as `pack##commit`, which indicates the `commit` action of calling the upper `Pack component`
 
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css##`, it indicates the css class switch mode, and the element filtering settings are separated from class by `>>`, such as `css##. Page-Title>>class_1 class_2`, indicating that it is filtered through `document.querySelector` with `. Page-Title`, if there are two classes of `class_1 class_2` in the element at the same time, clean it up, otherwise supplement the non-existent class. In the test mode, because the event may be triggered twice (React mechanism), this setting will be converted twice, so it may not be effective on the surface
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css add##`, it indicates the `css class` additional mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `css remove##`, it indicates the `css class` cleanup mode, and the setting format is the same as `css##`
+- Trick2.2 add, When the corresponding value is set to a string and begins with `style##`, it indicates the `style` style setting mode. The element filtering setting and `style setting` are separated by `>>`, and multiple style settings are separated by `;`, such as `style##. Page-Title>>color:#fff;width:100%! Important;`, indicating that it is filtered through `document.querySelector` with`. Page-Title`, and set the style
 - When the corresponding value is set to a string, it means to call other components or the function of page Action in the way of `id`. And the function of page Action begins with `act##`, such as `act##Language_Change`
 
 - When the corresponding value is a function, it means that this function is called. This type is used for component testing. When making pages, this type cannot be used
@@ -114,6 +207,7 @@ Parameter Supplementary Description:
 - When the corresponding value is the object `{}`, it indicates the detailed setting. In general, when the event is called back, the returned data is the data of the whole component. If you want to configure the returned data in detail, the object type should be adopted; the fixed format is `{"_call":"",_data":{}} `,`_call` corresponds to the setting of the callback target, and `_data` corresponds to the setting of specific callback data; `_data` fixed format is `{"key 1":"value 1","key 2":"value 2"}`,  the `value` corresponding to the outermost `key` supports dynamic injection syntax; the dynamic syntax of `value` is that the beginning of `get##` means that it is obtained from the data of this component, and the beginning of `pack##` means that it is obtained from the data passed by `Pack component`, and it is allowed to use `>>` to locate deep data, such as `get## Key_1>>key_2`
 
 - When the corresponding value is the array `[]`, the above types can be embedded, and the component will execute multiple callbacks (asynchronous calls, the order cannot be guaranteed)
+- Trick2.2 added. By default, the `event` will be bubbled and passed (the upper HTML node will also respond). If you want not to bubble and pass, you can use the `_isStop` setting, `{"_isStop":true,"_call":"xxx "}`. If you want to set multiple callbacks, you can set it to `{"_isStop":true,"_call":["xxx", "xxx"]}`. If the bubble transmission is turned off, the `a` capture of the SPA web page by `_BoxPage` will also be invalidated
 
 # ※ set-modify component settings
 
@@ -197,7 +291,9 @@ In the `_data` setting, the `value` corresponding to the outermost `key` support
 
 Add version: Component general mechanism
 
-`Page Action` needs to use the `_BrokerUI` module for getting component data, and the returned data is all the data in the above `config settings`.
+`Page Action` needs to use the `_BrokerUI` module for getting component data, and the returned data is all the data in the above `config settings`
+
+The data will be automatically inserted into `passParam`, and the inserted field is the value corresponding to `_resultKey`. When the corresponding value of `_resultKey` is an empty string `""`, the entire `passParam` will be emptied and the data will be written
 
 ```
 {
@@ -228,6 +324,15 @@ You can also run `ShellExcute>>Build#Component` through `Christmas plug-in` and 
 `Sample.html`, `Sample.js` is a code specifically for separate testing
 
 # ◎ Updated list
+
+**1.1=2025.04.11**
+
+- [*] Require Trick2.2 or later
+- [update] Added `_as`、`_prop`、`_call`、`_flex` field
+- [update] Remove `_isRow`, `_isWap` fields
+- [update] The config key `_classBody` is changed to `_class`
+- [update] The config key `_classItem` is changed to `_class`
+- [update] Remove the tailwincss utility classes from the component css to avoid the page requiring `important` to override styles
 
 **1.0=2024.11.15**
 
