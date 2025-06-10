@@ -1,9 +1,9 @@
 <img src="design/logo.png" width="300" />
 
-- 最新稳定版本: 2.1=2025.01.06
+- 最新稳定版本: 2.2=2025.06.10
 - 使用文档详见官网，[点击跳转使用手册](https://stoprefactoring.com/#content@content#framework/trick/)
 
-- Latest stable version: 2.1=2025.01.06
+- Latest stable version: 2.2=2025.06.10
 - For the user manual, please refer to the official website, [click to jump to the user manual](https://stoprefactoring.com/#content@content#framework/trick/)
 
 # 编写网页-就像搭积木一样
@@ -263,12 +263,59 @@ The logical function can modify the settings or retrieve data for specified UI c
 
 ![](design/overview-work-7-en.png)
 
-# 历史版本
+# 历史版本 Historical version
+
+## 2.2
+- [update]升级Christmas 2.4
+- [update]页面调试运行，固定打开导航菜单/trick-page-index.html
+- [update]追加SPA打包方式
+- [bug]网页打包会引用多余组件、模块
+- [bug]页面调试时，频繁修改页面，可能会造成网页生成卡死问题
+
+- [update]追加SPA打包方式，增加微前端引入方式
+- [update]嵌入模板`_templ`支持直接引用组件，仅在页面配置xxxUI.json、xxxAction.json中生效
+- [update]嵌入模板`_templ`语法，`page##`改为`layout##`
+- [update]打包运行追加`port`、`前缀目录`等自定义设置
+- [update]回调追加`css##`、`style##`等修改样式的模式
+- [update]页面删除时，可直接移除页面目录，不再有其他残留文件
+- [update]页面目录中可以创建Assets放置图片等资源文件
+- [update]调试模式下，页面配置xxxUI.json、xxxAction.json格式有误，将在页面中有所提示
+- [update]增加useLangDir（React web hook），组件可监听语言方向改变
+- [update]Html标签追加dir、lang标注，切换语言会自动标注
+- [update]修改语言设置，
+- [update]主题变量新增/修改
+- [update]全局增加基础库@emotion/react，UI组件可根据参数设置动态css
+- [bug]移除基础库jsonpath，此基础库存在bug
+- [bug]通用函数ErrorCode.IsErrorCode()判断逻辑有误
+- [bug]页面调试时，频繁修改页面，可能会造成网页生成卡死问题
+- [bug]网页打包不再引用多余组件、模块
+- [bug]默认参数合并，设置为数组时存在bug
+- [-]更新headlessui 2.2.4
+- [update] Upgrade Christmas 2.4
+- [update] Add SPA packaging method and add micro-front-end introduction method
+- [update] The embedded template `_templ` supports direct reference components, which is only effective in page configuration xxxUI.json and xxxAction.json
+- [update] The embedded template `_templ` syntax, change `page##` to `layout##`
+- [update] Package and run additional custom settings such as `port` and `prefix directory`
+- [update] Add `css##`, `style##` callback modes to modify the style
+- [update] Delete the page can directly remove the page directory, and there will be no other residual files
+- [update] In the page directory, you can create `Assets` to place pictures and other resource files
+- [update] In debugging mode, the page configuration xxxUI.json and xxxAction.json format is wrong, and there will be prompts on the page
+- [update] Added useLangDir (React web hook), the component can listen for changes in language direction
+- [update] Added dir and lang attributes to HTML tags, automatic labeling will occur when switching languages
+- [update] Add/modify theme variables
+- [update] Globally add the basic library @emotion/react, UI components can dynamically set CSS based on parameters
+- [bug] Remove the basic library jsonpath, this basic library has bugs
+- [bug] The general function ErrorCode.IsErrorCode() has an incorrect judgment logic
+- [bug]When debugging the page, frequently modifying the page may cause the problem of web page generation jamming
+- [bug] Web packaging no longer references redundant components, modules
+- [bug] Default parameter merging, there is a bug when it is set to an array.
+- [-] Update headlessui 2.2.4
 
 ## 2.1
-
 - [update]升级Christmas 2.3
 - [bug]修复Windows下，Christmas及插件无法正常使用
+- [update] Upgrade Christmas 2.3
+- [bug] Fixed the issue where Christmas and plugins could not be used normally under Windows
 
 ## 2.0
 
@@ -279,6 +326,13 @@ The logical function can modify the settings or retrieve data for specified UI c
 - 增加主题、多语言等机制
 - 增加模块库功能，可通过Christmas下载/更新模块代码
 - 增加框架更新功能，可通过Christmas更新框架代码
+- Upgrade Christmas 2
+- Redefine the page and separate a web page into the UI part and the logical part
+- Change the business code to Json configuration (no need to write code)
+- The module code is divided into the component module dedicated to the UI part and the logical module dedicated to the logical part
+- Add themes, multilingual and other mechanisms
+- Add the module library function, and you can download/update the module code through Christmas
+- Add the framework update function, and the framework code can be updated through Christmas
 
 ## 1.0（停止维护）
 
@@ -286,36 +340,7 @@ The logical function can modify the settings or retrieve data for specified UI c
 - 基于Vue2、BootStrap、jQuery
 - 纯原生HTML开发
 - 模块迁移时，只需要克隆文件夹
-
-# Historical version
-
-## 2.1
-
-- [update] Upgrade to Christmas 2.3
-- [bug] Fixed the issue where Christmas and plugins could not be used normally under Windows
-
-## 2.0
-
-- Upgrade Christmas 2
-
-- Redefine the page and separate a web page into the UI part and the logical part
-
-- Change the business code to Json configuration (no need to write code)
-
-- The module code is divided into the component module dedicated to the UI part and the logical module dedicated to the logical part
-
-- Add themes, multilingual and other mechanisms
-
-- Add the module library function, and you can download/update the module code through Christmas
-
-- Add the framework update function, and the framework code can be updated through Christmas
-
-## 1.0 (stop maintenance)
-
 - Business code and module code stratification
-
 - Based on Vue2, BootStrap, jQuery
-
 - Pure native HTML development
-
 - When the module is migrated, only the folder needs to be cloned
