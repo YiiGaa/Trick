@@ -1,6 +1,78 @@
 import {ObjectClone} from "/Code/Common/Tools/_Object"
 import {ParamGet} from "/Code/Common/Tools/_Param"
 import {PubSubSend} from "/Code/Common/Tools/_PubSub"
+import {isString} from "lodash-es";
+
+function CallBack_Style(setting){
+    //STEP::Get query/style setting
+    setting = setting.substring('style##'.length);
+    const [query, styleSet] = setting.split(/>>/, 2);
+
+    //STEP::Get element
+    const element = document.querySelector(query);
+    if(element === null)
+        return;
+
+    //STEP::Set style
+    const styles = styleSet.split(';');
+    styles.forEach(style => {
+        if (style.trim()) {
+            const [property, value] = style.split(':');
+            const prop = property.trim();
+            let val = value.trim();
+            let important = false;
+            if (val.endsWith('!important')) {
+                important = true;
+                val = val.replace('!important', '').trim();
+            }
+
+            if(important)
+                element.style.setProperty(prop.trim(), val.trim(), 'important');
+            else
+                element.style.setProperty(prop.trim(), val.trim());
+        }
+    });
+}
+
+function CallBack_Css(setting) {
+    //STEP::Get query/style setting
+    let mode = "";
+    if(setting.startsWith("css##")) {
+        setting = setting.substring('css##'.length);
+        mode = "toggle";
+    }else if(setting.startsWith("css add##")) {
+        setting = setting.substring('css add##'.length);
+        mode = "add";
+    }else if(setting.startsWith("css remove##")) {
+        setting = setting.substring('css remove##'.length);
+        mode = "remove";
+    }
+
+    //STEP::Get element
+    const [query, cssSet] = setting.split(/>>/, 2);
+    const element = document.querySelector(query);
+    if (element === null)
+        return;
+
+    //STEP::Set class
+    const classes = cssSet.split(' ');
+    switch (mode){
+        case "toggle":
+            const allExist = classes.every(cls => element.classList.contains(cls));
+            if (allExist)
+                element.classList.remove(...classes);
+            else
+                element.classList.add(...classes);
+            break;
+        case "add":
+            element.classList.add(...classes);
+            break;
+        case "remove":
+            element.classList.remove(...classes);
+            break;
+    }
+}
+
 
 //TIPS::Call back
 //>>call::Target callback address
@@ -18,7 +90,7 @@ function CallBack(call, data={}, event = null, parentContext = null, isSync=fals
             return;
 
         //WHEN::Array call list
-        if (Array.isArray(call)) {
+        if (Array.isArray(call)){
             for (const item of call)
                 CallBack(item, data, event, parentContext, isSync, isFailMark, isPackCallUseData);
             return;
@@ -28,7 +100,7 @@ function CallBack(call, data={}, event = null, parentContext = null, isSync=fals
 
         //STEP::Call back
         //WHEN::Parent pack component call(pack##)
-        if (typeof call === "string" && call.startsWith("pack##")) {
+        if (typeof call === "string" && call.startsWith("pack##")){
             if(parentContext===null)
                 return;
             const parentData = isPackCallUseData?data:ParamGet("_data", {}, parentContext);
@@ -37,6 +109,20 @@ function CallBack(call, data={}, event = null, parentContext = null, isSync=fals
             const callData = ObjectClone(parentData);
             callData["_action"] = actionKey;
             targetCall(callData, event);
+            return;
+        }
+        if (typeof call === "string" &&
+            (
+                call.startsWith("css##") ||
+                call.startsWith("css add##") ||
+                call.startsWith("css remove##")
+            )
+        ) {
+            CallBack_Css(call);
+            return;
+        }
+        if (typeof call === "string" && call.startsWith("style##")) {
+            CallBack_Style(call);
             return;
         }
         //WHEN::PubSub id call
@@ -56,16 +142,16 @@ function CallBack(call, data={}, event = null, parentContext = null, isSync=fals
         if (call instanceof Object){
             const _call = ParamGet("_call", null, call);
             let _data = ObjectClone(ParamGet("_data", {}, call));
-            _data = ObjectClone(_data);
             const _packData = parentContext===null?{}:ParamGet("_data", {}, parentContext);
             for (const key in _data){
                 let value = _data[key];
-                if(value.startsWith('get##')){
-                    _data[key] = ParamGet(value, null, data);
-                } else if(value.startsWith('pack##')){
-                    const getKey = 'get##'+value.substring('pack##'.length);
-                    _data[key] = ParamGet(getKey, null, _packData);
-                }
+                if(isString(value))
+                    if(value.startsWith('get##')){
+                        _data[key] = ParamGet(value, null, data);
+                    } else if(value.startsWith('pack##')){
+                        const getKey = 'get##'+value.substring('pack##'.length);
+                        _data[key] = ParamGet(getKey, null, _packData);
+                    }
             }
             if(typeof _call === "string" && _call.startsWith("pack##"))
                 isPackCallUseData = true;
