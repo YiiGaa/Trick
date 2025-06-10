@@ -9,16 +9,16 @@
 
 ######Dependencies######
 "clsx": "^2.1.1",
-"jsonpath": "^1.1.1",
 "react": "^18.3.1",
 "react-dom": "^18.3.1",
 "use-immer": "^0.10.0",
-"@headlessui/react": "^2.2.0",
+"@headlessui/react": "^2.2.4",
 "@heroicons/react": "^2.1.5",
 "lodash-es": "^4.17.21",
 "pubsub-js": "^1.9.4",
 "i18next": "^23.15.1",
 "i18next-browser-languagedetector": "^8.0.0",
 "i18next-http-backend": "^2.6.1",
-"react-i18next": "^15.0.2"
+"react-i18next": "^15.0.2",
+"@emotion/react":"^11.14.0"
 ######Dependencies######
