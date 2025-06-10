@@ -30,6 +30,10 @@ module.exports = (env)=>{
         devServer: {open:{ target:[`/index.html`]}},
         entry:[path.resolve(__dirname, `../../Code/Module/${target}/Sample.js`),path.resolve(__dirname, `../../Code/Module/${target}/Sample.html`)],
         plugins: [
+            new webpack.DefinePlugin({
+                Trick_ASSETPATH: JSON.stringify('assets'),
+                Trick_LANGPATH: JSON.stringify('lang'),
+            }),
             new HtmlWebpackPlugin({
                 template: path.resolve(__dirname, `../../Code/Module/${target}/Sample.html`),
                 filename: `index.html`

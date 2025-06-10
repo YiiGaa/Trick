@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const proxySetting = require('./webpack.proxy.js');
 const {merge} = require("webpack-merge");
+const config = require('./custom.js')
 
 //STEP::Get allow dependencies
 let allowDependencies = [];
@@ -22,9 +23,9 @@ module.exports = merge(proxySetting, {
         },
     },
     devServer: {
-        port: 6789,
+        port: config["port"]||6789,
         hot: true,
-        liveReload: false
+        liveReload: false,
     },
     devtool: 'inline-source-map',
     plugins: [],

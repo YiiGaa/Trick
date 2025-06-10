@@ -31,6 +31,10 @@ module.exports = (env)=>{
         devServer: {open:{ target:[`/index.html`]}},
         entry:[path.resolve(__dirname, `../../Code/Component/${target}/Sample.js`),path.resolve(__dirname, `../../Code/Component/${target}/Sample.html`)],
         plugins: [
+            new webpack.DefinePlugin({
+                Trick_ASSETPATH: JSON.stringify('assets'),
+                Trick_LANGPATH: JSON.stringify('lang'),
+            }),
             new HtmlWebpackPlugin({
                 template: path.resolve(__dirname, `../../Code/Component/${target}/Sample.html`),
                 filename: `index.html`
@@ -57,7 +61,6 @@ module.exports = (env)=>{
                                 ignore: ['.*']
                             },
                             transform: (content, absoluteFrom) => {
-                                console.log()
                                 const dirExists = fs.existsSync(path.dirname(absoluteFrom));
                                 return dirExists ? content : null;
                             }
