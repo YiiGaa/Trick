@@ -59,7 +59,7 @@ const ErrorCode = Object.freeze({
         return true;
     },
     IsErrorCode: function(code){
-        if(!Array.isArray(code) && code.length!==2){
+        if(!Array.isArray(code) || code.length!==2){
             return false;
         }
         return Object.values(ErrorCode).some(value => value === code);
