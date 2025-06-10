@@ -95,15 +95,29 @@
             "Xmas_target":"@Christmas@/Input/ShellExcute/Page#Genrate/target.json",
             "Xmas_source":{
                 "Xmas_path":"@template@/Xmas.templ", "Xmas_filter":"######DEFAULT######",
-                "@@piece@@":{
-                    "Xmas_path":"@Christmas@/Input/GenCode/Page#<page>/config.json",
-                    "Xmas_filter":"-", "Xmas_select":"-",
-                    "":"@@<page>@@",
-                    "@@<page>@@":{
-                        "Xmas_path":"@template@/Xmas.templ", "Xmas_filter":"######PAGE######",
-                        "@@page@@":"<page>"
+                "@@piece@@":[
+                    {
+                        "Xmas_path":"@code@/Page/<page>/<page>UI.json",
+                        "Xmas_filter":"-", "Xmas_select":"-",
+                        "":"@@<page>@@",
+                        "@@<page>@@":{
+                            "Xmas_path":"@template@/Xmas.templ", "Xmas_filter":"######PAGE######",
+                            "@@page@@":"<page>",
+                            "@@part@@":"UI",
+                            "@@error@@": "<strong>Generate fail, there may be an error in the /Code/Page/@@page@@/@@page@@@@part@@.json file format</strong>"
+                        }
+                    },{
+                        "Xmas_path":"@code@/Page/<page>/<page>Action.json",
+                        "Xmas_filter":"-", "Xmas_select":"-",
+                        "":"@@<page>@@",
+                        "@@<page>@@":{
+                            "Xmas_path":"@template@/Xmas.templ", "Xmas_filter":"######PAGE######",
+                            "@@page@@":"<page>",
+                            "@@part@@":"Action",
+                            "@@error@@":"function Start(){console.log(\"Generate fail, there may be an error in the /Code/Page/@@page@@/@@page@@@@part@@.json file format\")}"
+                        }
                     }
-                }
+                ]
             }
         }
     ]

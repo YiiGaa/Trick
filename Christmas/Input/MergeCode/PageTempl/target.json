@@ -1,0 +1,34 @@
+{
+    "Xmas_config":{
+        "@page@":"../Code/Page",
+        "@template@":"./Template/Init-Page"
+    },
+    "Xmas_clean":[
+    ],
+    "Xmas_task":[
+        {
+            "Xmas_target":"@page@/<>/<>UI.Trick.js",
+            "Xmas_source":{
+                "Xmas_path":"@page@/<>/<>UI.js",
+                "//Import UI component in .json":[
+                    {
+                        "Xmas_path":"@page@/<>/<>UI.js", "Xmas_select":"\"\\$\\.[\\w\\d_]*\"",
+                        "\"{comp}\"":"\"{comp}\":(<{comp}></{comp}>),\n"
+                    },{
+                        "Xmas_path":"@page@/<>/<>Action.js", "Xmas_select":"\"\\$\\.[\\w\\d_]*\"",
+                        "\"{comp}\"":"\"{comp}\":(<{comp}></{comp}>),\n"
+                    }
+                ]
+            }
+        },{
+            "Xmas_target":"@page@/<>/<>UI.js",
+            "Xmas_source":{
+                "Xmas_path":"@page@/<>/<>UI.Trick.js",
+                "Xmas_remove":true
+            }
+        }
+    ],
+    "Xmas_cleanTemp":{
+        "./Test/MergeCode/Sample":"clean"
+    }
+}
