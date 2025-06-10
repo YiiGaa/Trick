@@ -6,17 +6,19 @@ import Configs from '/Code/Common/Config/Config';
 import {Theme} from '/Code/Common/Theme/Theme';
 import {isObject} from "lodash-es"
 import * as Tools from "/Code/Common/Tools/Tools";
+import { useState, useEffect } from 'react';
 
 const Config = Tools.MergeDefault(Configs.common,{
     "Lang.enable":true,
     "Lang.range":["def","en"],
-    "Lang.path":"lang",
-    "Lang.srcPrefix":"assets",
+    "Lang.path":Trick_LANGPATH,
+    "Lang.srcPrefix":Trick_ASSETPATH,
     "Lang.srcPrefixRequire":"//"
 });
 
-const Lang = {
+export const Lang = {
     Enable:false,
+    Dir:"",
     Init:function(page){
         if(!Config["Lang.enable"]) {
             return;
@@ -49,12 +51,31 @@ const Lang = {
         i18n.t("");
         Lang.Enable = true;
 
+        //STEP::Listen language change(SPA page)
+        window.addEventListener('trick-lang', ()=>{
+            const lang = document.documentElement.getAttribute('lang');
+            if(lang !== i18n.language)
+                Lang.Change(lang);
+        });
+
         //STEP::Listen language change
+        document.documentElement.setAttribute('dir', Lang.Dir);
+        document.body.querySelector("#id_body").setAttribute('dir', Lang.Dir);
         i18n.on('languageChanged', (lang) => {
+            //STEP-IN::Notify dir change
+            let dir = ""
             if(i18n.dir(lang) === "rtl")
-                document.body.setAttribute('dir', "rtl");
-            else
-                document.body.setAttribute('dir', "");
+                dir = "rtl";
+            if(dir!==Lang.Dir) {
+                Lang.Dir = dir;
+                document.documentElement.setAttribute('dir', Lang.Dir);
+                document.body.querySelector("#id_body").setAttribute('dir', Lang.Dir);
+                document.body.dispatchEvent(new Event('trick-lang'));
+            }
+
+            //STEP-IN::Notify lang change
+            document.documentElement.setAttribute('lang', lang)
+            window.dispatchEvent(new Event('trick-lang'));
         });
     },
     InitSimple:function(lang, resources){
@@ -78,12 +99,31 @@ const Lang = {
         });
         Lang.Enable = true;
 
+        if(i18n.dir(lang) === "rtl") {
+            document.documentElement.setAttribute('dir', "rtl");
+            Lang.Dir = "rtl";
+        }else {
+            document.documentElement.setAttribute('dir', "");
+            Lang.Dir = "";
+        }
+        document.documentElement.setAttribute('lang', lang)
+
         //STEP::Listen language change
+        document.documentElement.setAttribute('dir', Lang.Dir);
         i18n.on('languageChanged', (lang) => {
+            //STEP-IN::Notify dir change
+            let dir = ""
             if(i18n.dir(lang) === "rtl")
-                document.body.setAttribute('dir', "rtl");
-            else
-                document.body.setAttribute('dir', "");
+                dir = "rtl";
+            if(dir!==Lang.Dir) {
+                Lang.Dir = dir;
+                document.documentElement.setAttribute('dir', Lang.Dir);
+                document.body.dispatchEvent(new Event('trick-lang'));
+            }
+
+            //STEP-IN::Notify lang change
+            document.documentElement.setAttribute('lang', lang)
+            window.dispatchEvent(new Event('trick-lang'));
         });
     },
     Change:function(language){
@@ -93,7 +133,7 @@ const Lang = {
         i18n.changeLanguage(language);
     },
     GetLanguage:function(){
-        if(!Lang.Enable) return false;
+        if(!Lang.Enable) return "";
         return i18n.language;
     },
     TransText:function(text, translate=null){
@@ -136,3 +176,24 @@ const Lang = {
 }
 
 export default Lang;
+
+//TIPS::For refreshing component
+export function useLangDir() {
+    const [dir, setDir] = useState(Lang.Dir);
+
+    useEffect(() => {
+        const handleLangChange = () => {
+            setDir(Lang.Dir);
+        };
+
+        if(Lang.Enable)
+            document.body.addEventListener('trick-lang', handleLangChange);
+
+        return () => {
+            if(Lang.Enable)
+                document.body.removeEventListener('trick-lang', handleLangChange);
+        };
+    }, []);
+
+    return dir;
+}
