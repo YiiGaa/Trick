@@ -1,4 +1,6 @@
-function MergeDefault_Deep(config, defaultConfig={}, isKeepIllegal = true, isListSingleRange = true) {
+import {isPlainObject, merge, uniq, cloneDeep} from "lodash-es"
+
+function MergeDefault_Deep(config, defaultConfig={}) {
     //WHEN::Allow anything
     if(defaultConfig===null) {
         if (typeof config === "undefined")
@@ -7,100 +9,94 @@ function MergeDefault_Deep(config, defaultConfig={}, isKeepIllegal = true, isLis
             return config;
     }
 
-    //WHEN::Different type
+    //WHEN::Normal type(not {},[]) check
     if(typeof defaultConfig !== "object")
-        if(!isKeepIllegal && typeof defaultConfig !== typeof config && Array.isArray(defaultConfig) === Array.isArray(config))
-            return defaultConfig;
-        else if (typeof config === "undefined")
-            return defaultConfig;
-        else
+        if(typeof defaultConfig === typeof config)
             return config;
+        else
+            return defaultConfig;
 
-    //WHEN::defaultConfig is empty, only constraint type
+    //WHEN::defaultConfig is empty([],{}), only constraint type
     if(Object.keys(defaultConfig).length === 0)
         if (typeof config === "undefined")
             return defaultConfig;
-        else if(isKeepIllegal || Array.isArray(defaultConfig) === Array.isArray(config))
+        else if(Array.isArray(defaultConfig) === Array.isArray(config))
             return config;
         else
             return defaultConfig;
 
-    //WHEN::defaultConfig is Object
+    //WHEN::defaultConfig is Object(not empty)
     const isArray = Array.isArray(defaultConfig);
     if(!isArray) {
         let result = {}
-        if(typeof config === "object" && Array.isArray(config)) {
-            if (isKeepIllegal && typeof config !== "undefined")
-                return config;
+        //WHEN-IN::Different type
+        if(typeof config === "object" && Array.isArray(config))
             return defaultConfig;
-        }
-        if(isKeepIllegal && typeof config !== "undefined"){
-            result = {...config}
-        }
+
         for (const key in defaultConfig) {
-            if (config.hasOwnProperty(key))
-                result[key] = MergeDefault_Deep(config[key], defaultConfig[key], isKeepIllegal);
-            else if(isKeepIllegal && typeof config[key] !== "undefined")
-                result[key] = config[key];
-            else
-                result[key] = defaultConfig[key];
+            if (config.hasOwnProperty(key)){
+                result[key] = MergeDefault_Deep(config[key], defaultConfig[key]);
+            }else {
+                if(Array.isArray(defaultConfig[key])) {
+                    result[key] = MergeDefault_Deep(config[key], defaultConfig[key]);
+                }else
+                    result[key] = defaultConfig[key];
+            }
         }
         return result;
     }
 
-    //WHEN::defaultConfig is Array
+    //WHEN::defaultConfig is Array(not empty)
     else {
-        //STEP-IN::Whether defaultConfig is range or not
+        //STEP-IN::Get range type
         let isRange = false;
-        if ((defaultConfig.length === 1 && isListSingleRange) ||
-            (defaultConfig.length > 1 && (typeof defaultConfig[0] !== typeof defaultConfig[1] || (typeof defaultConfig[0] === "object" && Array.isArray(defaultConfig[0]) !== Array.isArray(defaultConfig[1]))))
-        ) {
-            isRange = true;
+        let isLockCount = false;
+        if(defaultConfig.length>1) {
+            let typeList = [];
+            for (let index = 0; index < defaultConfig.length; index++)
+                typeList.push(Object.prototype.toString.call(defaultConfig[index]));
+            typeList = uniq(typeList);
+            if(typeList.length === defaultConfig.length) {
+                isRange = true;
+            } else if(typeList.length!==1 && typeList.length !== defaultConfig.length){
+                isLockCount = true;
+            }
         }
 
-        //WHEN-IN::Config is not array
-        const type = typeof config;
-        if (!Array.isArray(config)) {
-            if(!isRange) {
-                if (isKeepIllegal && typeof config !== "undefined")
-                    return config;
-                return defaultConfig;
-            }
-            for(const item of defaultConfig) {
-                if (typeof item === type && Array.isArray(item) === Array.isArray(config))
-                    return MergeDefault_Deep(config, item, isKeepIllegal);
-            }
-            if (isKeepIllegal && typeof config !== "undefined")
-                return config;
-            return defaultConfig[0];
-        }
-        //WHEN-IN::Config is array
-        else {
-            const result = [];
-            for(let i = 0; i < config.length; i++){
-                const item = config[i];
-                if(!isRange){
-                    if(i<defaultConfig.length)
-                        result.push(MergeDefault_Deep(item, defaultConfig[i], isKeepIllegal,isListSingleRange));
-                    else if(isKeepIllegal)
-                        result.push(item);
-                } else {
-                    let isPush = false;
-                    for (const item_1 of defaultConfig) {
-                        if (typeof item === typeof item_1 && Array.isArray(item) === Array.isArray(item_1)) {
-                            result.push(MergeDefault_Deep(item, item_1, isKeepIllegal,isListSingleRange));
-                            isPush = true;
-                            break;
-                        }
-                    }
-                    if(!isPush && isKeepIllegal)
-                        result.push(item);
+        //WHEN-IN::Range setting, not real list
+        if(isRange){
+            if(config === undefined)
+                return defaultConfig[0];
+            const configType = Object.prototype.toString.call(config);
+            for (let index = 0; index < defaultConfig.length; index++){
+                if(configType === Object.prototype.toString.call(defaultConfig[index])){
+                    return MergeDefault_Deep(config, defaultConfig[index]);
                 }
             }
-            if(isKeepIllegal && result.length===0 && typeof config !== "undefined")
-                return config;
+            return defaultConfig[0];
+        }
+
+        //WHEN-IN::Lock count, one by one insert
+        if(isLockCount){
+            const result = [];
+            if(!Array.isArray(config))
+                return defaultConfig;
+            for (let index = 0; index < defaultConfig.length; index++){
+                let item = index<config.length?MergeDefault_Deep(config[index], defaultConfig[index]):defaultConfig[index];
+                result.push(item);
+            }
             return result;
         }
+
+        //WHEN-IN::List
+        const result = [];
+        if(!Array.isArray(config))
+            return defaultConfig;
+        for (let index = 0; index < config.length; index++){
+            let item = MergeDefault_Deep(config[index], defaultConfig[0])
+            result.push(item);
+        }
+        return result;
     }
 }
 
@@ -109,42 +105,32 @@ function MergeDefault_Deep(config, defaultConfig={}, isKeepIllegal = true, isLis
 //>>defaultConfig::Default setting
 //                - If the types of 'config' and 'defaultConfig' are the same, the value of config will be returned, otherwise the value of defaultConfig will be adopted
 //                - If defaultConfig is 'null', it means that the value type is not limited
-//                - If config is a 'non-array' and defaultConfig is an array, it can represent the type value range, but it is required that the element types in the array are not equal
-//>>isDeep::Whether to expand the object and check it in depth
-//>>isKeepIllegal::When the element is illegal, whether to keep the element
-//>>isListSingleRange::When there is only one element in the array, is it considered to be a value range
+//                - If defaultConfig is an array, and all element types are inconsistent, it is considered to be a value range. As long as config meets one of the types, it will be adopted
+//                - If defaultConfig is an array, and there are elements of the same type, indicating an array of fixed sequences.Only the elements at the corresponding positions in the config that meet the type requirements will be accepted
 //>>return::new object
-function MergeDefault (config={}, defaultConfig={}, isDeep = true, isKeepIllegal = false, isListSingleRange=true) {
+function MergeDefault (config={}, defaultConfig={}) {
     try {
         //WHEN::isDeep is false, it means that there is no need to expand the object match
-        if(isDeep === false)
-            return Object.keys(config).reduce((merged, key) => {
-                if (defaultConfig.hasOwnProperty(key) && (defaultConfig===null || typeof defaultConfig[key] === typeof config[key])) {
-                    merged[key] = config[key];
-                }
-                return merged;
-            }, {...defaultConfig});
-        return MergeDefault_Deep(config, defaultConfig, isKeepIllegal,isListSingleRange);
+        return MergeDefault_Deep(cloneDeep(config), cloneDeep(defaultConfig));
     }catch (e){
         console.debug("Common-Tools MergeDefault exception", e);
         return defaultConfig;
     }
 }
 
-//TIPS::Simply merge multiple objects(not deep copy), The data of high-priority objects will overwrite the data of low-priority objects
-//>>config::Highest priority object
-//>>defaultConfig::Secondary priority object
-//>>baseConfig::Object with the lowest priority
-//>>return::new object
-function Merge (config={}, defaultConfig={}, ...baseConfig) {
+//TIPS::Merge object simply(Use merge of lodash-es)
+//>>config::Value(Priority)
+//>>defaultConfig::Supplementary value(Priority)
+//>>return::new value
+function Merge (config={}, defaultConfig={}) {
     try {
-        let result = {};
-        for(let i=baseConfig.length-1;i>=0;i--){
-            result = {...result, ...baseConfig[i]}
-        }
-        return {...result, ...defaultConfig, ...config};
+        if(isPlainObject(config) && isPlainObject(defaultConfig))
+            return merge({}, defaultConfig ,config)
+        else if(Array.isArray(config) && Array.isArray(defaultConfig))
+            return merge([], defaultConfig ,config)
+        return config;
     }catch (e){
-        console.debug("Common-Tools Merge exception", e);
+        console.debug("Common-Tools MergeDefault exception", e);
         return defaultConfig;
     }
 }
