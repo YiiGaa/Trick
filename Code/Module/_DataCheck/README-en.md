@@ -40,6 +40,7 @@ Description of the value of module parameters:
 | key           | Description                                                  | Necessary | Default | Type   | Add/Update     |
 | ------------- | ------------------------------------------------------------ | --------- | ------- | ------ | -------------- |
 | _isClean | Whether to empty redundant fields, false: not clean up, false: clean up | No        | false   | Bool   | 1.0=2024.11.15 |
+| _split | Optional range separator, the separator `/` described below can be modified here | No | / | String | 1.1=2025.06.06 |
 | _param | Check the template of passParam | Yes | | Object | 1.0=2024.11.15 |
 
 Supplementary description of module parameters:
@@ -142,6 +143,10 @@ You can also run `ShellExcute>>Build#Module` through the `Christmas` plug-in, an
 `Sample.html`, `Sample.js` is a code specifically for separate testing
 
 # ◎ Update list
+
+**1.1=2025.06.06**
+
+- [update] Add `_split` field
 
 **1.0=2025.02.10**
 

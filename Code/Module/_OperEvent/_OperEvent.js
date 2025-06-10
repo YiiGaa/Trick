@@ -2,8 +2,9 @@ import * as Tools from "/Code/Common/Tools/Tools.js"
 import Logger from "/Code/Common/Logger/Logger.js"
 import ErrorCode from "/Code/Common/ErrorCode/ErrorCode.js"
 import Configs from "/Code/Common/Config/Config.js"
+import {isObject, isString} from "lodash-es"
 
-const Config = Tools.MergeDefault(Configs.module._OperEvent,{});
+const Config = Tools.Merge(Configs.module._OperEvent,{});
 
 const EventWindowMark = {}
 function EventWindow_Call(event){
@@ -25,7 +26,7 @@ function EventWindow(moduleParam, passParam, result) {
     console.debug(Logger.Header(), "Module-_OperEvent EventWindow _isRemove:", _isRemove);
 
     //STEP::Check _event/_call
-    if(_event==="" || !(_call instanceof String || _call instanceof Object || _call instanceof Function))
+    if(_event==="" || !(isObject(_call) || isString(_call) || _call instanceof Function))
         return ErrorCode.ERR_Module__OperEvent_EventWindow_Illegal;
 
     //WHEN::Remove listen
@@ -79,7 +80,7 @@ function EventDocument(moduleParam, passParam, result) {
 
     //STEP::Check _event/_call
     const key = `${_event}>>${_query}`
-    if(_event==="" || !(_call instanceof String || _call instanceof Object || _call instanceof Function))
+    if(_event==="" || !(isObject(_call) || isString(_call) || _call instanceof Function))
         return ErrorCode.ERR_Module__OperEvent_EventDocument_Illegal;
 
     //WHEN::Remove listen
@@ -131,7 +132,7 @@ function TimerAdd(moduleParam, passParam, result) {
     }
 
     //STEP::Check _call
-    if(!(_call instanceof String || _call instanceof Object || _call instanceof Function))
+    if(!(isObject(_call) || isString(_call) || _call instanceof Function))
         return ErrorCode.ERR_Module__OperEvent_TimerAdd_Illegal;
 
     //STEP::Action

@@ -3,7 +3,7 @@ import Logger from "/Code/Common/Logger/Logger.js"
 import ErrorCode from "/Code/Common/ErrorCode/ErrorCode.js"
 import Configs from "/Code/Common/Config/Config.js"
 
-const Config = Tools.MergeDefault(Configs.module._OperWindow,{});
+const Config = Tools.Merge(Configs.module._OperWindow,{});
 
 function Open(moduleParam, passParam, result) {
     //STEP::Get setting

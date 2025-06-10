@@ -13,6 +13,7 @@
 # ※ 修改passParam的数据
 
 - 组入版本：1.0=2024.11.15
+- 模块处理字段的顺序不固定，如以下例子中，`key-1`的处理不一定在`key-2`之前
 
 ```json
 {
@@ -20,7 +21,7 @@
     "param":{
         "_setting":{
             "key-1":"uuid",
-						"opt##key-2":"time",
+		    "opt##key-2":"time",
           	"key-1>>key-1-1":"get##key",
           	"switch##key-2":{
               	"reg##xxx":"new value",
@@ -36,6 +37,7 @@
 | ------------- | --------------------------------------------------- | -------- | ------ | ------ | -------------- |
 | _isSwitchNullError | 当采用`switch##`转换值不成功时，是否报错，false：不报错，保留原始值，true：报错退出 | 否      | true | Bool | 1.0=2024.11.15 |
 | _isStorageNullError | 获取session storage、local storage时，如果缺少对应的值，是否报错，false:不报错，用"null"作为对应值，true:报错退出 | 否 | true | Bool | 1.0=2024.11.15 |
+| _isNullDelete | Value设置为null时，是否表示删除。false，不删除，直接赋值 | 否 | true | Bool | 1.1=2025.05.22 |
 | _setting | 修改数据的模板 | 是 | | Object | 1.0=2024.11.15 |
 
 模块参数补充说明：
@@ -77,7 +79,7 @@
     		},
     		"switch##key 3":{
     				"audio":"audio type",
-    				"":"video type"
+    				"":"get##self"
     		}
     }
     
@@ -93,7 +95,7 @@
 
 - 若存在多个前缀，请注意其顺序，`nec##`需要在`switch##`前，例如：`nec##switch##key`
 
-- Key可以采用`模板的Value`的语法动态定义key，用`@@`包裹即可，如`key_@get##id@`，则模块会自动替换`@get##id@`部分的数据，`@@`内部的语法说明参考特别说明的`模板的value说明`
+- 1.1=2025.05.22修改，Key可以采用`模板的Value`的语法动态定义key，用`[]`包裹即可，如`key_[get##id]`，则模块会自动替换`[get##id]`部分的数据，`[]`内部的语法说明参考特别说明的`模板的value说明`
 
 - Key可以用`>>`定位嵌套关系，如`xxx>>yyy>>1>>zz`，表示定位到`zz`字段
 
@@ -135,9 +137,9 @@
     }
     ```
 
-- Key对应的value为数组`[]`，且目标数据为非空数组`[]`时，会覆盖目标数组
+- Key对应的value为数组`[]`，会覆盖目标数组
 
-- Key对应的value为数组`[]`，且目标数据为非空数组`[]`时，可添加`push##`前缀，则为插入数据。当Key存在多个前缀时，正确前缀顺序为`opt##push##key`
+- Key对应的value为数组`[]`，可添加`push##`前缀，则为插入数据。当Key存在多个前缀时，正确前缀顺序为`opt##push##key`
 
     ```
     #设置为
@@ -148,7 +150,7 @@
     	]
     }
     
-    #目标数据,为非空数组
+    #目标数据
     {
     		"xxx":[
     			"yyy"
@@ -165,15 +167,105 @@
     }
     ```
 
+- Key对应的value为数组`[]`，且添加`push##0##`前缀，则为遍历所有元素，并处理对应元素。若key不存在，将不作处理；若key存在，但不是数组，将插入空数组`[]`。组入版本：1.1=2025.05.22
+
+    ```
+    #设置为
+    {
+    	"push##0##xxx":[
+    		{"add":"uuid"}
+    	]
+    }
+    
+    #目标数据
+    {
+    		"xxx":[
+    			{"key 1":"value"},
+    			{"key 2":"value"}
+    		]
+    }
+    
+    #数据结果
+    {
+    	"xxx":[
+    		{"key 1":"value", "add":"37572cf8e1f44d34b97dee25c434bdf8"},
+    		{"key 2":"value", "add":"ad86ab69d89d44a3af85e10becaafc90"}
+    	]
+    }
+    ```
+
+- Key对应的value为数组`[]`，且添加`push##数字##`前缀，则插入`数字`对应个数的元素，组入版本：1.1=2025.05.22
+
+    ```
+    #设置为
+    {
+    	"push##3##xxx":[
+    		{"add":"uuid"}
+    	]
+    }
+    
+    #目标数据
+    {
+    		"xxx":[
+    			{"key 1":"value"},
+    			{"key 2":"value"}
+    		]
+    }
+    
+    #数据结果
+    {
+    	"xxx":[
+    		{"key 1":"value"},
+    		{"key 2":"value"},
+    		{"add":"f4fdba36253442c68cdd0c31ec273a5e"},
+    		{"add":"2cf3946c1a6644268549ddd16c461f18"},
+    		{"add":"73eec4a5703a4f5fa8d1760fad62ff1d"}
+    	]
+    }
+    ```
+
+- Key对应的value为数组`[]`，且添加`push##数字1##数字2##`前缀，则从`数字2`位置开始，插入`数字1`对应个数的元素，若`数字2`超出了原本数组的长度，会自动补充`null`字符串占位，组入版本：1.1=2025.05.22
+
+    ```
+    #设置为
+    {
+    	"push##3##1##xxx":[
+    		{"add":"uuid"}
+    	]
+    }
+    
+    #目标数据
+    {
+    		"xxx":[
+    			{"key 1":"value"},
+    			{"key 2":"value"}
+    		]
+    }
+    
+    #数据结果
+    {
+    	"xxx":[
+    		{"key 1":"value"},
+    		{"key 2":"value", "add":"f4fdba36253442c68cdd0c31ec273a5e"},
+    		{"add":"2cf3946c1a6644268549ddd16c461f18"},
+    		{"add":"73eec4a5703a4f5fa8d1760fad62ff1d"}
+    	]
+    }
+    ```
+
 ### > 模板的Value说明
 
 - Value为修改的值，Value可以是int、double、bool、string、{}、[]等明确的值
 
 - Value设置为null，表示删除此Key
 
+- Value设置为null，且`_isNullDelete`设置为`true`，则不会删除此Key，将直接赋值`null`，组入版本：1.1=2025.05.22
+
 - Value设置为`{}`、`[]`时，内部可设置内层key、value以设置深层数据修改
 
 - Value设置为string（字符串）时，可以设置处理数据表达式，以实现复杂的数据设置
+
+- 1.1=2025.05.22新增，Value设置为string（字符串）时, 可以嵌套设置处理数据表达式(不允许多层嵌套)，用`[]`包裹，如`get##key_[get##id]`，则模块会先替换`[get##id]`部分的数据，`[]`内部的语法说明参考特别说明的`模板的value说明`
 
 - 处理数据的表达式例子：get##key>>key_1+uuid
 
@@ -191,9 +283,64 @@
     | random id | 随机数（默认8位）                   | 随机数位数（不填为8位）                                      | 1.0=2024.11.15 |
     | session   | 从session storage获取值             | session storage的key。如果不存在，且`_isStorageNullError`设置为false时，则采用"null"字符串 | 1.0=2024.11.15 |
     | storage   | 从local storage获取值               | local storage的key。如果不存在，且`_isStorageNullError`设置为false时，则采用"null"字符串 | 1.0=2024.11.15 |
-    | get       | 从passParam中获取值                 | passParam中的key，可以采用`>>`定位多层寻找。如果不存在，则采用"null"字符串 | 1.0=2024.11.15 |
+    | get       | 从passParam中获取值                 | 设置为`self`，表示获取当前key对应的值<br>设置为`lang`，表示获取当前语言的值<br>设置为`theme`，表示获取当前主题的值<br/>其他值表示`passParam`中的`key`，可以采用`>>`定位多层寻找<br>若值不存在时，采用"null"字符串 | 1.0=2024.11.15<br>1.1=2025.05.22 |
     | time      | 时间，默认格式为yyyy-MM-dd hh:mm:ss | 时间格式（不填为默认格式）                                   | 1.0=2024.11.15 |
+    | url       | 获取当前url                         | 省略参数，获取整个url（除去协议，域名，端口）<br>设置为`protocol`，获取协议<br>设置为`hostname`，获取域名<br/>设置为`port`，获取端口<br/>设置为`path`，获取路径<br/>设置为`query`，获取参数，`?`部分<br/>设置为`hash`，获取hash片段，`#`部分 | 1.1=2025.05.22 |
+    | url param | 获取某个URL参数，`?`部分的参数      | 参数的key，若不存在，则采用"null"字符串，若存在多个相同的key，则返回字符串数组，如`?key=a&key=b`对应`["a","b"]` | 1.1=2025.05.22 |
+    | value | 原字符串输出，为了避免功能key与想要插入的字符串冲突，如`value##uuid`, 会插入`uuid`字符串      | 想要插入的字符串 | 1.1=2025.05.22 |
+    | trans | 翻译字符串 | 翻译的key | 1.1=2025.05.22 |
 
+- `get##lang`获取当前语言的值，由于语言文件是异步加载的，所以在网页一开始加载时不一定加载完成，若是页面初始逻辑需要获取语言值，请通过`_OperTrick`模块监听`lang listen`
+
+- `get`功能的多层定位，例如`get##key 1>>key 2`，可以深层定位`key 1`下的`key 2`，若是数组，可以采用`数字`进行定位，例如`get##key 1>>1>>key 2`
+
+- `get`可以获取数组的长度，需要以`get##len##`开头，例如`get##len##key 1>>key 2`，表示获取获取`key 1`下的`key 2`的数组长度，若对应值非数组，将返回`0`，组入版本：1.1=2025.05.22
+
+- `get`功能的多层定位，数组定位可以采用负数，表示以上层数组的`index`作为作为对应值，若无对应上层数组，则不会替换，组入版本：1.1=2025.05.22
+
+    ```
+    #passParam的值
+    {
+    		"target":[
+    				false,
+    				[
+    						{"key":"value"}
+    				]
+    		]
+    }
+    
+    #设置为，"get##target>>-1>>-2>>key"中，-1表示上一层的数组（key-1-1）中的序列，对应值为1；-2表示上两层的数组（key-1）中的序列，对应值为0
+    {
+    	"key-1":[
+    		{
+    			"key-1-1":[
+    					false,
+    					{"key-1-1-2":"get##target>>-1>>-2>>key"}
+    			]
+    		}
+    	]
+    }
+    
+    #最终的passParam值
+    {
+    		"key-1":[
+          {
+            "key-1-1":[
+                false,
+                {"key-1-1-2":"value"}
+            ]
+          }
+        ],
+        "target":[
+    				false,
+    				[
+    						{"key":"value"}
+    				]
+    		]
+    }
+    ```
+    
+    
 
 # ◎ 配置说明
 
@@ -217,6 +364,16 @@ python3 Christmas/Christmas.py ShellExcute/Build#Module _DataFilling
 `Sample.html`，`Sample.js`是专门用于单独测试的代码
 
 # ◎ 更新历史
+
+**1.1=2025.05.22**
+
+- [-]要求Trick2.2或以上
+- [udpate]新增`url`、`url param`、`value`、`trans`功能
+- [udpate]新增`_isNullDelete`字段
+- [update]扩展`get`功能，增加`get##len##`以获取数组长度，增加定位设置中使用负数获取上层数组中的序列，增加`get##theme`以获取当面主题
+- [update]扩展`push##`功能
+- [update]将嵌套标识`@@`改为`[]`
+- [update]处理数据表达式增加嵌套语法`[]`
 
 **1.0=2024.11.15**
 

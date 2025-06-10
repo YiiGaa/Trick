@@ -4,7 +4,7 @@ import ErrorCode from "/Code/Common/ErrorCode/ErrorCode.js"
 import Configs from "/Code/Common/Config/Config.js"
 import ExpiredStorage from "expired-storage"
 
-const Config = Tools.MergeDefault(Configs.module._OperStorage,{});
+const Config = Tools.Merge(Configs.module._OperStorage,{});
 
 const storageLocal = new ExpiredStorage(localStorage);
 const storageSession = new ExpiredStorage(sessionStorage);

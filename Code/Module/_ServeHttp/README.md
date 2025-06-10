@@ -20,7 +20,7 @@
 {
     "name":"_ServeHttp",
     "param":{
-				"_action":"normal",
+	"_action":"normal",
       	"_method":"POST",
       	"_url":"",
       	"_param":{},
@@ -38,6 +38,9 @@
 | _method | 请求方式，`POST/DELETE/PUT/GET` | 否 | GET | String | 1.0=2024.11.15 |
 | _resultKey | 将数据插入到`passParam`的key | 否 | 清空并替换`passParam` | String | 1.0=2024.11.15 |
 | _timeout | 请求超时时长，单位：毫秒 | 否 | 采用模块的`timeout`设置 | Int | 1.0=2024.11.15 |
+| _isJson | 返回内容是否需要转换json，true：转换json，false：保留文本 | 否 | true | Bool | 1.1=2025.06.02 |
+| _isCache | 是否采用本地缓存缓存结果，true: 缓存请求，false：每次都请求服务器 | 否 | false | Bool | 1.1=2025.06.02 |
+| _cacheExpire | 缓存过期时间（单位：秒） | 否 | 300 | Int | 1.1=2025.06.02 |
 
 模块参数补充说明：
 
@@ -64,6 +67,12 @@
 - 当`_resultKey`为空字符串`""`，且获取的值为对象类型`{}`，则清空并替换`passParam`
 - 当`_resultKey`为空字符串`""`，且获取的值不是对象类型`{}`，则自动将`_resultKey`设置为`result`
 
+### > _isCache
+
+- 是否采用本地缓存缓存结果，true: 缓存请求，false：每次都请求服务器
+- 设置为`true`时，API请求成功会采用浏览器本地数据库`indexedDB`保存数据
+- 设置为`true`时，初次请求会保存数据，下次请求时，若参数`_url`, `_method`, `_header`, `_param`, `_cacheExpire`, `_isJson`都相同时，且缓存数据未过期，会采用缓存数据，而非直接调用接口
+
 # ※ multiple-同时发送多个请求
 
 - 组入版本：1.0=2024.11.15
@@ -73,7 +82,7 @@
 {
     "name":"_ServeHttp",
     "param":{
-				"_action":"multiple",
+	"_action":"multiple",
       	"_list":[]
     }
 }
@@ -123,6 +132,10 @@ python3 Christmas/Christmas.py ShellExcute/Build#Module _ServeHttp
 `Sample.html`，`Sample.js`是专门用于单独测试的代码
 
 # ◎ 更新历史
+
+**1.1=2025.06.02**
+
+- [update]新增`_isJson`、`_isCache`、`_cacheExpire`字段
 
 **1.0=2024.11.15**
 

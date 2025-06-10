@@ -63,10 +63,14 @@ function TestCall() {
                 "key-8":"uuid short",
                 "key-9":"random id",
                 "key-10":"get##key-4+time",
-                "key-1@get##key-2@":"time",
+                "key-1[get##key-2]":"time",
                 "switch##key-11>>aaa":{
-                    "reg##a":true
-                }
+                    "reg##b":true,
+                    "":"value##abc"
+                },
+                "key-path":"url##path",
+                "key-param":"url param##a",
+                "key-theme":"get##theme"
             }
         }
         result = _DataFilling(moduleParam, passParam);

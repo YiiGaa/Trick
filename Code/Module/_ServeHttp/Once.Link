@@ -10,6 +10,7 @@
 **Sample=> "react": "^18.3.1",
 
 ######Dependencies######
+"localforage": "^1.10.0",
 ######Dependencies######
 
 **以下内容需要使用Christmas生成(##ErrorCode##)

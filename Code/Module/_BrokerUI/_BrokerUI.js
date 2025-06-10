@@ -3,7 +3,7 @@ import Logger from "/Code/Common/Logger/Logger.js"
 import ErrorCode from "/Code/Common/ErrorCode/ErrorCode.js"
 import Configs from "/Code/Common/Config/Config.js"
 
-const Config = Tools.MergeDefault(Configs.module._BrokerUI,{});
+const Config = Tools.Merge(Configs.module._BrokerUI,{});
 
 function DoStart(moduleParam, passParam, result){
     try {

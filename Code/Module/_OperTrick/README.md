@@ -42,12 +42,14 @@
 # ※ lang listen-监听语言变更
 
 - 组入版本：1.0=2024.11.15
+- 由于语言文件是异步加载的，所以在网页一开始加载时不一定加载完成，若是页面初始逻辑需要获取语言值，请通过此模块监听加载完成时机
+- 若监听语言变更前，已经加载完当前语言文件，会自动触发一次`_call`回调
 
 ```json
 {
     "name":"_OperTrick",
     "param":{
-				"_action":"lang listen",
+	"_action":"lang listen",
       	"_call":null
     }
 }
@@ -63,10 +65,15 @@
 ### > _call
 
 - 回调设置，支持String、函数、对象类型
+- Trick2.2新增，当对应值设置为字符串，且以`css##`开头，则表示css class开关模式，元素筛选设置与class用`>>`隔开，如`css##.Page-Title>>class_1 class_2`，表示通过`document.querySelector`筛选`.Page-Title`，若元素中同时存在`class_1 class_2`这两个class，则清理，否则补充不存在的class。在测试模式下，由于事件可能会触发2次（React机制），此设置会转换两次，所以表面上可能不生效
+- Trick2.2新增，当对应值设置为字符串，且以`css add##`开头，则表示`css class`追加模式，设置格式同`css##`
+- Trick2.2新增，当对应值设置为字符串，且以`css remove##`开头，则表示`css class`清理模式，设置格式同`css##`
+- Trick2.2新增，当对应值设置为字符串，且以`style##`开头，则表示`style`样式设置模式，元素筛选设置与`style设置`用`>>`隔开，多个样式设置用`;`隔开，如`style##.Page-Title>>color:#fff;width:100% !important;`，表示通过`document.querySelector`筛选`.Page-Title`，并设置样式
 - 当对应值设置为字符串，则表示以`id`的方式调用其他组件，或者页面Action的函数，页面Action的函数以`act##`开头，如`act##Language_Change`
 - 当对应值为函数，则表示调用此函数，此类型用于组件测试，在制作页面时，无法使用此种类型
 - 当对应值为对象`{}`，表示详细设置，一般情况下，事件回调时，返回的数据为空对象`{}`，如果希望详细配置返回的数据，则应该采用对象类型；固定格式为`{"_call":"","_data":{}}`，`_call`对应回调目标的设置，`_data`对应具体回调数据的设置；`_data`固定格式为`{"key 1":"value 1","key 2":"value 2"}`
 - 当对应值为数组`[]`，可以内嵌以上类型，组件会执行多个回调（异步调用，无法保证顺序）
+- Trick2.2新增，默认情况下，`event`事件会冒泡传递（上层HTML节点也会响应），若希望不冒泡传递，可以采用`_isStop`设置，`{"_isStop":true,"_call":"xxx"}`。若希望设置多个回调，可以设置为`{"_isStop":true,"_call":["xxx", "xxx"]}`。若关闭冒泡传递，`_BoxPage`对SPA网页的`a`捕获也会失效
 
 # ※ theme change-变更主题
 
@@ -119,10 +126,15 @@
 ### > _call
 
 - 回调设置，支持String、函数、对象类型
+- Trick2.2新增，当对应值设置为字符串，且以`css##`开头，则表示css class开关模式，元素筛选设置与class用`>>`隔开，如`css##.Page-Title>>class_1 class_2`，表示通过`document.querySelector`筛选`.Page-Title`，若元素中同时存在`class_1 class_2`这两个class，则清理，否则补充不存在的class。在测试模式下，由于事件可能会触发2次（React机制），此设置会转换两次，所以表面上可能不生效
+- Trick2.2新增，当对应值设置为字符串，且以`css add##`开头，则表示`css class`追加模式，设置格式同`css##`
+- Trick2.2新增，当对应值设置为字符串，且以`css remove##`开头，则表示`css class`清理模式，设置格式同`css##`
+- Trick2.2新增，当对应值设置为字符串，且以`style##`开头，则表示`style`样式设置模式，元素筛选设置与`style设置`用`>>`隔开，多个样式设置用`;`隔开，如`style##.Page-Title>>color:#fff;width:100% !important;`，表示通过`document.querySelector`筛选`.Page-Title`，并设置样式
 - 当对应值设置为字符串，则表示以`id`的方式调用其他组件，或者页面Action的函数，页面Action的函数以`act##`开头，如`act##Language_Change`
 - 当对应值为函数，则表示调用此函数，此类型用于组件测试，在制作页面时，无法使用此种类型
 - 当对应值为对象`{}`，表示详细设置，一般情况下，事件回调时，返回的数据为空对象`{}`，如果希望详细配置返回的数据，则应该采用对象类型；固定格式为`{"_call":"","_data":{}}`，`_call`对应回调目标的设置，`_data`对应具体回调数据的设置；`_data`固定格式为`{"key 1":"value 1","key 2":"value 2"}`
 - 当对应值为数组`[]`，可以内嵌以上类型，组件会执行多个回调（异步调用，无法保证顺序）
+- Trick2.2新增，默认情况下，`event`事件会冒泡传递（上层HTML节点也会响应），若希望不冒泡传递，可以采用`_isStop`设置，`{"_isStop":true,"_call":"xxx"}`。若希望设置多个回调，可以设置为`{"_isStop":true,"_call":["xxx", "xxx"]}`。若关闭冒泡传递，`_BoxPage`对SPA网页的`a`捕获也会失效
 
 # ◎ 配置说明
 

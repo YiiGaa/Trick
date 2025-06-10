@@ -2,8 +2,9 @@ import * as Tools from "/Code/Common/Tools/Tools.js"
 import Logger from "/Code/Common/Logger/Logger.js"
 import ErrorCode from "/Code/Common/ErrorCode/ErrorCode.js"
 import Configs from "/Code/Common/Config/Config.js"
+import {CacheGet, CacheSet} from "/Code/Module/_ServeHttp/__Cache"
 
-const Config = Tools.MergeDefault(Configs.module._ServeHttp,{
+const Config = Tools.Merge(Configs.module._ServeHttp,{
     "prefix":{},
     "timeout":3000
 });
@@ -23,8 +24,12 @@ function Inner_UrlPrefix(_url){
 }
 
 function Inner_UrlGet(_url, _param){
+    //WHEN::Empty param
+    if(Object.keys(_param).length === 0)
+        return _url
+
     //STEP::The special processing array is "key=1,key=2"
-    const searchParams = new URLSearchParams(_param);
+    let searchParams = new URLSearchParams(_param);
     for (const key in _param)
         if (Array.isArray(_param[key])) {
             _param[key].forEach(value => {
@@ -70,6 +75,9 @@ async function Normal(moduleParam, passParam, result){
     const _method = Tools.ParamRead("_method", "GET", moduleParam, passParam);
     let _resultKey = Tools.ParamRead("_resultKey", "", moduleParam, passParam);
     const _timeout = Tools.ParamRead("_timeout", Config["timeout"], moduleParam, passParam);
+    const _isJson = Tools.ParamRead("_isJson", true, moduleParam, passParam);
+    const _isCache = Tools.ParamRead("_isCache", false, moduleParam, passParam);
+    const _cacheExpire = Tools.ParamRead("_cacheExpire", 300, moduleParam, passParam);
     _url = Inner_UrlPrefix(_url);
     if(_method==="GET")
         _url = Inner_UrlGet(_url, _param);
@@ -81,49 +89,65 @@ async function Normal(moduleParam, passParam, result){
     console.debug(Logger.Header(), "Module-_ServeHttp Normal _method:", _method);
     console.debug(Logger.Header(), "Module-_ServeHttp Normal _resultKey:", _resultKey);
     console.debug(Logger.Header(), "Module-_ServeHttp Normal _timeout:", _timeout);
+    console.debug(Logger.Header(), "Module-_ServeHttp Normal _isJson:", _isJson);
+    console.debug(Logger.Header(), "Module-_ServeHttp Normal _isCache:", _isCache);
+    console.debug(Logger.Header(), "Module-_ServeHttp Normal _cacheExpire:", _cacheExpire);
 
-    //STEP::Set time out
-    let data;
-    const controller = new AbortController();
-    const {signal} = controller;
-    const timer = setTimeout(() => {
-        controller.abort();
-    }, _timeout);
+    //WHEN::Try getting form cache
+    let data = undefined;
+    if(_isCache)
+        data = await CacheGet(_url, _method, _header, _param, _cacheExpire, _isJson);
 
-    try {
-        //STEP::Send request
-        let backLoggerId = Logger.GetId();
-        const requestInit = {
-            method: _method,
-            headers: _header,
-            signal: signal,
+    //WHEN::Need to Http request
+    if(!data) {
+        //STEP::Set time out
+        const controller = new AbortController();
+        const {signal} = controller;
+        const timer = setTimeout(() => {
+            controller.abort();
+        }, _timeout);
+
+        try {
+            //STEP::Send request
+            let backLoggerId = Logger.GetId();
+            const requestInit = {
+                method: _method,
+                headers: _header,
+                signal: signal,
+            }
+            if (_method !== "GET")
+                requestInit["body"] = _param;
+            const response = await fetch(_url, requestInit);
+            Logger.SetId(backLoggerId);
+
+            //STEP::Judge whether it is 200
+            if (!response.ok) {
+                console.debug(Logger.Header(), "Module-_ServeHttp Normal request fail, code:", response.status);
+                return ErrorCode.ERR_Module__ServeHttp_Normal_Fail;
+            }
+
+            //STEP::Trans data to json
+            Logger.SetId(backLoggerId);
+            if (_isJson)
+                data = await response.json();
+            else
+                data = await response.text();
+            Logger.SetId(backLoggerId);
+            console.debug(Logger.Header(), "Module-_ServeHttp Normal response:", data);
+
+            if(_isCache)
+                CacheSet(_url, _method, _header, _param, _cacheExpire, _isJson, data);
+
+        } catch (e) {
+            if (e.name === 'AbortError') {
+                console.debug(Logger.Header(), "Module-_ServeHttp Normal timeout:", _timeout);
+                return ErrorCode.ERR_Module__ServeHttp_Normal_Timeout;
+            } else {
+                throw e;
+            }
+        } finally {
+            clearTimeout(timer);
         }
-        if(_method !== "GET")
-            requestInit["body"] = _param;
-        const response = await fetch(_url, requestInit);
-        backLoggerId = Logger.SetId(backLoggerId);
-
-        //STEP::Judge whether it is 200
-        if (!response.ok) {
-            console.debug(Logger.Header(), "Module-_ServeHttp Normal request fail, code:", response.status);
-            return ErrorCode.ERR_Module__ServeHttp_Normal_Fail;
-        }
-
-        //STEP::Trans data to json
-        backLoggerId = Logger.SetId(backLoggerId);
-        data = await response.json();
-        backLoggerId = Logger.SetId(backLoggerId);
-        console.debug(Logger.Header(), "Module-_ServeHttp Normal response:", data);
-
-    } catch(e) {
-        if (e.name === 'AbortError') {
-            console.debug(Logger.Header(), "Module-_ServeHttp Normal timeout:", _timeout);
-            return ErrorCode.ERR_Module__ServeHttp_Normal_Timeout;
-        } else {
-            throw e;
-        }
-    } finally {
-        clearTimeout(timer);
     }
 
     //STEP::Input result
@@ -151,6 +175,9 @@ async function Multiple(moduleParam, passParam, result){
         let _param = Tools.ParamRead("_param", {}, item, passParam);
         const _header = Tools.ParamRead("_header", {}, item, passParam);
         const _resultKey = Tools.ParamRead("_resultKey", "", item, passParam);
+        const _isCache = Tools.ParamRead("_isCache", false, item, passParam);
+        const _cacheExpire = Tools.ParamRead("_cacheExpire", 300, item, passParam);
+        const _isJson = Tools.ParamRead("_isJson", true, item, passParam);
         _url = Inner_UrlPrefix(_url);
         if(_method==="GET")
             _url = Inner_UrlGet(_url, _param);
@@ -163,9 +190,23 @@ async function Multiple(moduleParam, passParam, result){
             "_param":_param,
             "_header":_header,
             "_resultKey":_resultKey,
+            "_isCache":_isCache,
+            "_cacheExpire":_cacheExpire,
+            "_isJson":_isJson
         }
     });
     console.debug(Logger.Header(), "Module-_ServeHttp Multiple requestList:", requestList);
+
+    //WHEN::Try getting form cache
+    const cache = requestList.map(item => {
+        if(item._isCache)
+            return CacheGet(item._url, item._method, item._header, item._param, item._cacheExpire, item._isJson);
+        return undefined;
+    });
+    const cacheRequest = await Promise.all(cache);
+    for(let i = 0; i < cacheRequest.length; i++){
+        requestList[i]["_cacheData"] = cacheRequest[i]
+    }
 
     //STEP::Set time out
     let data;
@@ -175,9 +216,17 @@ async function Multiple(moduleParam, passParam, result){
         controller.abort();
     }, _timeout);
 
+    let backLoggerId = Logger.GetId();
     try {
         //STEP::Send request
         const request = requestList.map(item => {
+            if(item["_cacheData"]!==undefined){
+                return {
+                    "ok":true,
+                    "isCache":true,
+                    "value":item["_cacheData"]
+                }
+            }
             const requestInit = {
                 method: item._method,
                 headers: item._header,
@@ -188,6 +237,7 @@ async function Multiple(moduleParam, passParam, result){
             return fetch(item._url, requestInit);
         });
         const response = await Promise.all(request);
+        Logger.SetId(backLoggerId);
 
         //STEP::Judge whether it is 200
         response.forEach((item, index) => {
@@ -201,9 +251,16 @@ async function Multiple(moduleParam, passParam, result){
         }
 
         //STEP::Trans data to json
-        data = await Promise.all(response.map(item => item.json()));
+        data = await Promise.all(response.map((item, index) => {
+            if(item["isCache"] === true)
+                return item["value"];
+            const _isJson = requestList[index]["_isJson"]
+            return _isJson?item.json():item.text();
+        }));
+        Logger.SetId(backLoggerId);
         console.debug(Logger.Header(), "Module-_ServeHttp Multiple response:", data);
     } catch(e) {
+        Logger.SetId(backLoggerId);
         if (e.name === 'AbortError') {
             console.debug(Logger.Header(), "Module-_ServeHttp Multiple timeout:", _timeout);
             return ErrorCode.ERR_Module__ServeHttp_Multiple_Timeout;
@@ -216,6 +273,8 @@ async function Multiple(moduleParam, passParam, result){
 
     //STEP::Input result
     data.forEach((item, index) => {
+        if(requestList[index]._isCache)
+            CacheSet(requestList[index]._url, requestList[index]._method, requestList[index]._header, requestList[index]._param, requestList[index]._cacheExpire, requestList[index]._isJson, item);
         let resultKey = requestList[index]._resultKey;
         if(resultKey===""){
             let add = index;

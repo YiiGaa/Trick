@@ -48,6 +48,8 @@ Supplementary description of module parameters:
 # ※ lang listen-Listen to language changes
 
 - Add version: 1.0=2024.11.15
+- Because the language file is loaded asynchronously, the loading may not be completed when the web page is loaded at the beginning. If the initial logic of the page needs to obtain the language value, please listen to the loading completion timing through this module
+- If the current language file has been loaded before the monitoring language change, a `_call` callback will be automatically triggered
 
 ```json
 {
@@ -77,6 +79,7 @@ Supplementary description of module parameters:
 - When the corresponding value is the object `{}`, it indicates the detailed setting. In general, when the event is called back, the returned data is an empty object `{}`. If you want to configure the returned data in detail, you should adopt the object type; the fixed format is `{"_call":"","_data":{}} `,`_call` corresponds to the setting of the callback target, and `_data` corresponds to the setting of specific callback data; `_data` fixed format is `{"key 1":"value 1","key 2":"value 2"}`
 
 - When the corresponding value is the array `[]`, the above types can be embedded, and the component will execute multiple callbacks (asynchronous calls, the order cannot be guaranteed)
+- Trick2.2 added. By default, the `event` will be bubbled and passed (the upper HTML node will also respond). If you want not to bubble and pass, you can use the `_isStop` setting, `{"_isStop":true,"_call":"xxx "}`. If you want to set multiple callbacks, you can set it to `{"_isStop":true,"_call":["xxx", "xxx"]}`. If the bubble transmission is turned off, the `a` capture of the SPA web page by `_BoxPage` will also be invalidated
 
 # ※ theme change-Change theme
 
@@ -139,6 +142,7 @@ Supplementary description of module parameters:
 - When the corresponding value is the object `{}`, it indicates the detailed setting. In general, when the event is called back, the returned data is an empty object `{}`. If you want to configure the returned data in detail, you should adopt the object type; the fixed format is `{"_call":"","_data":{}} `,`_call` corresponds to the setting of the callback target, and `_data` corresponds to the setting of specific callback data; `_data` fixed format is `{"key 1":"value 1","key 2":"value 2"}`
 
 - When the corresponding value is the array `[]`, the above types can be embedded, and the component will execute multiple callbacks (asynchronous calls, the order cannot be guaranteed)
+- Trick2.2 added. By default, the `event` will be bubbled and passed (the upper HTML node will also respond). If you want not to bubble and pass, you can use the `_isStop` setting, `{"_isStop":true,"_call":"xxx "}`. If you want to set multiple callbacks, you can set it to `{"_isStop":true,"_call":["xxx", "xxx"]}`. If the bubble transmission is turned off, the `a` capture of the SPA web page by `_BoxPage` will also be invalidated
 
 # ◎ Configuration Notes
 

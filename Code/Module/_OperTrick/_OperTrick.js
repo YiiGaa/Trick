@@ -6,7 +6,7 @@ import Lang from "/Code/Common/Lang/Lang.js"
 import {Theme} from "/Code/Common/Theme/Theme"
 import i18n from 'i18next';
 
-const Config = Tools.MergeDefault(Configs.module._OperTrick,{});
+const Config = Tools.Merge(Configs.module._OperTrick,{});
 
 const CallMark = {
     "theme":[]
@@ -38,6 +38,9 @@ function LangListen(moduleParam, passParam, result) {
             console.debug(Logger.Header(), "Module-_OperTrick Language change, _call:", _call, "lang", lang);
             Tools.CallBack(_call, {"lang":lang});
         });
+        if(i18n.language){
+            Tools.CallBack(_call, {"lang":i18n.language});
+        }
     }
 
     return result;

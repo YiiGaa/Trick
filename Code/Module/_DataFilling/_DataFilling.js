@@ -1,20 +1,33 @@
 import * as Tools from "/Code/Common/Tools/Tools.js"
 import Logger from "/Code/Common/Logger/Logger.js"
 import Lang from "/Code/Common/Lang/Lang.js"
+import {Theme} from "/Code/Common/Theme/Theme.js"
 import ErrorCode from "/Code/Common/ErrorCode/ErrorCode.js"
 import Configs from "/Code/Common/Config/Config.js"
-import {isObject} from "lodash-es"
-import {MenuItem} from "@headlessui/react";
-import clsx from "clsx";
-import React from "react";
+import {isObject, isString} from "lodash-es"
 import ExpiredStorage from "expired-storage"
 
-const Config = Tools.MergeDefault(Configs.module._DataFilling,{});
+const Config = Tools.Merge(Configs.module._DataFilling,{});
 
 const storageLocal = new ExpiredStorage(localStorage);
 const storageSession = new ExpiredStorage(sessionStorage);
 
-function FillingData(setting, param, passParam, _isStorageNullError){
+function FillingData(setting, param, passParam, _isStorageNullError, listIndex){
+    if(setting === "")
+        return setting;
+
+    //WHEN-IN::[xxx] in setting
+    if(/\[(.+?)\]/.test(setting)){
+        const matches = setting.match(/\[(.+?)\]/g)
+        matches.forEach((item) => {
+            let tempParam = item.slice(1, -1);
+            let tempValue = FillingData(tempParam, param, passParam, _isStorageNullError, listIndex);
+            tempValue = typeof tempValue === 'object'?JSON.stringify(tempValue):tempValue;
+            if(tempParam !== tempValue)
+                setting = setting.replace(item, tempValue);
+        })
+    }
+
     const pieceArr = setting.split("+");
     let result = "";
     const pieceCount = pieceArr.length;
@@ -28,9 +41,12 @@ function FillingData(setting, param, passParam, _isStorageNullError){
         }
 
         //STEP::Split function & setting
-        const tempArr = item.split("##", 2);
+        const tempArr = item.split("##");
         const method = tempArr[0];
-        const setting = tempArr.length>1?tempArr[1]:"";
+        let setting = "";
+        if(tempArr.length>1)
+            setting = item.substring(`${method}##`.length);
+
         //STEP::Execute function filling
         switch(method){
             case "uuid":
@@ -47,20 +63,71 @@ function FillingData(setting, param, passParam, _isStorageNullError){
                     const temp =  Lang.GetLanguage()
                     if(temp!==undefined && temp !== false)
                         tempResult = temp
+                } else if (setting==="theme"){
+                    tempResult =  Theme.GetTheme()
                 } else if(setting in passParam){
                     tempResult = passParam[setting]
                 } else {
-                    tempResult = Tools.JsonPathValue(setting, passParam);
+                    let isLen = false;
+                    if(setting.startsWith("len##")) {
+                        setting = setting.substring("len##".length);
+                        isLen = true;
+                    }
+                    const regex = /(?<=>>)(-\d+)(?=>>)|(?<=>>)(-\d+)$/g;
+                    const replaced = setting.replace(regex, (match, g1, g2) => {
+                        let count = parseInt(g1 || g2);
+                        const temp = listIndex.at(count);
+                        if (temp!==undefined)
+                            count = temp;
+                        return `${count}`;
+                    });
+                    tempResult = Tools.JsonPathValue(replaced, passParam);
                     tempResult = (tempResult === undefined)?"null":tempResult;
+                    if(isLen)
+                        tempResult = Array.isArray(tempResult)?tempResult.length:0;
                 }
-                if(pieceCount===1){
+                if(pieceCount===1)
                     return tempResult;
-                } else {
+                else
                     result += typeof tempResult === 'object'?JSON.stringify(tempResult):`${tempResult}`;
-                }
+                break;
+            case "trans":
+                result += Lang.TransText(setting);
                 break;
             case "time":
                 result += Tools.StrDate(new Date(), setting===""?"yyyy-MM-dd hh:mm:ss":setting);
+                break;
+            case "url":
+                if(setting==="path")
+                    result +=  window.location.pathname;
+                else if (setting==="protocol")
+                    result +=  window.location.protocol;
+                else if (setting==="hostname")
+                    result +=  window.location.hostname;
+                else if (setting==="port")
+                    result +=  window.location.port;
+                else if (setting==="query") {
+                    const value = window.location.search;
+                    result += value.startsWith('?') ? value.substring(1) : value;
+                }else if (setting==="hash") {
+                    const value = window.location.hash;
+                    result += value.startsWith('#') ? value.substring(1) : value;
+                }else{
+                    const urlWithoutProtocolHostPort = window.location.pathname + window.location.search + window.location.hash;
+                    result += urlWithoutProtocolHostPort
+                }
+                break;
+            case "url param":
+                const query = new URLSearchParams(window.location.search);
+                let value = query.getAll(setting);
+                if(value.length === 0)
+                    value = "null";
+                else if (value.length === 1)
+                    value = value[0]
+                if(pieceCount===1)
+                    result = value;
+                else
+                    result += value;
                 break;
             case "storage":
                 let dataLocal = storageLocal.getItem(setting);
@@ -94,6 +161,9 @@ function FillingData(setting, param, passParam, _isStorageNullError){
                 dataSession = dataSession===null?"null":dataSession;
                 result += dataSession;
                 break;
+            case "value":
+                result += setting;
+                break;
             default:
                 result += item;
         }
@@ -101,25 +171,27 @@ function FillingData(setting, param, passParam, _isStorageNullError){
     return result;
 }
 
-function SwitchData(setting, param, _isSwitchNullError){
+function SwitchData(setting, param, _isSwitchNullError, passParam, _isStorageNullError, listIndex){
     const judgeParam = typeof param === 'object'?JSON.stringify(param):`${param}`;
     for(let key in setting){
         if(key === "")
             continue;
-        const value = setting[key];
+        let value = setting[key];
+        value = isString(value)?FillingData(value, param, passParam, _isStorageNullError, listIndex):value;
         if(key === judgeParam){
-            return value;
+            return isString(value)?FillingData(value, param, passParam, _isStorageNullError, listIndex):value;
         }
         if(key.startsWith("reg##")) {
             key = key.substring("reg##".length);
             const regex = new RegExp(key);
             if(regex.test(judgeParam)){
-                return value;
+                return isString(value)?FillingData(value, param, passParam, _isStorageNullError, listIndex):value;
             }
         }
     }
     if(setting.hasOwnProperty("")){
-        return setting[""]
+        const value = setting[""];
+        return isString(value)?FillingData(value, param, passParam, _isStorageNullError, listIndex):value;
     }
     if(_isSwitchNullError){
         console.debug(Logger.Header(), "Module-_DataFilling SwitchData get fail");
@@ -158,28 +230,57 @@ function TraverseJson_CreateNewByJsonPath(target, value, keyList) {
     return target;
 }
 
-function TraverseJson(param, setting, passParam, _isStorageNullError, _isSwitchNullError){
+function TraverseJson(param, setting, passParam, _isStorageNullError, _isSwitchNullError, _isNullDelete, listIndex, arrayIndex=null){
     //WHEN::Set value
     if(!(setting instanceof Array || setting instanceof Object)){
         if(typeof setting !== 'string'){
             return setting;
         }
-        return FillingData(setting, param, passParam, _isStorageNullError);
+        return FillingData(setting, param, passParam, _isStorageNullError, listIndex);
     }
 
     //WHEN::Setting is []
-    if(setting instanceof Array){
-        if(!(param instanceof Array)){
+    if(Array.isArray(setting)){
+        if(param === undefined && arrayIndex[1] === 0)
+            return undefined;
+        if(!(Array.isArray(param))){
             param = [];
         }
+
+        //STEP::Get start/end
+        let start = arrayIndex!==null?arrayIndex[0]:-2;
+        start = start === -1?param.length:start;
+        let len = arrayIndex!==null?arrayIndex[1]:-2;
+        len = len === -1?setting.length:len;
+        len = len === 0?param.length:len;
+        //WHEN::Cover list
+        if(start === -2 && len === -2) {
+            start = 0;
+            len = setting.length;
+            param = [];
+        } else if(len === 0)
+            return param;
+
+        //STEP::Deal list setting
+        const end = start+(len === 0?len:len-1);
         for (let i = 0; i < setting.length; i++) {
-            const tempParam = TraverseJson({}, setting[i], passParam, _isStorageNullError,_isSwitchNullError);
-            if(ErrorCode.IsErrorCode(tempParam)){
+            const paramIndex = i+start;
+            if(paramIndex > end)
+                break;
+            while(param.length<=paramIndex)
+                param.push("null")
+            listIndex.push(paramIndex);
+            const tempParam = TraverseJson(param[paramIndex], setting[i], passParam, _isStorageNullError,_isSwitchNullError, _isNullDelete, listIndex);
+            listIndex.pop();
+            if(ErrorCode.IsErrorCode(tempParam))
                 return tempParam;
+            param[paramIndex] = tempParam;
+            if(setting.length-1 === i) {
+                start = start + setting.length;
+                i = -1;
             }
-            setting[i] = tempParam;
         }
-        return setting;
+        return param;
     }
 
     //WHEN::Setting is {}
@@ -199,15 +300,43 @@ function TraverseJson(param, setting, passParam, _isStorageNullError, _isSwitchN
                 key = key.substring("nec##".length);
             }
 
+            //WHEN-IN::[xxx] in key
+            if(!(key in param) && /\[(.+?)\]/.test(key)){
+                const matches = key.match(/\[(.+?)\]/g)
+                matches.forEach((item) => {
+                    let tempParam = item.slice(1, -1);
+                    let tempValue = FillingData(tempParam, param, passParam, _isStorageNullError, listIndex);
+                    tempValue = typeof tempValue === 'object'?JSON.stringify(tempValue):tempValue;
+                    if(tempParam !== tempValue)
+                        key = key.replace(item, tempValue);
+                })
+            }
+
             //STEP-IN::Get whether push list / select value
             let isPush = false;
             let isSelect = false;
-            if (key.startsWith("push##")) {
-                const tempKey = key.substring("push##".length);
-                if (settingValue instanceof Array && param[tempKey] instanceof Array) {
-                    isPush = true;
-                    key = tempKey;
+            let arrayIndex = [-2,-2];
+            if (key.startsWith("push##") && Array.isArray(settingValue)) {
+                let tempKey = key.substring("push##".length);
+                let match;
+                isPush = true
+                if((match = /^(\d+)##(\d+)##/.exec(tempKey)) !== null) {
+                    tempKey = tempKey.substring(match[0].length);
+                    arrayIndex[0] = parseInt(match[2]);
+                    arrayIndex[1] = parseInt(match[1]);
+                } else if((match = /^0##/.exec(tempKey)) !== null) {
+                    tempKey = tempKey.substring(match[0].length);
+                    arrayIndex[0] = 0;
+                    arrayIndex[1] = 0;
+                }  else if((match = /^(\d+)##/.exec(tempKey)) !== null) {
+                    tempKey = tempKey.substring(match[0].length);
+                    arrayIndex[0] = -1;
+                    arrayIndex[1] = parseInt(match[1]);
+                } else {
+                    arrayIndex[0] = -1;
+                    arrayIndex[1] = -1;
                 }
+                key = tempKey;
             } else if (key.startsWith("switch##")) {
                 const tempKey = key.substring("switch##".length);
                 if(isObject(settingValue)){
@@ -216,17 +345,8 @@ function TraverseJson(param, setting, passParam, _isStorageNullError, _isSwitchN
                 }
             }
 
-            //WHEN-IN::@xxx@ in key
-            if(!(key in param) && /@(.+?)@/.test(key)){
-                const matches = key.match(/@(.+?)@/g)
-                matches.forEach((item) => {
-                    let tempValue = FillingData(item.replaceAll('@',''), param, passParam, _isStorageNullError);
-                    tempValue = typeof tempValue === 'object'?JSON.stringify(tempValue):tempValue;
-                    key = key.replace(item, tempValue);
-                })
-            }
-
             //STEP-IN::Check whether param[key] exists
+            let tempListIndex = [];
             let isExists = false;
             let isFromJsonPath = false;
             let paramData = "null";
@@ -237,20 +357,20 @@ function TraverseJson(param, setting, passParam, _isStorageNullError, _isSwitchN
                 if(Tools.JsonPathValue(key, param)!==undefined){
                     isExists = true;
                     isFromJsonPath = true;
-                    paramData = Tools.JsonPathValue(key, param);
+                    paramData = Tools.JsonPathValue(key, param, tempListIndex);
                 } else if(key.includes(">>")){
                     isFromJsonPath = true;
                 }
             }
-            if(isExists && isOption){
+            if(isExists && isOption)
                 continue;
-            }
-            if(!isExists && isSelect) {
+            if(!isExists && isSelect)
                 continue;
-            }
+            if(!isExists && isPush)
+                paramData = undefined;
 
             //STEP-IN::Null means delete
-            if(settingValue === null && isExists) {
+            if(settingValue === null && isExists && _isNullDelete) {
                 if (!isFromJsonPath) {
                     delete param[key];
                 }else {
@@ -260,22 +380,21 @@ function TraverseJson(param, setting, passParam, _isStorageNullError, _isSwitchN
             }
 
             //STEP-IN::Traverse json
+            const newList = [...listIndex, ...tempListIndex];
             const tempParam = isSelect?
-                SwitchData(settingValue, paramData, _isSwitchNullError)
-                :TraverseJson(paramData, settingValue, passParam, _isStorageNullError,_isSwitchNullError);
+                SwitchData(settingValue, paramData, _isSwitchNullError, passParam, _isStorageNullError, newList)
+                :TraverseJson(paramData, settingValue, passParam, _isStorageNullError,_isSwitchNullError, _isNullDelete, newList, isPush?arrayIndex:null);
             if(ErrorCode.IsErrorCode(tempParam)){
                 return tempParam;
             }
-            if(isPush){
-                console.debug(Logger.Header(), "Module-_DataFilling TraverseJson push list, key:", key, "list:", tempParam);
-                paramData.push(...tempParam);
-            } else if(!isFromJsonPath) {
-                console.debug(Logger.Header(), "Module-_DataFilling TraverseJson set value, key:", key, "value:", tempParam);
-                param[key] = tempParam;
-            } else {
-                console.debug(Logger.Header(), "Module-_DataFilling TraverseJson set deep value, key:", key, "value:", tempParam);
-                TraverseJson_CreateNewByJsonPath(param, tempParam, key.split(">>"));
-            }
+            if(tempParam!==undefined)
+                if(!isFromJsonPath) {
+                    //console.debug(Logger.Header(), "Module-_DataFilling TraverseJson set value, key:", key, "value:", tempParam);
+                    param[key] = tempParam;
+                } else {
+                    //console.debug(Logger.Header(), "Module-_DataFilling TraverseJson set deep value, key:", key, "value:", tempParam);
+                    TraverseJson_CreateNewByJsonPath(param, tempParam, key.split(">>"));
+                }
         }
         return param;
     }
@@ -289,12 +408,15 @@ function DoStart(moduleParam, passParam, result){
         const _setting = Tools.ParamRead("_setting", {}, moduleParam, passParam);
         const _isStorageNullError = Tools.ParamRead("_isStorageNullError", true, moduleParam, passParam);
         const _isSwitchNullError = Tools.ParamRead("_isSwitchNullError", true, moduleParam, passParam);
+        const _isNullDelete = Tools.ParamRead("_isNullDelete", true, moduleParam, passParam);
         console.debug(Logger.Header(), "Module-_DataFilling DoStart _setting:", _setting);
         console.debug(Logger.Header(), "Module-_DataFilling DoStart _isStorageNullError:", _isStorageNullError);
         console.debug(Logger.Header(), "Module-_DataFilling DoStart _isSwitchNullError:", _isSwitchNullError);
+        console.debug(Logger.Header(), "Module-_DataFilling DoStart _isNullDelete:", _isNullDelete);
 
         //STEP::Filling data
-        const tempResult = TraverseJson(passParam, _setting, passParam, _isStorageNullError, _isSwitchNullError);
+        const listIndex = [];
+        const tempResult = TraverseJson(passParam, _setting, passParam, _isStorageNullError, _isSwitchNullError, _isNullDelete, listIndex);
         if(ErrorCode.IsErrorCode(tempResult)){
             return tempResult;
         }

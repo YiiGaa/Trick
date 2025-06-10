@@ -23,7 +23,7 @@ Description of the value of module parameters:
 {
     "name":"_ServeHttp",
     "param":{
-				"_action":"normal",
+	"_action":"normal",
       	"_method":"POST",
       	"_url":"",
       	"_param":{},
@@ -41,6 +41,9 @@ Description of the value of module parameters:
 | _method | Request method, `POST/DELETE/PUT/GET` | No | GET | String | 1.0=2024.11.15 |
 | _resultKey | Insert the data into the key of `passParam` | No | Empty and replace `passParam` | String | 1.0=2024.11.15 |
 | _timeout | Request timeout time, unit: milliseconds | No | Adopt the `timeout` setting of the module | Int | 1.0=2024.11.15 |
+| _isJson | Does the response content need to be converted to json object, true: convert json, false: keep the text | No | true | Bool | 1.1=2025.06.02 |
+| _isCache | Whether to use local cache to cache results, true: cache request, false: request the server every time | No | false | Bool | 1.1=2025.06.02 |
+| _cacheExpire | Cache expiration time (unit: seconds) | No | 300 | Int | 1.1=2025.06.02 |
 
 Supplementary description of module parameters:
 
@@ -78,6 +81,12 @@ Supplementary description of module parameters:
 
 - When `_resultKey` is an empty string `""` and the value obtained is not the object type `{}`, `_resultKey` is automatically set to `result`
 
+### > _isCache
+
+- Whether to use local cache cache results, true: cache request, false: request the server every time
+- When set to `true`, the API request is successful and will use the browser's local database `indexedDB` to save the data
+- When set to `true`, the first request will save the data. The next request, if the parameters `_url`, `_method`, `_header`, `_param`, `_cacheExpire`, `_isJson` are all the same, and the cache data has not expired, the cache data will be used instead of calling the server
+
 # ※ multiple-Send multiple requests at the same time
 
 - Add version: 1.0=2024.11.15
@@ -87,7 +96,7 @@ Supplementary description of module parameters:
 {
     "name":"_ServeHttp",
     "param":{
-				"_action":"multiple",
+	"_action":"multiple",
       	"_list":[]
     }
 }
@@ -139,6 +148,10 @@ You can also run `ShellExcute>>Build#Module` through the `Christmas` plug-in, an
 `Sample.html`, `Sample.js` is a code specifically for separate testing
 
 # ◎ Update list
+
+**1.1=2025.06.02**
+
+- [update] Add `_isJson`, `_isCache`, `_cacheExpire` field
 
 **1.0=2024.11.15**
 

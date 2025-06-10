@@ -3,9 +3,9 @@ import Logger from "/Code/Common/Logger/Logger.js"
 import ErrorCode from "/Code/Common/ErrorCode/ErrorCode.js"
 import Configs from "/Code/Common/Config/Config.js"
 
-const Config = Tools.MergeDefault(Configs.module._DataCheck,{});
+const Config = Tools.Merge(Configs.module._DataCheck,{});
 
-function CheckData(param, setting) {
+function CheckData(param, setting, _split) {
     //WHEN::Allow anything
     if(setting === ""){
         return ErrorCode.ERR_OK;
@@ -60,7 +60,7 @@ function CheckData(param, setting) {
         }
 
         //STEP-IN::Range check
-        const settingArr = setting.split("/");
+        const settingArr = setting.split(_split);
         settingArr.every((item)=>{
             if(item === ""+param) {
                 result = true;
@@ -117,10 +117,10 @@ function TraverseJson_CreateNewByJsonPath(target, value, keyList) {
     return target;
 }
 
-function TraverseJson(param, setting, reaultParam){
+function TraverseJson(param, setting, reaultParam, _split){
     //WHEN::Check data
     if(!(setting instanceof Array || setting instanceof Object)){
-        return CheckData(param, setting)
+        return CheckData(param, setting, _split)
     }
 
     //WHEN::Setting is []
@@ -132,7 +132,7 @@ function TraverseJson(param, setting, reaultParam){
             let itemParam = param[index];
             let tempResult = ErrorCode.ERR_OK;
             setting.every((itemSetting) => {
-                tempResult = TraverseJson(itemParam, itemSetting, reaultParam[index]);
+                tempResult = TraverseJson(itemParam, itemSetting, reaultParam[index], _split);
                 return tempResult !== ErrorCode.ERR_OK;
             })
             if(tempResult !== ErrorCode.ERR_OK){
@@ -193,7 +193,7 @@ function TraverseJson(param, setting, reaultParam){
             //STEP-IN::Traverse json
             const isObject = paramData instanceof Object && !Array.isArray(paramData) && Object.keys(settingValue).length !== 0;
             let tempResultParam = isObject?{}:paramData;
-            let tempResult = TraverseJson(paramData, settingValue, tempResultParam);
+            let tempResult = TraverseJson(paramData, settingValue, tempResultParam, _split);
             if(tempResult !== ErrorCode.ERR_OK){
                 console.debug(Logger.Header(), "Module-_DataFilling Illegal object, key:", key, "error", tempResult);
                 return tempResult;
@@ -220,12 +220,14 @@ function DoStart(moduleParam, passParam, result){
         //STEP::Get setting
         const _param = Tools.ParamRead("_param", {}, moduleParam, passParam);
         const _isClean = Tools.ParamRead("_isClean", false, moduleParam, passParam);
+        const _split = Tools.ParamRead("_split", "/", moduleParam, passParam);
         console.debug(Logger.Header(), "Module-_DataCheck DoStart _param:", _param);
         console.debug(Logger.Header(), "Module-_DataCheck DoStart _isClean:", _isClean);
+        console.debug(Logger.Header(), "Module-_DataCheck DoStart _split:", _split);
 
         //STEP::Action
         const reaultParam = {}
-        result = TraverseJson(passParam, _param, reaultParam);
+        result = TraverseJson(passParam, _param, reaultParam, _split);
 
         //WHEN::Clean passParam
         if(_isClean){

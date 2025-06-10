@@ -26,6 +26,8 @@ async function TestCall() {
             "_action":"normal",
             "_url":"/api/test",
             "_method":"POST",
+            "_isCache":true,
+            "_cacheExpire":300,
             "_param":{
                 "test":"test",
                 "file":testFile
@@ -38,6 +40,8 @@ async function TestCall() {
         //         {
         //             "_url":"/api/test/1",
         //             "_method":"POST",
+        //             "_isCache":true,
+        //             "_cacheExpire":300,
         //             "_param":{
         //                 "test1":"test",
         //                 "file":testFile
