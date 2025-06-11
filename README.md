@@ -277,7 +277,6 @@ The logical function can modify the settings or retrieve data for specified UI c
 - [update]调试模式下，页面配置xxxUI.json、xxxAction.json格式有误，将在页面中有所提示
 - [update]增加useLangDir（React web hook），组件可监听语言方向改变
 - [update]Html标签追加dir、lang标注，切换语言会自动标注
-- [update]修改语言设置，
 - [update]主题变量新增/修改
 - [update]全局增加基础库@emotion/react，UI组件可根据参数设置动态css
 - [bug]移除基础库jsonpath，此基础库存在bug
