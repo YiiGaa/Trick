@@ -1,10 +1,10 @@
 <img src="design/logo.png" width="300" />
 
 - 最新稳定版本: 2.2=2025.06.10
-- 使用文档详见官网，[点击跳转使用手册](https://stoprefactoring.com/#content@content#framework/trick/)
+- 使用文档详见官网，[点击跳转使用手册](https://stoprefactoring.com/official/content?t=framework&p=trick&i=overview-overview)
 
 - Latest stable version: 2.2=2025.06.10
-- For the user manual, please refer to the official website, [click to jump to the user manual](https://stoprefactoring.com/#content@content#framework/trick/)
+- For the user manual, please refer to the official website, [click to jump to the user manual](https://stoprefactoring.com/official/content?t=framework&p=trick&i=overview-overview)
 
 # 编写网页-就像搭积木一样
 
