@@ -12,9 +12,9 @@
 
 ```
 {
-		"name": "$._BoxGrid",
+	"name": "$._BoxGrid",
     "config": {
-    		"_id":"",
+    	"_id":"",
         "_as":"div",
         "_grid":[
             "30rem 1fr auto",

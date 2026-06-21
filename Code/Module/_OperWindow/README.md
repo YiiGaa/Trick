@@ -20,7 +20,7 @@
 {
     "name":"_OperWindow",
     "param":{
-				"_action":"open",
+		"_action":"open",
       	"_url":""
     }
 }
@@ -46,7 +46,7 @@
 {
     "name":"_OperWindow",
     "param":{
-				"_action":"close"
+		"_action":"close"
     }
 }
 ```
@@ -63,7 +63,7 @@
 {
     "name":"_OperWindow",
     "param":{
-				"_action":"jump",
+		"_action":"jump",
       	"_url":""
     }
 }
@@ -90,7 +90,7 @@
 {
     "name":"_OperWindow",
     "param":{
-				"_action":"history",
+		"_action":"history",
       	"_go":-1
     }
 }

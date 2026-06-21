@@ -19,7 +19,7 @@
 {
     "name":"_OperStorage",
     "param":{
-				"_action":"save",
+		"_action":"save",
       	"_key":"",
       	"_value":"",
       	"_expire":3600
@@ -43,7 +43,7 @@
 {
     "name":"_OperStorage",
     "param":{
-				"_action":"get",
+		"_action":"get",
       	"_key":"",
       	"_resultKey":""
     }
@@ -78,7 +78,7 @@
 {
     "name":"_OperStorage",
     "param":{
-				"_action":"clean",
+		"_action":"clean",
       	"_key":"",
       	"_isSession":""
     }

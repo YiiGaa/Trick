@@ -33,7 +33,7 @@
 {
     "name":"_BrokerUI",
     "param":{
-    		"_id":"组件id",
+    	"_id":"组件id",
         "_isFailResend":false,
         "_isSync":true,
         "_config":{

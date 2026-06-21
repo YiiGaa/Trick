@@ -17,7 +17,7 @@ The main functions include:
 	"name": "$._BoxDialog",
     "config": {
         "_id":"",
-        _isOpen":false,
+        "_isOpen":false,
         "_templ":""
     }
 }

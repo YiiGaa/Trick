@@ -36,7 +36,7 @@ Examples of setting components:
 {
     "name":"_BrokerUI",
     "param":{
-    		"_id":"component id",
+    	"_id":"component id",
         "_isFailResend":false,
         "_isSync":true,
         "_config":{

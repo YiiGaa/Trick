@@ -25,7 +25,7 @@ Description of the value of module parameters:
 {
     "name":"_OperWindow",
     "param":{
-				"_action":"open",
+		"_action":"open",
       	"_url":""
     }
 }
@@ -51,7 +51,7 @@ Supplementary description of module parameters:
 {
     "name":"_OperWindow",
     "param":{
-				"_action":"close"
+		"_action":"close"
     }
 }
 ```
@@ -95,7 +95,7 @@ Supplementary description of module parameters:
 {
     "name":"_OperWindow",
     "param":{
-				"_action":"history",
+		"_action":"history",
       	"_go":-1
     }
 }

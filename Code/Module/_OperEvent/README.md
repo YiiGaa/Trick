@@ -20,7 +20,7 @@
 {
     "name":"_OperEvent",
     "param":{
-				"_action":"event window",
+		"_action":"event window",
       	"_event":"",
       	"_call":null
     }
@@ -66,7 +66,7 @@
 {
     "name":"_OperEvent",
     "param":{
-				"_action":"event document",
+		"_action":"event document",
       	"_event":"",
       	"_query":"",
       	"_call":null
@@ -118,7 +118,7 @@
 {
     "name":"_OperEvent",
     "param":{
-				"_action":"timer add",
+		"_action":"timer add",
       	"_id":"",
       	"_time":1000,
       	"_isLoop":true,
@@ -164,7 +164,7 @@
 {
     "name":"_OperEvent",
     "param":{
-				"_action":"timer remove",
+		"_action":"timer remove",
       	"_id":""
     }
 }

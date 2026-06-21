@@ -23,7 +23,7 @@ Description of the value of module parameters:
 {
     "name":"_OperStorage",
     "param":{
-				"_action":"save",
+		"_action":"save",
       	"_key":"",
       	"_value":"",
       	"_expire":3600
@@ -47,7 +47,7 @@ Description of the value of module parameters:
 {
     "name":"_OperStorage",
     "param":{
-				"_action":"get",
+		"_action":"get",
       	"_key":"",
       	"_resultKey":""
     }
@@ -83,7 +83,7 @@ Supplementary description of module parameters:
 {
     "name":"_OperStorage",
     "param":{
-				"_action":"clean",
+		"_action":"clean",
       	"_key":"",
       	"_isSession":""
     }

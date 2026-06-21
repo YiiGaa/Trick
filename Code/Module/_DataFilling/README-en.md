@@ -24,7 +24,7 @@ Description of the value of module parameters:
     "param":{
         "_setting":{
             "key-1":"uuid",
-						"opt##key-2":"time",
+			"opt##key-2":"time",
           	"key-1>>key-1-1":"get##key",
           	"switch##key-2":{
               	"reg##xxx":"new value",

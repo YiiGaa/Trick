@@ -20,7 +20,7 @@
 {
     "name":"_OperTrick",
     "param":{
-				"_action":"lang change",
+		"_action":"lang change",
       	"_language":""
     }
 }
@@ -83,7 +83,7 @@
 {
     "name":"_OperTrick",
     "param":{
-				"_action":"theme change",
+		"_action":"theme change",
       	"_theme":""
     }
 }

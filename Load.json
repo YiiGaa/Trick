@@ -1,6 +1,6 @@
 {
-    "version": "2.2=2025.06.10",
-    "publish": "2025.06.10",
+    "version": "2.3=2025.09.01",
+    "publish": "2026.06.22",
     "file": [
         "Once.Config",
         "Once.Link",

@@ -25,7 +25,7 @@ Description of the value of module parameters:
 {
     "name":"_OperTrick",
     "param":{
-				"_action":"lang change",
+		"_action":"lang change",
       	"_language":""
     }
 }
@@ -55,7 +55,7 @@ Supplementary description of module parameters:
 {
     "name":"_OperTrick",
     "param":{
-				"_action":"lang listen",
+		"_action":"lang listen",
       	"_call":null
     }
 }
@@ -89,7 +89,7 @@ Supplementary description of module parameters:
 {
     "name":"_OperTrick",
     "param":{
-				"_action":"theme change",
+		"_action":"theme change",
       	"_theme":""
     }
 }
@@ -118,7 +118,7 @@ Supplementary description of module parameters:
 {
     "name":"_OperTrick",
     "param":{
-				"_action":"theme listen",
+		"_action":"theme listen",
       	"_call":null
     }
 }
